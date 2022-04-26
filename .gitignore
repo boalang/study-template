@@ -4,6 +4,8 @@
 !.gitkeep
 !.dir-locals.el
 
+boa-credentials.txt
+
 # Emacs Stuff
 *~
 \#*\#
