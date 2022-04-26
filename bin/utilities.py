@@ -32,7 +32,7 @@ def get_credentials():
         try:
             import keyring
             user = getpass.getuser()
-            password = keyring.get_password("fboaapi", user)
+            password = keyring.get_password("boaapi", user)
             if password is None:
                 raise Exception()
         except:
