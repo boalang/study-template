@@ -44,7 +44,7 @@ for target in configuration['queries']:
         print('')
         print(f'{new_target}: {target}')
 
-        print(f'\tmkdir -p $(shell dirname {new_target})')
+        print(f'\t@mkdir -p $(shell dirname {new_target})')
         string = '\t${BOATOCSV}'
         if 'tests' in csv_info:
             for test in csv_info['tests']:
@@ -55,7 +55,7 @@ for target in configuration['queries']:
             string += f' --header {csv_info["header"]}'
         if 'index' in csv_info:
             string += f' --numidx {csv_info["index"]}'
-        string += f' {target} > {new_target}'
+        string += ' $< > $@'
         print(string)
 
     string = f'{query_info["query"]}'
@@ -64,7 +64,7 @@ for target in configuration['queries']:
 
     print('')
     print(f'{target}: {string}')
-    print(f'\t${{DOWNLOAD}} {target}')
+    print(f'\t${{DOWNLOAD}} $@')
 
 print('')
 print('.PHONY: txt csv')
