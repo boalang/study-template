@@ -29,10 +29,17 @@ def get_credentials():
         password = creds[1]
     except:
         import getpass
-        user = input('Username [%s]: ' % getpass.getuser())
-        if not user:
+        try:
+            import keyring
             user = getpass.getuser()
-        password = getpass.getpass()
+            password = keyring.get_password("fboaapi", user)
+            if password is None:
+                raise Exception()
+        except:
+            user = input('Username [%s]: ' % getpass.getuser())
+            if not user:
+                user = getpass.getuser()
+            password = getpass.getpass()
     return (user, password)
 
 client = None
