@@ -28,14 +28,6 @@ for target in configuration['queries']:
     query_info = configuration['queries'][target]
     substitution_files = [x for (_, x) in build_replacements(configuration['substitutions'], query_info['substitutions'], only_files = True)]
 
-    string = f'{query_info["query"]}'
-    for file_name in substitution_files:
-        string += f' {file_name}'
-
-    print('')
-    print(f'{target}: {string}')
-    print(f'\t${{DOWNLOAD}} {target}')
-
     if 'csv' in query_info:
         csv_info = query_info['csv']
         new_target = csv_info['output']
@@ -55,3 +47,11 @@ for target in configuration['queries']:
             string += f' --numidx {csv_info["index"]}'
         string += f' {target} > {new_target}'
         print(string)
+
+    string = f'{query_info["query"]}'
+    for file_name in substitution_files:
+        string += f' {file_name}'
+
+    print('')
+    print(f'{target}: {string}')
+    print(f'\t${{DOWNLOAD}} {target}')
