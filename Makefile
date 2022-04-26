@@ -35,7 +35,7 @@ ZIPIGNORES:=-x \*/.DS_Store -x \*/.keep -x data/csv/\*/\*.csv -x data/csv/*.csv
 
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE.txt requirements.txt job-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt job-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
 
 
 ################
