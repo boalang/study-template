@@ -51,8 +51,9 @@ def download_query(target):
     client = get_client()
     job = client.get_job(job_data[target]['job'])
 
+    target = 'data/txt/' + target
     os.makedirs(os.path.dirname(target), exist_ok=True)
-    with open('data/txt/' + target, 'w') as fh:
+    with open(target, 'w') as fh:
         fh.write(job.output())
 
 if __name__ == '__main__':
