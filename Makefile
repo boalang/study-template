@@ -31,7 +31,7 @@ Makefile.jobs: job-config.json bin/build-makefile.py
 ZIP:=zip
 
 ZIPOPTIONS:=-u -r
-ZIPIGNORES:=-x \*/.DS_Store -x \*/.keep -x data/csv/\*/\*.csv -x data/csv/*.csv
+ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*/\*.csv -x data/csv/*.csv
 
 .PHONY: zip
 zip:
