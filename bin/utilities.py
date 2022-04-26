@@ -115,7 +115,8 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                         with open(repl['replacement'], 'r') as fh:
                             replacement = fh.read()
                         replacements[target] = replacement
-                repls.append((target, replacements[target]))
+                if target in replacements:
+                    repls.append((target, replacements[target]))
     return repls
 
 def get_make_public(target):
