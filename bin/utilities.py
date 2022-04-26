@@ -92,7 +92,7 @@ def expand_replacements(replacements, query):
         while has_replaced:
             has_replaced = False
             for (before, after) in replacements:
-                replaced = re.sub(before, after, text)
+                replaced = re.sub(before, after, query)
                 if query != replaced:
                     has_replaced = True
                     query = replaced
