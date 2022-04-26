@@ -113,8 +113,7 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                         replacements[target] = repl['replacement']
                     else:
                         with open(repl['replacement'], 'r') as fh:
-                            replacement = fh.read()
-                        replacements[target] = replacement
+                            replacements[target] = fh.read()
                 if target in replacements:
                     repls.append((target, replacements[target]))
     return repls
