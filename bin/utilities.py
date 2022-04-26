@@ -105,7 +105,7 @@ def build_replacements(global_replacements, local_replacements, only_files=False
         for repl in replacements_list:
             target = repl['target']
             if target not in replacements:
-                if repl['kind'] == 'text':
+                if 'kind' not in repl or repl['kind'] == 'text':
                     if not only_files:
                         replacements[target] = repl['replacement']
                 else:
