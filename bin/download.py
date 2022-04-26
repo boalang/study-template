@@ -52,7 +52,7 @@ def download_query(target):
     job = client.get_job(job_data[target]['job'])
 
     os.makedirs(os.path.dirname(target), exist_ok=True)
-    with open(target, 'w') as fh:
+    with open('data/txt/' + target, 'w') as fh:
         fh.write(job.output())
 
 if __name__ == '__main__':
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     logger.setLevel(verbosity)
     logger.info('Setting verbosity to {verbosity}')
 
-    target = args.target
+    target = args.target[9:] # trim off 'data/txt/'
 
     run_query(target)
     download_query(target)

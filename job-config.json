@@ -1,0 +1,31 @@
+{
+  "substitutions": [],
+  "datasets": {
+    "kotlin":    "2021 Aug/Kotlin",
+    "python":    "2021 Aug/Python",
+    "python-ds": "2020 August/Python-DS",
+    "java":      "2019 October/GitHub",
+    "java-sf":   "2013 September/SF",
+    "original":  "2012 July/SF"
+  },
+  "queries": {
+    "kotlin/project-count.txt": {
+      "query": "boa/queries/project-count.boa",
+      "substitutions": [],
+      "dataset": "kotlin",
+      "csv": {
+        "output": "kotlin/project-count.csv"
+      },
+      "make_public": true
+    },
+    "python/project-count.txt": {
+      "query": "boa/queries/project-count.boa",
+      "substitutions": [],
+      "dataset": "python",
+      "csv": {
+        "output": "python/project-count.csv"
+      },
+      "make_public": true
+    }
+  }
+}
