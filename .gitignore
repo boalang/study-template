@@ -5,6 +5,7 @@
 !.dir-locals.el
 
 boa-credentials.txt
+Makefile.jobs
 
 # Emacs Stuff
 *~
