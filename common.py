@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
-from typing import Optional
+from typing import Optional, Union
 import pandas as pd
 
 __all__ = ["get_df", "get_deduped_df", "save_table"]
@@ -26,6 +26,15 @@ def _get_dir(subdir: Optional[str]):
     return subdir + '/'
 
 def get_df(filename: str, subdir: Optional[str]=None, **kwargs):
+    '''Loads a CSV file into a DataFrame.
+
+    Args:
+        filename (str): the CSV file to load, without the '.csv' extension
+        subdir (Optional[str], optional): the sub-directory, underneath 'data/csv/', that it lives in. Defaults to None.
+
+    Returns:
+        pd.DataFrame: the CSV file as a Pandas DataFrame
+    '''
     try:
         df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet')
     except:
@@ -35,7 +44,17 @@ def get_df(filename: str, subdir: Optional[str]=None, **kwargs):
     return df
 
 def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs):
-    '''This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.'''
+    '''Loads a CSV file into a DataFrame and de-duplicates the data.
+
+    This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.
+
+    Args:
+        filename (str): the CSV file to load, without the '.csv' extension
+        subdir (Optional[str], optional): the sub-directory, underneath 'data/csv/', that it lives in. Defaults to None.
+
+    Returns:
+        pd.DataFrame: the CSV file as a Pandas DataFrame
+    '''
     try:
         df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet')
     except:
@@ -57,7 +76,16 @@ def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'h
     return df4.drop(columns=['hash'])
 
 _colsepname = ''
-def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, colsep=False, **kwargs):
+def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, colsep: Union[bool, str]=False, **kwargs):
+    '''Saves a DataFrame to a LaTeX table.
+
+    Args:
+        df (pd.DataFrame): The DataFrame to save as LaTeX.
+        filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
+        subdir (Optional[str], optional): the sub-directory, underneath 'tables/', to save in. Defaults to None.
+        decimals (int, optional): How many decimal places for floats. Defaults to 2.
+        colsep (Union[bool, str], optional): If False, use deafult column separators.  If a string, it is the column separator units. Defaults to False.
+    '''
     global _colsepname
     if not colsep is False:
         _colsepname = _colsepname + 'A'
