@@ -46,7 +46,7 @@ if __name__ == '__main__':
             print('')
             print(f'{new_target}: {target}')
 
-            print(f'\t@mkdir -p $(shell dirname {new_target})')
+            print(f'\t@mkdir -p $(dir $@)')
             string = '\t${BOATOCSV}'
             if 'test' in csv_info:
                 for test in csv_info['test']:
@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
             print('')
             print(f'{dupes}: {target} bin/gendupes.py')
-            print(f'\t@mkdir -p $(shell dirname {dupes})')
+            print(f'\t@mkdir -p $(dir $@)')
             print('\t${GENDUPES} $< > $@')
 
             print('')
