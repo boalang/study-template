@@ -10,7 +10,7 @@ visit(input, visitor {
             visit(snapshot[i]);
         stop;
     }
-    before before cf: ChangedFile ->
+    before cf: ChangedFile ->
         if (match(`_ERROR$`, string(cf.kind)))
             stop;
     before ast: ASTRoot ->
