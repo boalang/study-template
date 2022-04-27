@@ -156,7 +156,7 @@ def prepare_query(target):
     return (query, sha256(str.encode(get_dataset(target)['name'] + query)).hexdigest())
 
 def is_run_needed(target):
-    if not os.path.exists(target):
+    if not os.path.exists('data/txt/' + target):
         return True
 
     query_data = get_query_data()
