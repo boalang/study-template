@@ -148,7 +148,7 @@ def prepare_query(target):
     query_substitutions = build_replacements(config.get('substitutions', []), query_info.get('substitutions', []))
     query = expand_replacements(query_substitutions, query)
 
-    return (query, sha256(str.encode(query)).hexdigest())
+    return (query, sha256(str.encode(get_dataset(target)['name'] + query)).hexdigest())
 
 def is_run_needed(target):
     if not os.path.exists(target):
