@@ -80,7 +80,7 @@ if __name__ == '__main__':
             print('\t@rm -f data/parquet/$**/deduped.parquet')
 
         print('')
-        string = f'{query_info["query"]} '
+        string = f'boa/{query_info["query"]} '
         string += ' '.join(substitution_files)
         print(f'{target}: {string.strip()}')
         print(f'\t${{DOWNLOAD}} $@')

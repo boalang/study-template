@@ -9,7 +9,7 @@
   },
   "queries": {
     "kotlin/hashes.txt": {
-      "query": "boa/snippets/hashes.boa",
+      "query": "snippets/hashes.boa",
       "dataset": "kotlin",
       "gendupes": {
         "input": "kotlin/dupes.txt",
@@ -17,14 +17,14 @@
       }
     },
     "kotlin/project-count.txt": {
-      "query": "boa/queries/project-count.boa",
+      "query": "queries/project-count.boa",
       "dataset": "kotlin",
       "csv": {
         "output": "kotlin/project-count.csv"
       }
     },
     "python/project-count.txt": {
-      "query": "boa/queries/project-count.boa",
+      "query": "queries/project-count.boa",
       "dataset": "python",
       "csv": {
         "output": "python/project-count.csv"

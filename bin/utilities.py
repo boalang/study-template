@@ -32,7 +32,7 @@ def get_credentials():
         try:
             import keyring
             user = getpass.getuser()
-            password = keyring.get_password("boaapi", user)
+            password = keyring.get_password('boaapi', user)
             if password is None:
                 raise Exception()
         except:
@@ -142,7 +142,7 @@ def prepare_query(target):
     config = get_query_config()
     query_info = config['queries'][target]
 
-    with open(query_info['query'], 'r') as fh:
+    with open('boa/' + query_info['query'], 'r') as fh:
         query = fh.read()
 
     query_substitutions = build_replacements(config.get('substitutions', []), query_info.get('substitutions', []))
