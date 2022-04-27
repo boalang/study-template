@@ -51,6 +51,11 @@ def get_client():
         client.login(*get_credentials())
     return client
 
+def close_client():
+    global client
+    client.close()
+    client = None
+
 config = None
 def get_query_config(filename = 'job-config.json'):
     global config

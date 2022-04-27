@@ -72,3 +72,5 @@ if __name__ == '__main__':
 
     run_query(target)
     download_query(target)
+
+    close_client()
