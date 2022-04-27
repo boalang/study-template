@@ -17,33 +17,34 @@
 import os
 import pandas as pd
 
-def get_dir(subdir):
+def _get_dir(subdir):
     if subdir is None:
         return ''
     return subdir + '/'
 
 def get_df(filename, subdir=None, **kwargs):
     try:
-        df = pd.read_parquet(f'data/parquet/{get_dir(subdir)}{filename}.parquet')
+        df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet')
     except:
-        df = pd.read_csv(f'data/csv/{get_dir(subdir)}{filename}.csv', header=None, index_col=False, **kwargs)
-        os.makedirs(f'data/parquet/{get_dir(subdir)}', 0o755, True)
-        df.to_parquet(f'data/parquet/{get_dir(subdir)}{filename}.parquet', compression='gzip')
+        df = pd.read_csv(f'data/csv/{_get_dir(subdir)}{filename}.csv', header=None, index_col=False, **kwargs)
+        os.makedirs(f'data/parquet/{_get_dir(subdir)}', 0o755, True)
+        df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet', compression='gzip')
     return df
 
 def get_deduped_df(filename, subdir=None, ts=False, **kwargs):
+    '''This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.'''
     try:
-        df = pd.read_parquet(f'data/parquet/{get_dir(subdir)}{filename}-deduped.parquet')
+        df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet')
     except:
         if ts:
-            df = remove_dupes(get_df(filename, subdir, **kwargs), subdir, names=['var', 'hash', 'project', 'ts', 'file'])
+            df = _remove_dupes(get_df(filename, subdir, **kwargs), subdir, names=['var', 'hash', 'project', 'ts', 'file'])
         else:
-            df = remove_dupes(get_df(filename, subdir, **kwargs), subdir)
-        os.makedirs(f'data/parquet/{get_dir(subdir)}', 0o755, True)
-        df.to_parquet(f'data/parquet/{get_dir(subdir)}{filename}-deduped.parquet', compression='gzip')
+            df = _remove_dupes(get_df(filename, subdir, **kwargs), subdir)
+        os.makedirs(f'data/parquet/{_get_dir(subdir)}', 0o755, True)
+        df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet', compression='gzip')
     return df
 
-def remove_dupes(df, subdir=None, names=['var', 'hash', 'project', 'file']):
+def _remove_dupes(df, subdir=None, names=['var', 'hash', 'project', 'file']):
     df2 = get_df('dupes', subdir, names=names).drop(columns=['var'])
 
     df2 = df2[df2.duplicated(subset=['hash'])]
@@ -63,7 +64,7 @@ def save_table(df, filename, subdir=None, decimals=2, colsep=False, **kwargs):
     with pd.option_context("max_colwidth", 1000):
         tab1 = df.to_latex(**kwargs)
 
-    with open(f'tables/{get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:
+    with open(f'tables/{_get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:
         f.write('% DO NOT EDIT\n')
         f.write('% this file was automatically generated\n')
         if not colsep is False:
