@@ -35,7 +35,7 @@ if __name__ == '__main__':
             while line:
                 if pbar is not None:
                     pbar.update(len(line))
-                current = line[2:line.find(']', line.find('][') + 2)]
+                current = line[2:line.find(']')]
 
                 if current == last:
                     if lastline:
