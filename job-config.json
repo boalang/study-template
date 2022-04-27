@@ -14,16 +14,14 @@
       "dataset": "kotlin",
       "csv": {
         "output": "kotlin/project-count.csv"
-      },
-      "make_public": true
+      }
     },
     "python/project-count.txt": {
       "query": "boa/queries/project-count.boa",
       "dataset": "python",
       "csv": {
         "output": "python/project-count.csv"
-      },
-      "make_public": true
+      }
     }
   }
 }
