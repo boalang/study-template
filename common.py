@@ -41,7 +41,7 @@ def get_deduped_df(filename, subdir=None, ts=False, **kwargs):
     return df
 
 def remove_dupes(df, subdir=None, names=['var', 'hash', 'project', 'file']):
-    df2 = get_df('dupes', subdir, names).drop(columns=['var'])
+    df2 = get_df('dupes', subdir, names=names).drop(columns=['var'])
 
     df2 = df2[df2.duplicated(subset=['hash'])]
     df3 = pd.merge(df, df2, how='left', left_on=['project', 'file'], right_on=['project', 'file'])
