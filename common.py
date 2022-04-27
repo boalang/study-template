@@ -18,6 +18,8 @@ import os
 from typing import Optional
 import pandas as pd
 
+__all__ = ["get_df", "get_deduped_df", "save_table"]
+
 def _get_dir(subdir: Optional[str]):
     if subdir is None:
         return ''
@@ -54,23 +56,24 @@ def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'h
     df4 = df3[pd.isnull(df3['hash'])]
     return df4.drop(columns=['hash'])
 
-colsepname = ''
+_colsepname = ''
 def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, colsep=False, **kwargs):
-    global colsepname
+    global _colsepname
     if not colsep is False:
-        colsepname = colsepname + 'A'
+        _colsepname = _colsepname + 'A'
 
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
         tab1 = df.to_latex(**kwargs)
 
+    os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
     with open(f'tables/{_get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:
         f.write('% DO NOT EDIT\n')
         f.write('% this file was automatically generated\n')
         if not colsep is False:
-            f.write('\\newcommand{\\oldtabcolsep' + colsepname + '}{\\tabcolsep}\n')
+            f.write('\\newcommand{\\oldtabcolsep' + _colsepname + '}{\\tabcolsep}\n')
             f.write('\\renewcommand{\\tabcolsep}{' + colsep + '}\n')
         f.write(tab1)
         if not colsep is False:
-            f.write('\\renewcommand{\\tabcolsep}{\\oldtabcolsep' + colsepname + '}\n')
+            f.write('\\renewcommand{\\tabcolsep}{\\oldtabcolsep' + _colsepname + '}\n')
