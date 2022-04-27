@@ -145,7 +145,7 @@ def prepare_query(target):
     with open(query_info['query'], 'r') as fh:
         query = fh.read()
 
-    query_substitutions = build_replacements(config['substitutions'], query_info['substitutions'])
+    query_substitutions = build_replacements(config.get('substitutions', []), query_info.get('substitutions', []))
     query = expand_replacements(query_substitutions, query)
 
     return (query, sha256(str.encode(query)).hexdigest())

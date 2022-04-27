@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     for target in configuration['queries']:
         query_info = configuration['queries'][target]
-        substitution_files = [x for (_, x) in build_replacements(configuration['substitutions'], query_info['substitutions'], only_files = True)]
+        substitution_files = [x for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files = True)]
         target = 'data/txt/' + target
         txt.append(target)
 

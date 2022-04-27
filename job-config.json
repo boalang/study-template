@@ -11,7 +11,6 @@
   "queries": {
     "kotlin/project-count.txt": {
       "query": "boa/queries/project-count.boa",
-      "substitutions": [],
       "dataset": "kotlin",
       "csv": {
         "output": "kotlin/project-count.csv"
@@ -20,7 +19,6 @@
     },
     "python/project-count.txt": {
       "query": "boa/queries/project-count.boa",
-      "substitutions": [],
       "dataset": "python",
       "csv": {
         "output": "python/project-count.csv"
