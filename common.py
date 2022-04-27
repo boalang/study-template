@@ -15,14 +15,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
+from typing import Optional
 import pandas as pd
 
-def _get_dir(subdir):
+def _get_dir(subdir: Optional[str]):
     if subdir is None:
         return ''
     return subdir + '/'
 
-def get_df(filename, subdir=None, **kwargs):
+def get_df(filename: str, subdir: Optional[str]=None, **kwargs):
     try:
         df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet')
     except:
@@ -31,7 +32,7 @@ def get_df(filename, subdir=None, **kwargs):
         df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet', compression='gzip')
     return df
 
-def get_deduped_df(filename, subdir=None, ts=False, **kwargs):
+def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs):
     '''This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.'''
     try:
         df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet')
@@ -44,7 +45,7 @@ def get_deduped_df(filename, subdir=None, ts=False, **kwargs):
         df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet', compression='gzip')
     return df
 
-def _remove_dupes(df, subdir=None, names=['var', 'hash', 'project', 'file']):
+def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'hash', 'project', 'file']):
     df2 = get_df('dupes', subdir, names=names).drop(columns=['var'])
 
     df2 = df2[df2.duplicated(subset=['hash'])]
@@ -54,7 +55,7 @@ def _remove_dupes(df, subdir=None, names=['var', 'hash', 'project', 'file']):
     return df4.drop(columns=['hash'])
 
 colsepname = ''
-def save_table(df, filename, subdir=None, decimals=2, colsep=False, **kwargs):
+def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, colsep=False, **kwargs):
     global colsepname
     if not colsep is False:
         colsepname = colsepname + 'A'
