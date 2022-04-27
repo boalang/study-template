@@ -14,6 +14,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
 import pandas as pd
 
 def get_dir(subdir):
@@ -26,6 +27,7 @@ def get_df(filename, subdir=None, **kwargs):
         df = pd.read_parquet(f'data/parquet/{get_dir(subdir)}{filename}.parquet')
     except:
         df = pd.read_csv(f'data/csv/{get_dir(subdir)}{filename}.csv', header=None, index_col=False, **kwargs)
+        os.makedirs(f'data/parquet/{get_dir(subdir)}', 0o755, True)
         df.to_parquet(f'data/parquet/{get_dir(subdir)}{filename}.parquet', compression='gzip')
     return df
 
@@ -37,6 +39,7 @@ def get_deduped_df(filename, subdir=None, ts=False, **kwargs):
             df = remove_dupes(get_df(filename, subdir, **kwargs), subdir, names=['var', 'hash', 'project', 'ts', 'file'])
         else:
             df = remove_dupes(get_df(filename, subdir, **kwargs), subdir)
+        os.makedirs(f'data/parquet/{get_dir(subdir)}', 0o755, True)
         df.to_parquet(f'data/parquet/{get_dir(subdir)}{filename}-deduped.parquet', compression='gzip')
     return df
 
