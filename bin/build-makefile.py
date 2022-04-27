@@ -69,7 +69,7 @@ if __name__ == '__main__':
             csv.append(new_target)
 
             print('')
-            print(f'{dupes}: {target}')
+            print(f'{dupes}: {target} bin/gendupes.py')
             print(f'\t@mkdir -p $(shell dirname {dupes})')
             print('\t${GENDUPES} $< > $@')
 
