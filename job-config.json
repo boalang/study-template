@@ -8,6 +8,14 @@
     "original":  "2012 July/SF"
   },
   "queries": {
+    "kotlin/hashes.txt": {
+      "query": "boa/snippets/hashes.boa",
+      "dataset": "kotlin",
+      "gendupes": {
+        "input": "kotlin/dupes.txt",
+        "output": "kotlin/dupes.csv"
+      }
+    },
     "kotlin/project-count.txt": {
       "query": "boa/queries/project-count.boa",
       "dataset": "kotlin",
@@ -22,5 +30,16 @@
         "output": "python/project-count.csv"
       }
     }
-  }
+  },
+  "substitutions": [
+    {
+      "target": "<<escape>>",
+      "replacement": "escape.boa",
+      "kind": "file"
+    },
+    {
+      "target": "<<project-filter>>",
+      "replacement": ""
+    }
+  ]
 }

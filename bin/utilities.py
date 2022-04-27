@@ -110,9 +110,9 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                         replacements[target] = repl['replacement']
                 else:
                     if only_files:
-                        replacements[target] = repl['replacement']
+                        replacements[target] = 'boa/snippets/' + repl['replacement']
                     else:
-                        with open(repl['replacement'], 'r') as fh:
+                        with open('boa/snippets/' + repl['replacement'], 'r') as fh:
                             replacements[target] = fh.read()
                 if target in replacements:
                     repls.append((target, replacements[target]))

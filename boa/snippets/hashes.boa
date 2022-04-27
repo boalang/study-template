@@ -1,0 +1,18 @@
+o: output collection[hash: int][proj: string][ts: int] of url: string;
+
+<<escape>>
+
+<<project-filter>>
+visit(input, visitor {
+    before cr: CodeRepository -> {
+        snapshot := getsnapshot(cr, "SOURCE_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before before cf: ChangedFile ->
+        if (match(`_ERROR$`, string(cf.kind)))
+            stop;
+    before ast: ASTRoot ->
+        o[hash(string(ast, true))][input.id][current(Revision).commit_date] << escape(current(ChangedFile).name);
+});

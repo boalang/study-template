@@ -24,6 +24,7 @@ if __name__ == '__main__':
     print('PYTHON:=python3')
     print('DOWNLOAD:=${PYTHON} bin/download.py')
     print('BOATOCSV:=${PYTHON} bin/boa-to-csv.py')
+    print('GENDUPES:=$(PYTHON) bin/gendupes.py')
     print('')
 
     print('.PHONY: all')
@@ -59,6 +60,24 @@ if __name__ == '__main__':
                 string += f' --numidx {csv_info["index"]}'
             string += ' $< > $@'
             print(string)
+
+        if 'gendupes' in query_info:
+            dupes_info = query_info['gendupes']
+            dupes = 'data/txt/' + dupes_info['input']
+            new_target  = 'data/csv/' + dupes_info['output']
+            txt.append(dupes)
+            csv.append(new_target)
+
+            print('')
+            print(f'{dupes}: {target}')
+            print(f'\t@mkdir -p $(shell dirname {dupes})')
+            print('\t${GENDUPES} $< > $@')
+
+            print('')
+            print(f'{new_target}: {dupes}')
+            print('\t$(BOATOCSV) --numidx=3 $< > $@')
+            print('\t@rm -f data/parquet/$**/dupes.parquet')
+            print('\t@rm -f data/parquet/$**/deduped.parquet')
 
         print('')
         string = f'{query_info["query"]} '
