@@ -21,7 +21,7 @@ all: data
 data: Makefile.jobs
 	$(MAKE) -f $^
 
-Makefile.jobs: job-config.json bin/build-makefile.py
+Makefile.jobs: study-config.json bin/build-makefile.py
 	$(PYTHON) bin/build-makefile.py > $@
 
 
@@ -35,7 +35,7 @@ ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*/\*.csv -x data/csv/*.c
 
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt job-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt study-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
 
 
 ################

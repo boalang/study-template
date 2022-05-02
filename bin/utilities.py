@@ -57,7 +57,7 @@ def close_client():
     client = None
 
 config = None
-def get_query_config(filename = 'job-config.json'):
+def get_query_config(filename = 'study-config.json'):
     global config
     if config is None:
         try:
