@@ -51,7 +51,7 @@ if __name__ == '__main__':
             string = '\t${BOATOCSV}'
             if 'test' in csv_info:
                 for test in csv_info['test']:
-                    string += f' -t "{test}"'
+                    string += ' -t "' + test.replace('$', '$$') + '"'
             if 'drop' in csv_info:
                 for d in csv_info['drop']:
                     string += f' -d "{d}"'
