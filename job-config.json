@@ -9,7 +9,7 @@
   },
   "queries": {
     "kotlin/hashes.txt": {
-      "query": "snippets/hashes.boa",
+      "query": "queries/hashes.boa",
       "dataset": "kotlin",
       "gendupes": {
         "input": "kotlin/dupes.txt",
