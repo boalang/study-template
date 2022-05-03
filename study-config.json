@@ -34,8 +34,7 @@
   "substitutions": [
     {
       "target": "<<escape>>",
-      "replacement": "escape.boa",
-      "kind": "file"
+      "file": "escape.boa"
     },
     {
       "target": "<<project-filter>>",
