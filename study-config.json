@@ -1,11 +1,11 @@
 {
   "datasets": {
-    "kotlin":    "2021 Aug/Kotlin",
-    "python":    "2021 Aug/Python",
+    "kotlin": "2021 Aug/Kotlin",
+    "python": "2021 Aug/Python",
     "python-ds": "2020 August/Python-DS",
-    "java":      "2019 October/GitHub",
-    "java-sf":   "2013 September/SF",
-    "original":  "2012 July/SF"
+    "java": "2019 October/GitHub",
+    "java-sf": "2013 September/SF",
+    "original": "2012 July/SF"
   },
   "queries": {
     "kotlin/hashes.txt": {
@@ -21,7 +21,9 @@
       "dataset": "kotlin",
       "csv": {
         "output": "kotlin/rq1.csv",
-        "test": ["3,\\.kts?$"]
+        "test": [
+          "3,\\.kts?$"
+        ]
       }
     },
     "kotlin/project-count.txt": {
