@@ -80,7 +80,7 @@ def get_query_data():
             query_data = json.load(fh)
         return query_data
     except:
-        return {}
+        return { "$schema": "schemas/0.1.0/jobs.schema.json" }
 
 def update_query_data(target, job_id, sha256):
     global job_data
