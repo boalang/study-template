@@ -180,7 +180,7 @@ The steps to add a new analysis are as follows:
       if you want.\
    b. Add any missing common snippets into `boa/snippets/`.\
    c. Add the query into the `study-config.json`.\
-   c. Repeat Step 1 as many times as necessary.
+   d. Repeat Step 1 as many times as necessary.
 2. Create a new Python script to analyze the data (e.g., `foo.py`) in the top
    folder.
 3. Edit the existing `Makefile` (**not** the `Makefile.jobs` if it exists!).\
