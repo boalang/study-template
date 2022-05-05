@@ -1,0 +1,28 @@
+# How many AST nodes are in each file in the latest snapshot?
+o: output collection[project: string][file: string] of int;
+
+<<escape>>
+astCount := 0;
+
+<<project-filter>>
+visit(input, visitor {
+	before n: CodeRepository -> {
+		snapshot := getsnapshot(n, "SOURCE_");
+		foreach (i: int; def(snapshot[i]))
+			visit(snapshot[i]);
+		stop;
+	}
+
+    before cf: ChangedFile -> {
+        if (match(`_ERROR$`, string(cf.kind)))
+            stop;
+        astCount = 0;
+    }
+    after  cf: ChangedFile ->
+        o[input.id][escape(cf.name)] << astCount;
+
+	# by default, count all visited nodes
+	before _ -> astCount++;
+	# these nodes are not part of the AST, so do nothing when visiting
+	before Person -> ;
+});

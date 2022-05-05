@@ -16,6 +16,14 @@
         "csv": "kotlin/dupes.csv"
       }
     },
+    "kotlin/rq1.txt": {
+      "query": "queries/rq1.boa",
+      "dataset": "kotlin",
+      "csv": {
+        "output": "kotlin/rq1.csv",
+        "test": ["3,\\.kts?$"]
+      }
+    },
     "kotlin/project-count.txt": {
       "query": "queries/project-count.boa",
       "dataset": "kotlin",
