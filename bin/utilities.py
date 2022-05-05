@@ -85,7 +85,7 @@ def get_query_data():
 def update_query_data(target, job_id, sha256):
     global job_data
     old_job_data = get_query_data()
-    old_job_data[target] = { 'job': job_id, 'sha256': sha256 }
+    old_job_data[target] = { 'job': int(job_id), 'sha256': sha256 }
     job_data = old_job_data
     with open('jobs.json', 'w') as fh:
         json.dump(job_data, fh, indent = 2)
