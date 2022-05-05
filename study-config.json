@@ -48,5 +48,6 @@
       "target": "<<project-filter>>",
       "replacement": ""
     }
-  ]
+  ],
+  "version": "0.1.0"
 }
