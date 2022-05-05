@@ -40,7 +40,7 @@ if __name__ == '__main__':
         target = 'data/txt/' + target
         txt.append(target)
 
-        if 'csv' in query_info and 'output' in csv_info['output']:
+        if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
             csv_output = 'data/csv/' + csv_info['output']
             csv.append(csv_output)
