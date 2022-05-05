@@ -14,8 +14,8 @@ Python 3 is required for all scripts.  Tested on Python 3.9.12.
 
 See `requirements.txt` for the package requirements.  To install them, run:
 
-```
-sh pip3 install -r requirements.txt
+```sh
+pip3 install -r requirements.txt
 ```
 
 There are also optional packages you can install to improve the experience.
