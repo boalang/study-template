@@ -40,13 +40,13 @@ if __name__ == '__main__':
         target = 'data/txt/' + target
         txt.append(target)
 
-        if 'csv' in query_info:
+        if 'csv' in query_info and 'output' in csv_info['output']:
             csv_info = query_info['csv']
-            new_target = 'data/csv/' + csv_info['output']
-            csv.append(new_target)
-            print('')
-            print(f'{new_target}: {target}')
+            csv_output = 'data/csv/' + csv_info['output']
+            csv.append(csv_output)
 
+            print('')
+            print(f'{csv_output}: {target}')
             print(f'\t@mkdir -p $(dir $@)')
             string = '\t${BOATOCSV}'
             if 'test' in csv_info:
@@ -62,23 +62,25 @@ if __name__ == '__main__':
             string += ' $< > $@'
             print(string)
 
-        if 'gendupes' in query_info:
+        if 'gendupes' in query_info and 'output' in query_info['gendupes']:
             dupes_info = query_info['gendupes']
-            dupes = 'data/txt/' + dupes_info['input']
-            new_target  = 'data/csv/' + dupes_info['output']
-            txt.append(dupes)
-            csv.append(new_target)
+            dupes_txt = 'data/txt/' + dupes_info['output']
+            txt.append(dupes_txt)
 
             print('')
-            print(f'{dupes}: {target} bin/gendupes.py')
+            print(f'{dupes_txt}: {target} bin/gendupes.py')
             print(f'\t@mkdir -p $(dir $@)')
             print('\t${GENDUPES} $< > $@')
 
-            print('')
-            print(f'{new_target}: {dupes}')
-            print('\t$(BOATOCSV) $< > $@')
-            print('\t@rm -f data/parquet/$**/dupes.parquet')
-            print('\t@rm -f data/parquet/$**/deduped.parquet')
+            if 'csv' in dupes_info:
+                dupes_csv  = 'data/csv/' + dupes_info['csv']
+                csv.append(dupes_csv)
+
+                print('')
+                print(f'{dupes_csv}: {dupes_txt}')
+                print('\t$(BOATOCSV) $< > $@')
+                print('\t@rm -f data/parquet/$**/dupes.parquet')
+                print('\t@rm -f data/parquet/$**/deduped.parquet')
 
         print('')
         string = f'boa/{query_info["query"]} '

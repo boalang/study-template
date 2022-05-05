@@ -12,8 +12,8 @@
       "query": "queries/hashes.boa",
       "dataset": "kotlin",
       "gendupes": {
-        "input": "kotlin/dupes.txt",
-        "output": "kotlin/dupes.csv"
+        "output": "kotlin/dupes.txt",
+        "csv": "kotlin/dupes.csv"
       }
     },
     "kotlin/project-count.txt": {
