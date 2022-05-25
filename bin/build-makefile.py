@@ -28,8 +28,8 @@ if __name__ == '__main__':
     print('GENDUPES:=$(PYTHON) bin/gendupes.py')
     print('')
 
-    print('.PHONY: all')
-    print('all: txt csv')
+    print('.PHONY: data')
+    print('data: txt csv')
 
     txt = []
     csv = []
