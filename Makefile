@@ -21,6 +21,9 @@ all: data analysis
 data: Makefile.jobs
 	$(MAKE) -f $^
 
+data/%: Makefile.jobs
+	$(MAKE) -f $^ $@
+
 Makefile.jobs: study-config.json bin/build-makefile.py
 	jsonschema --instance study-config.json schemas/0.1.0/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
