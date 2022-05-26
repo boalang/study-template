@@ -54,7 +54,7 @@ if __name__ == '__main__':
                     string += ' -t "' + test.replace('$', '$$') + '"'
             if 'drop' in csv_info:
                 for d in csv_info['drop']:
-                    string += f' -d "{d}"'
+                    string += f' -d {int(d)}'
             if 'header' in csv_info:
                 string += f' --header "{csv_info["header"]}"'
             if 'numidx' in csv_info:
