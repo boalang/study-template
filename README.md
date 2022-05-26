@@ -123,7 +123,7 @@ the prefix omitted here) and some optional parameters:
 * `header`
   * A header row to prepend to the CSV output.  Can be useful it you think
     others might use the generated CSV files outside of your own analyses.
-* `numidx`
+* `index`
   * Number of indices in the Boa output - if not given, infers from the first
     line.  This is usually not needed.
 
@@ -139,8 +139,7 @@ convert the generated TXT file into CSV format.
   "substitutions": [
     {
       "target": "<<escape>>",
-      "replacement": "escape.boa",
-      "kind": "file"
+      "file": "escape.boa"
     },
     {
       "target": "<<project-filter>>",
@@ -156,7 +155,7 @@ queries.  See the next section for more details.
 ### Query Templates
 
 Query templates are defined through a list of substitutions.  Substitutions are
-defined using two of three keys.  The `target` key is mandatory, containing the
+defined using two keys.  The `target` key is mandatory, containing the
 text which is replaced in the query.  Either `replacement` or `file` are then
 used, with `replacement` providing the text directly, and `file` being the name
 of a file under `boa/snippets` which replaces `target`.  Care must be taken to
