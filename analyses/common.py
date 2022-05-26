@@ -94,6 +94,7 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
 
     with pd.option_context("max_colwidth", 1000):
         tab1 = df.to_latex(**kwargs)
+        #tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis="columns").format_index(lambda x: x, escape='latex', axis='columns').format(None, precision=decimals, thousands=',', escape='latex').to_latex(hrules=True, **kwargs)
 
     os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
     with open(f'tables/{_get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:

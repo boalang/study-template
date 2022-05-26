@@ -176,6 +176,40 @@
             "description": "(optional) Global query template substitutions.",
             "$ref": "#/$defs/substitutions"
         },
+        "analyses": {
+            "description": "List of all analyses used in the study.",
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "propertyNames": {
+                "type": "string",
+                "minLength": 1
+            },
+            "patternProperties": {
+                ".+\\.py$": {
+                    "description": "A Python script to analyze the data.",
+                    "type": "object",
+                    "required": [
+                        "input"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "input": {
+                            "description": "All paths to CSV files used as input to the analysis.",
+                            "type": "array",
+                            "default": [ ".csv" ],
+                            "items": {
+                                "description": "A CSV file used as input to the analysis.  Must live in data/csv (but do not include the prefix here).",
+                                "type": "string",
+                                "default": ".csv",
+                                "pattern": "^.+\\.csv$",
+                                "minLength": 1
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "$schema": {
             "description": "study-config JSON schema",
             "type": "string",

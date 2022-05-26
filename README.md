@@ -148,9 +148,23 @@ convert the generated TXT file into CSV format.
   ]
 ```
 
-The last object is the list of global template substitutions.  These
+The next object is the list of global template substitutions.  These
 substitutions are available to every query, but can be overridden by specific
 queries.  See the next section for more details.
+
+```json
+  "analyses": {
+    "rq1.py": {
+      "input": [
+        "kotlin/rq1.csv",
+        "kotlin/dupes.csv"
+      ]
+    }
+  }
+```
+
+The last object is the list of analysis scripts you want to run.  See the
+section on adding an analysis for more details.
 
 ### Query Templates
 
@@ -169,8 +183,10 @@ any substitutions (i.e., a steady state has been reached).
 
 ## Adding Analyses
 
-There is one sample analysis given in `rq1.py`.  This relies on the sample
-query given in `boa/queries/rq1.boa`.
+There is one sample analysis given in `analyses/rq1.py`.  This relies on the sample
+query given in `boa/queries/rq1.boa` and makes use of deduplication, which relies
+(indirectly) on the query given in `boa/queries/hashes.boa`.  This analysis will
+generate a single result, the table in `tables/kotlin/rq1.tex`.
 
 The steps to add a new analysis are as follows:
 
@@ -182,20 +198,15 @@ The steps to add a new analysis are as follows:
    d. Repeat Step 1 as many times as necessary.
 2. Create a new Python script to analyze the data (e.g., `foo.py`) in the top
    folder.
-3. Edit the existing `Makefile` (**not** the `Makefile.jobs` if it exists!).\
-   a. Add a new dependency to the `analysis` (line 32), e.g. `analysis: .. foo`.\
-   b. Add the new analysis target `foo`:
-      ```make
-      foo: data foo.py data/csv/foo.csv
-      	$(PYTHON) foo.py
-      ```
-      Note that this target should depend on `data`, the analysis script, and
-      all CSV files it analyzes.  If your analysis relies on de-duplication, be
-      sure to also include the appropriate `data/csv/dupes.csv` file as a
-      dependency here (the `csv` path from `gendupes`).
+3. Add a new entry to the `study-config.json` in the `analyses` object.\
+   a. The name of the entry is the script filename (e.g., `foo.py`, without
+      the `analyses/` prefix).\
+   b. Add an `input` key, that is an array of CSV filenames that the analysis
+      depends on.
 
-Once this is done, you should be able to run `make foo` to run the analysis
-task, or run `make analysis` to run all analysis tasks.
+Once this is done, you should be able to run `make foo` (the target is the
+name of the script, without the file extension) to run the analysis task, or
+run `make analysis` to run all analysis tasks.
 
 ## Building and the `jobs.json` Cache
 

@@ -91,3 +91,22 @@ if __name__ == '__main__':
     print('.PHONY: txt csv')
     print('txt: ' + ' '.join(txt))
     print('csv: ' + ' '.join(csv))
+
+
+    analyses = []
+
+    for script in configuration['analyses']:
+        target = script.split('.')[0]
+        analyses.append(target)
+
+        inputs = configuration['analyses'][script]['input']
+        inputs = ['data/csv/' + x for x in inputs]
+
+        print('')
+        print(f'{target}: data analyses/{script} ' + ' '.join(inputs))
+        print(f'\t$(PYTHON) analyses/{script}')
+
+    if len(analyses) > 0:
+        print('')
+        print('.PHONY: analysis ' + ' '.join(analyses))
+        print('analysis: ' + ' '.join(analyses))
