@@ -56,9 +56,9 @@ if __name__ == '__main__':
                 for d in csv_info['drop']:
                     string += f' -d "{d}"'
             if 'header' in csv_info:
-                string += f' --header {csv_info["header"]}'
+                string += f' --header "{csv_info["header"]}"'
             if 'numidx' in csv_info:
-                string += f' --numidx {csv_info["index"]}'
+                string += f' --numidx {int(csv_info["index"])}'
             string += ' $< > $@'
             print(string)
 
