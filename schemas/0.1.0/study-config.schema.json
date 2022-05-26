@@ -4,6 +4,27 @@
     "title": "study-config.json",
     "description": "A Boa study template configuration file.",
     "type": "object",
+    "default": {
+        "$schema": "schemas/0.1.0/study-config.schema.json",
+        "datasets": {
+            "": ""
+        },
+        "queries": {
+            ".txt": {
+                "query": "queries/.boa",
+                "dataset": "",
+                "csv": {
+                    "output": ".csv"
+                }
+            }
+        },
+        "substitutions": [
+            {
+                "target": "<<TODO>>",
+                "file": ".boa"
+            }
+          ]
+    },
     "required": [
         "datasets",
         "queries",
@@ -45,11 +66,16 @@
                         "query",
                         "dataset"
                     ],
+                    "default": {
+                        "query": ".boa",
+                        "dataset": ""
+                    },
                     "additionalProperties": false,
                     "properties": {
                         "query": {
                             "description": "The path to the Boa query file.  File must live in boa/ (but do not include the prefix here).",
                             "type": "string",
+                            "default": ".boa",
                             "pattern": "^.+\\.boa$"
                         },
                         "dataset": {
@@ -67,16 +93,21 @@
                             "required": [
                                 "output"
                             ],
+                            "default": {
+                                "output": ".txt"
+                            },
                             "additionalProperties": false,
                             "properties": {
                                 "output": {
                                     "description": "Path to store the generated TXT file.  Must live in data/txt/ (but do not include the prefix here).",
                                     "type": "string",
+                                    "default": ".txt",
                                     "pattern": "^.+\\.txt$"
                                 },
                                 "csv": {
                                     "description": "(optional) Path to store the converted CSV file.  Must live in data/csv/ (but do not include the prefix here).",
                                     "type": "string",
+                                    "default": ".csv",
                                     "pattern": "^.+\\.csv$"
                                 }
                             }
@@ -87,28 +118,36 @@
                             "required": [
                                 "output"
                             ],
+                            "default": {
+                                "output": ".csv"
+                            },
                             "additionalProperties": false,
                             "properties": {
                                 "output": {
                                     "description": "Path to store the converted CSV file.  Must live in data/csv (but do not include the prefix here).",
                                     "type": "string",
+                                    "default": ".csv",
                                     "pattern": "^.+\\.csv$"
                                 },
                                 "test": {
                                     "description": "(optional) Adds pattern(s) to test if a column is done or not.",
                                     "type": "array",
+                                    "default": [ "index,regex" ],
                                     "items": {
                                         "description": "Patterns must be of the form \"index,regex\" where index is the 1-based column index and regex indicates when the column is finished.",
                                         "type": "string",
+                                        "default": "index,regex",
                                         "minLength": 1
                                     }
                                 },
                                 "drop": {
-                                    "description": "(optional) Drops column(s) from the output file.",
+                                    "description": "(optional) Drops 0-based index column(s) from the output file.",
                                     "type": "array",
+                                    "default": [ 0 ],
                                     "items": {
                                         "description": "The column index to drop when making the CSV.",
                                         "type": "number",
+                                        "default": 0,
                                         "minLength": 1
                                     }
                                 },
