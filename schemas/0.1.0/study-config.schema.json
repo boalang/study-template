@@ -87,6 +87,11 @@
                             "description": "(optional) Local query template substitutions.  These can override any global substitutions of the same target.",
                             "$ref": "#/$defs/substitutions"
                         },
+                        "make_public": {
+                            "description": "(optional) If the job should be marked as public or not. Defaults to true.",
+                            "type": "boolean",
+                            "default": true
+                        },
                         "gendupes": {
                             "description": "(optional) If this query built a hashes file, process it to generate a dupes file.",
                             "type": "object",
