@@ -113,22 +113,14 @@
                                     }
                                 },
                                 "header": {
-                                    "description": "(optional) Adds a CSV header row to the generated file.",
-                                    "type": "array",
-                                    "items": {
-                                        "description": "The CSV header string (including commas and quotes where necessary).",
-                                        "type": "string",
-                                        "minLength": 1
-                                    }
+                                    "description": "(optional) Adds a CSV header row (including commas and quotes where necessary) to the generated file.",
+                                    "default": "\"var\",\"index\",\"value\"",
+                                    "type": "string"
                                 },
                                 "index": {
                                     "description": "(optional) A hint indicating how many index columns to expect. Useful if the converter is having problems.",
-                                    "type": "array",
-                                    "items": {
-                                        "description": "The number of expected index columns.",
-                                        "type": "number",
-                                        "minLength": 1
-                                    }
+                                    "default": 2,
+                                    "type": "number"
                                 }
                             }
                         }
