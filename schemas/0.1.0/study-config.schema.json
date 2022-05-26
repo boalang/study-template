@@ -82,7 +82,7 @@
                             }
                         },
                         "csv": {
-                            "description": "(optional) TODO",
+                            "description": "(optional) Convert the Boa query output to CSV format.",
                             "type": "object",
                             "required": [
                                 "output"
@@ -90,16 +90,43 @@
                             "additionalProperties": false,
                             "properties": {
                                 "output": {
-                                    "description": "TODO",
+                                    "description": "Path to store the converted CSV file.  Must live in data/csv (but do not include the prefix here).",
                                     "type": "string",
                                     "pattern": "^.+\\.csv$"
                                 },
                                 "test": {
-                                    "description": "(optional) TODO",
+                                    "description": "(optional) Adds pattern(s) to test if a column is done or not.",
                                     "type": "array",
                                     "items": {
-                                        "description": "TODO",
+                                        "description": "Patterns must be of the form \"index,regex\" where index is the 1-based column index and regex indicates when the column is finished.",
                                         "type": "string",
+                                        "minLength": 1
+                                    }
+                                },
+                                "drop": {
+                                    "description": "(optional) Drops column(s) from the output file.",
+                                    "type": "array",
+                                    "items": {
+                                        "description": "The column index to drop when making the CSV.",
+                                        "type": "number",
+                                        "minLength": 1
+                                    }
+                                },
+                                "header": {
+                                    "description": "(optional) Adds a CSV header row to the generated file.",
+                                    "type": "array",
+                                    "items": {
+                                        "description": "The CSV header string (including commas and quotes where necessary).",
+                                        "type": "string",
+                                        "minLength": 1
+                                    }
+                                },
+                                "index": {
+                                    "description": "(optional) A hint indicating how many index columns to expect. Useful if the converter is having problems.",
+                                    "type": "array",
+                                    "items": {
+                                        "description": "The number of expected index columns.",
+                                        "type": "number",
                                         "minLength": 1
                                     }
                                 }
