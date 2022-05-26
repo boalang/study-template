@@ -22,7 +22,6 @@ if __name__ == '__main__':
 
     print('# DO NOT EDIT')
     print('# this file was automatically generated')
-    print('PYTHON:=python3')
     print('DOWNLOAD:=${PYTHON} bin/download.py')
     print('BOATOCSV:=${PYTHON} bin/boa-to-csv.py')
     print('GENDUPES:=$(PYTHON) bin/gendupes.py')
