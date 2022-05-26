@@ -15,7 +15,7 @@
 
 PYTHON:=python3
 
-.PHONY: data all
+.PHONY: all
 all: data analysis
 
 include Makefile.jobs
