@@ -11,7 +11,7 @@ setting your password in your OS keyring, so you are not prompted to enter it
 each time a download triggers.  To do this, first install the keyring Python
 package and then run:
 
-```sh
+```
 keyring set boaapi <username>
 ```
 
@@ -27,7 +27,7 @@ Python 3 is required for all scripts.  Tested on Python 3.9.12.
 
 See `requirements.txt` for the package requirements.  To install them, run:
 
-```sh
+```
 pip3 install -r requirements.txt
 ```
 
