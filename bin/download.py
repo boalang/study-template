@@ -20,13 +20,15 @@ from boaapi.status import CompilerStatus, ExecutionStatus
 from utilities import *
 
 def run_query(target):
+    logger.info('Running query again...')
+
     client = get_client()
     query, sha256 = prepare_query(target)
     job = client.query(query, get_dataset(target))
 
-    logger.info(f'Job {job.id} is running.')
+    logger.debug(f'Job {job.id} is running.')
     job.wait()
-    logger.info(f'Job {job.id} is complete.')
+    logger.debug(f'Job {job.id} is complete.')
 
     if job.compiler_status is CompilerStatus.ERROR:
         logger.error(f'Job {job.id} had a compilation error.')
@@ -39,7 +41,13 @@ def run_query(target):
 
     update_query_data(target, job.id, sha256)
 
+    outputPath = os.path.join(TXT_ROOT, target)
+    if os.path.exists(outputPath):
+        os.unlink(outputPath)
+
 def download_query(target):
+    logger.info(f'Downloading query output "{target}"...')
+
     job_data = get_query_data()
 
     client = get_client()
@@ -55,22 +63,20 @@ def download_query(target):
 if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
+    parser.add_argument('--verbose', '-v', action='count', default=0)
     parser.add_argument('target')
-    parser.add_argument('--verbose', '-v', action='count', default = 0)
     args = parser.parse_args()
 
-    verbosity = max(5 - args.verbose, 1) * 10
+    verbosity = min(max(3 - args.verbose, 1), 3) * 10
     logger.setLevel(verbosity)
-    logger.info('Setting verbosity to {verbosity}')
+    logger.info(f'Setting verbosity to {verbosity}')
 
     target = args.target[len(TXT_ROOT):] # trim off 'data/txt/'
 
-    do_run = is_run_needed(target)
-    if do_run:
-        logger.info('Run is necessary, file has changed.')
+    if is_run_needed(target):
         run_query(target)
 
-    if do_run or not os.path.exists(args.target):
+    if not os.path.exists(args.target):
         download_query(target)
 
     close_client()
