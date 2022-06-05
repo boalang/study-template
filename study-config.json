@@ -31,14 +31,20 @@
       "query": "queries/project-count.boa",
       "dataset": "kotlin",
       "csv": {
-        "output": "kotlin/project-count.csv"
+        "output": "kotlin/project-count.csv",
+        "drop": [
+          1
+        ]
       }
     },
     "python/project-count.txt": {
       "query": "queries/project-count.boa",
       "dataset": "python",
       "csv": {
-        "output": "python/project-count.csv"
+        "output": "python/project-count.csv",
+        "drop": [
+          1
+        ]
       }
     }
   },
