@@ -20,9 +20,6 @@ from boaapi.status import CompilerStatus, ExecutionStatus
 from utilities import *
 
 def run_query(target):
-    if not is_run_needed(target):
-        return
-
     client = get_client()
     query, sha256 = prepare_query(target)
     job = client.query(query, get_dataset(target))
@@ -68,7 +65,12 @@ if __name__ == '__main__':
 
     target = args.target[len(TXT_ROOT):] # trim off 'data/txt/'
 
-    run_query(target)
-    download_query(target)
+    do_run = is_run_needed(target)
+    if do_run:
+        logger.info('Run is necessary, file has changed.')
+        run_query(target)
+
+    if do_run or not os.path.exists(args.target):
+        download_query(target)
 
     close_client()

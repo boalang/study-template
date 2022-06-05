@@ -14,6 +14,7 @@
 # limitations under the License.
 
 PYTHON:=python3
+VERBOSE:=
 
 .PHONY: all
 all: data analysis
