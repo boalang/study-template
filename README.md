@@ -2,8 +2,10 @@
 
 A template for setting up an empirical study utilizing the Boa infrastructure.
 
-Note that a username/password to the Boa website and API are required.  Once
-you have an API login, edit the file `boa-credentials.txt` and enter your
+Note that a username/password to the Boa website and API are required.  You
+can request one here: https://boa.cs.iastate.edu/request/
+
+Once you have an API login, edit the file `boa-credentials.txt` and enter your
 username on the first line, then save and close the file.  We recommend also
 setting your password in your OS keyring, so you are not prompted to enter it
 each time a download triggers.  To do this, first install the keyring Python
