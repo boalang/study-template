@@ -16,6 +16,7 @@
 # limitations under the License.
 import json
 import logging
+import sys
 
 STUDY_JSON = 'study-config.json'
 JOBS_JSON = 'jobs.json'
@@ -33,6 +34,7 @@ PQ_ROOT = DATA_ROOT + 'parquet/'
 ANALYSIS_ROOT = 'analyses/'
 
 logger = logging.getLogger('boa.logger')
+logger.addHandler(logging.StreamHandler(sys.stderr))
 
 def get_credentials():
     user = None
