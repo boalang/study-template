@@ -140,8 +140,11 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                     if only_files:
                         replacements[target] = SNIPPET_ROOT + repl['file']
                     else:
-                        with open(SNIPPET_ROOT + repl['file'], 'r') as fh:
-                            replacements[target] = fh.read()
+                        try:
+                            with open(SNIPPET_ROOT + repl['file'], 'r') as fh:
+                                replacements[target] = fh.read()
+                        except FileNotFoundError as e:
+                            raise FileNotFoundError(f"Snippet file '{repl['file']}' not found for substitution '{repl['target']}'.") from e
                 if target in replacements:
                     repls.append((target, replacements[target]))
     return repls
