@@ -40,9 +40,6 @@ def run_query(target):
         logger.error(f'See url: {job.get_url()}')
         exit(22)
 
-    if get_make_public(target):
-        job.set_public(True)
-
     update_query_data(target, job.id, sha256)
 
 def download_query(target):
@@ -50,6 +47,8 @@ def download_query(target):
 
     client = get_client()
     job = client.get_job(job_data[target]['job'])
+
+    job.set_public(get_make_public(target))
 
     target = TXT_ROOT + target
     os.makedirs(os.path.dirname(target), exist_ok=True)
