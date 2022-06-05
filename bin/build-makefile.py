@@ -60,6 +60,9 @@ if __name__ == '__main__':
                 string += f' --numidx {int(csv_info["index"])}'
             string += ' $< > $@'
             print(string)
+            filename = csv_info['output'][:-4]
+            print('\t@rm -f data/parquet/' + filename + '.parquet')
+            print('\t@rm -f data/parquet/' + filename + '-deduped.parquet')
 
         if 'gendupes' in query_info and 'output' in query_info['gendupes']:
             dupes_info = query_info['gendupes']
