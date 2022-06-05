@@ -23,8 +23,8 @@ if __name__ == '__main__':
     print('# DO NOT EDIT')
     print('# this file was automatically generated')
     print('DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)')
-    print('BOATOCSV:=$(PYTHON) bin/boa-to-csv.py $(VERBOSE)')
-    print('GENDUPES:=$(PYTHON) bin/gendupes.py $(VERBOSE)')
+    print('BOATOCSV:=$(PYTHON) bin/boa-to-csv.py')
+    print('GENDUPES:=$(PYTHON) bin/gendupes.py')
     print('')
 
     print('.PHONY: data')
