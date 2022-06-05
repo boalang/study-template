@@ -18,9 +18,9 @@ PYTHON:=python3
 .PHONY: all
 all: data analysis
 
-include Makefile.jobs
+include Makefile.study
 
-Makefile.jobs: study-config.json bin/build-makefile.py
+Makefile.study: study-config.json bin/build-makefile.py
 	jsonschema --instance study-config.json schemas/0.1.0/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
 

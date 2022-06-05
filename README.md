@@ -48,7 +48,7 @@ to download!).
 
 All information about what queries to run and where to download output is
 stored in the `study-config.json` file.  This file is used to automatically
-create a `Makefile.jobs` with make targets for each output file.
+create a `Makefile.study` with make targets for each output file.
 
 All Boa queries must reside under the `boa/` folder.  There are two sub-folders
 under the query folder: `queries` and `snippets`.  `queries` is where you store

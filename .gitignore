@@ -5,7 +5,7 @@
 !.dir-locals.el
 
 boa-credentials.txt
-Makefile.jobs
+Makefile.study
 jobs.json
 data/csv/*.csv
 data/csv/*/*.csv
