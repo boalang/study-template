@@ -60,7 +60,6 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('target')
-    parser.add_argument('--force-rerun', '-force-rerun', '-f')
     parser.add_argument('--verbose', '-v', action='count', default = 0)
     args = parser.parse_args()
 
