@@ -15,30 +15,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import json
-
 import logging
 
 logger = logging.getLogger('boa.logger')
 
 def get_credentials():
+    user = None
+    password = None
+
     try:
         with open('boa-credentials.txt', 'r') as fh:
             creds = [line.strip() for line in fh.readlines()]
-        user = creds[0]
-        password = creds[1]
+        if len(creds) > 0:
+            user = creds[0]
+        if len(creds) > 1:
+            password = creds[1]
     except:
+        pass
+
+    if not user or not password:
         import getpass
         try:
             import keyring
-            user = getpass.getuser()
+            user = user or getpass.getuser()
             password = keyring.get_password('boaapi', user)
             if password is None:
                 raise Exception()
         except:
-            user = input('Username [%s]: ' % getpass.getuser())
+            if not user:
+                user = input('Username [%s]: ' % getpass.getuser())
             if not user:
                 user = getpass.getuser()
             password = getpass.getpass()
+
     return (user, password)
 
 client = None
