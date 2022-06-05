@@ -87,7 +87,7 @@ if __name__ == '__main__':
         print('')
         string = f'boa/{query_info["query"]} '
         string += ' '.join(substitution_files)
-        print(f'{target}: {string.strip()}')
+        print(f'{target}: {string.strip()} study-config.json')
         print(f'\t${{DOWNLOAD}} $@')
 
     print('')
