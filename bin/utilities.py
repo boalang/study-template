@@ -131,11 +131,13 @@ def expand_replacements(replacements, query):
 def build_replacements(global_replacements, local_replacements, only_files=False):
     replacements = {}
     repls = []
+    replacement_includes_string = False
     for replacements_list in [local_replacements, global_replacements]:
         for repl in replacements_list:
             target = repl['target']
             if target not in replacements:
                 if 'replacement' in repl:
+                    replacement_includes_string = True
                     if not only_files:
                         replacements[target] = repl['replacement']
                 else:
@@ -149,6 +151,8 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                             raise FileNotFoundError(f"Snippet file '{repl['file']}' not found for substitution '{repl['target']}'.") from e
                 if target in replacements:
                     repls.append((target, replacements[target]))
+    if replacement_includes_string and only_files:
+        repls.append(('', 'study-config.json'))
     return repls
 
 def get_make_public(target):
