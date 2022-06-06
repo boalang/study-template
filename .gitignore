@@ -13,6 +13,7 @@ data/parquet/*.parquet
 data/parquet/*/*.parquet
 data/txt/*.txt
 data/txt/*/*.txt
+*.zip
 
 # Emacs Stuff
 *~
