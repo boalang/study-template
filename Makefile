@@ -36,7 +36,7 @@ Makefile.study: study-config.json bin/build-makefile.py
 #
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt study-config.json jobs.json .vscode/settings.json analyses/*.py bin/*.py boa/ figures/ tables/ data/ schemas/ $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/settings.json analyses/*.py bin/*.py boa/ data/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
 
 
 ################
