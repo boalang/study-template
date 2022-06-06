@@ -42,12 +42,14 @@ zip:
 ################
 # clean targets
 #
-.PHONY: clean clean-csv clean-pq clean-txt clean-zip clean-all
+.PHONY: clean clean-data clean-csv clean-pq clean-txt clean-zip clean-all
 
 clean:
 	rm -Rf __pycache__ bin/__pycache__
 	rm -f figures/*/*.pdf figures/*.pdf
 	rm -f tables/*/*.tex tables/*.tex
+
+clean-data: clean-csv clean-pq clean-txt
 
 clean-csv:
 	rm -f data/csv/*/*.csv data/csv/*.csv
@@ -61,4 +63,4 @@ clean-txt:
 clean-zip:
 	rm -f *.zip
 
-clean-all: clean clean-csv clean-pq clean-txt clean-zip
+clean-all: clean clean-data clean-zip
