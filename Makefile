@@ -16,6 +16,11 @@
 PYTHON:=python3
 VERBOSE:=
 
+ZIP:=zip
+ZIPOPTIONS:=-u -r
+ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
+
+
 .PHONY: all
 all: data analysis
 
@@ -29,14 +34,9 @@ Makefile.study: study-config.json bin/build-makefile.py
 ####################
 # packaging targets
 #
-ZIP:=zip
-
-ZIPOPTIONS:=-u -r
-ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*/\*.csv -x data/csv/*.csv
-
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt study-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt study-config.json jobs.json .vscode/settings.json analyses/*.py bin/*.py boa/ figures/ tables/ data/ schemas/ $(ZIPIGNORES)
 
 
 ################
