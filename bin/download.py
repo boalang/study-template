@@ -18,6 +18,7 @@
 import os
 from boaapi.status import CompilerStatus, ExecutionStatus
 from utilities import *
+from pathlib import Path
 
 def run_query(target):
     logger.info('Running query again...')
@@ -41,9 +42,9 @@ def run_query(target):
 
     update_query_data(target, job.id, sha256)
 
-    outputPath = os.path.join(TXT_ROOT, target)
-    if os.path.exists(outputPath):
-        os.unlink(outputPath)
+    outputPath = Path(TXT_ROOT, target)
+    if outputPath.exists():
+        outputPath.unlink()
 
 def download_query(target):
     logger.info(f'Downloading query output "{target}"...')
@@ -55,9 +56,9 @@ def download_query(target):
 
     job.set_public(get_make_public(target))
 
-    target = TXT_ROOT + target
-    os.makedirs(os.path.dirname(target), exist_ok=True)
-    with open(target, 'w') as fh:
+    target = Path(TXT_ROOT, target)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open(mode='w') as fh:
         fh.write(job.output())
 
 if __name__ == '__main__':
@@ -76,7 +77,9 @@ if __name__ == '__main__':
     if is_run_needed(target):
         run_query(target)
 
-    if not os.path.exists(args.target):
+    if not Path(args.target).exists():
         download_query(target)
+    else:
+        Path(args.target).touch()
 
     close_client()
