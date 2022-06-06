@@ -152,7 +152,7 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                 if target in replacements:
                     repls.append((target, replacements[target]))
     if replacement_includes_string and only_files:
-        repls.append(('', 'study-config.json'))
+        repls.append(('', STUDY_JSON))
     return repls
 
 def get_make_public(target):
