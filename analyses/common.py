@@ -76,7 +76,7 @@ def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'h
     return df4.drop(columns=['hash'])
 
 _colsepname = ''
-def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, colsep: Union[bool, str]=False, **kwargs):
+def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, thousands: str=',', colsep: Union[bool, str]=False, highlight_column_labels: bool=False, highlight_row_labels: bool=False, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
@@ -84,7 +84,9 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str], optional): the sub-directory, underneath 'tables/', to save in. Defaults to None.
         decimals (int, optional): How many decimal places for floats. Defaults to 2.
-        colsep (Union[bool, str], optional): If False, use deafult column separators.  If a string, it is the column separator units. Defaults to False.
+        thousands (str, optional): What mark should be used for thousands separator.  Defaults to ,.
+        colsep (Union[bool, str], optional): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
+        highlight_column_labels, highlight_row_labels (bool): If true, bold column/row labels respectively.  Default false.
     '''
     global _colsepname
     if not colsep is False:
@@ -93,7 +95,17 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
-        tab1 = df.to_latex(**kwargs)
+        if highlight_column_labels:
+            df.style.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
+            df.style.format_index(None, escape='latex', axis='columns')
+            df.style.hide(names=True, axis='columns')
+        if highlight_row_labels:
+            df.style.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
+            df.style.format_index(None, escape='latex', axis='index')
+            df.style.hide(names=True, axis='index')
+        df.style.format(None, precision=decimals, thousands=thousands, escape='latex')
+        tab1 = df.style.to_latex(**kwargs)
+
         #tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis="columns").format_index(lambda x: x, escape='latex', axis='columns').format(None, precision=decimals, thousands=',', escape='latex').to_latex(hrules=True, **kwargs)
 
     os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
