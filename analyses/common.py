@@ -95,16 +95,17 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
+        styler = df.style
         if highlight_column_labels:
-            df.style.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
-            df.style.format_index(None, escape='latex', axis='columns')
-            df.style.hide(names=True, axis='columns')
+            styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
+            styler = styler.format_index(None, escape='latex', axis='columns')
+            styler = styler.hide(names=True, axis='columns')
         if highlight_row_labels:
-            df.style.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
-            df.style.format_index(None, escape='latex', axis='index')
-            df.style.hide(names=True, axis='index')
-        df.style.format(None, precision=decimals, thousands=thousands, escape='latex')
-        tab1 = df.style.to_latex(**kwargs)
+            styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
+            styler = styler.format_index(None, escape='latex', axis='index')
+            styler = styler.hide(names=True, axis='index')
+        styler = styler.format(None, precision=decimals, thousands=thousands, escape='latex')
+        tab1 = styler.to_latex(**kwargs)
 
         #tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis="columns").format_index(lambda x: x, escape='latex', axis='columns').format(None, precision=decimals, thousands=',', escape='latex').to_latex(hrules=True, **kwargs)
 
