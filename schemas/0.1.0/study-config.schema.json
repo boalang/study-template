@@ -4,27 +4,6 @@
     "title": "study-config.json",
     "description": "A Boa study template configuration file.",
     "type": "object",
-    "default": {
-        "$schema": "schemas/0.1.0/study-config.schema.json",
-        "datasets": {
-            "": ""
-        },
-        "queries": {
-            ".txt": {
-                "query": "queries/.boa",
-                "dataset": "",
-                "csv": {
-                    "output": ".csv"
-                }
-            }
-        },
-        "substitutions": [
-            {
-                "target": "<<TODO>>",
-                "file": ".boa"
-            }
-          ]
-    },
     "required": [
         "datasets",
         "queries",
@@ -37,6 +16,9 @@
             "type": "object",
             "additionalProperties": false,
             "minProperties": 1,
+            "default": {
+                "": ""
+            },
             "propertyNames": {
                 "type": "string",
                 "minLength": 1
@@ -54,6 +36,15 @@
             "type": "object",
             "additionalProperties": false,
             "minProperties": 1,
+            "default": {
+                ".txt": {
+                    "query": "queries/.boa",
+                    "dataset": "",
+                    "csv": {
+                        "output": ".csv"
+                    }
+                }
+            },
             "propertyNames": {
                 "type": "string",
                 "minLength": 1
@@ -219,6 +210,12 @@
     "$defs": {
         "substitutions": {
             "type": "array",
+            "default": [
+                {
+                    "target": "<<TODO>>",
+                    "file": ".boa"
+                }
+            ],
             "items": {
                 "description": "A template substitution",
                 "type": "object",
