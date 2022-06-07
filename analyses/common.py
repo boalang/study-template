@@ -38,7 +38,7 @@ def get_df(filename: str, subdir: Optional[str]=None, **kwargs):
     try:
         df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet')
     except:
-        df = pd.read_csv(f'data/csv/{_get_dir(subdir)}{filename}.csv', header=None, index_col=False, **kwargs)
+        df = pd.read_csv(f'data/csv/{_get_dir(subdir)}{filename}.csv', index_col=False, **kwargs)
         os.makedirs(f'data/parquet/{_get_dir(subdir)}', 0o755, True)
         df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet', compression='gzip')
     return df
