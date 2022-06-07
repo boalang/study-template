@@ -1,8 +1,8 @@
 o: output collection[hash: int][proj: string] of url: string;
 
-<<escape>>
+{@escape@}
 
-<<project-filter>>
+{@project-filter@}
 visit(input, visitor {
     before cr: CodeRepository -> {
         snapshot := getsnapshot(cr, "SOURCE_");

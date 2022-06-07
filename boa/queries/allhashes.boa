@@ -1,8 +1,8 @@
 o: output collection[hash: int][proj: string][ts: int] of url: string;
 
-<<escape>>
+{@escape@}
 
-<<project-filter>>
+{@project-filter@}
 visit(input, visitor {
     before cf: ChangedFile ->
         if (!match(`^SOURCE_`, string(cf.kind)) || match(`_ERROR$`, string(cf.kind)))

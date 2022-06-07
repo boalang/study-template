@@ -242,7 +242,8 @@
                     "target": {
                         "description": "A target in the template to substitute.",
                         "type": "string",
-                        "minLength": 1
+                        "pattern": "^{@.+@}$",
+                        "minLength": 5
                     },
                     "replacement": {
                         "description": "A string to replace the target with.",

@@ -1,10 +1,10 @@
 # How many AST nodes are in each file in the latest snapshot?
 o: output collection[project: string][file: string] of int;
 
-<<escape>>
+{@escape@}
 astCount := 0;
 
-<<project-filter>>
+{@project-filter@}
 visit(input, visitor {
 	before n: CodeRepository -> {
 		snapshot := getsnapshot(n, "SOURCE_");

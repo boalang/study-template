@@ -50,11 +50,11 @@
   },
   "substitutions": [
     {
-      "target": "<<escape>>",
+      "target": "{@escape@}",
       "file": "escape.boa"
     },
     {
-      "target": "<<project-filter>>",
+      "target": "{@project-filter@}",
       "replacement": ""
     }
   ],
