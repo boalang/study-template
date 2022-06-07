@@ -219,7 +219,7 @@
     "$defs": {
         "substitutions": {
             "type": "array",
-            "substitution": {
+            "items": {
                 "description": "A template substitution",
                 "type": "object",
                 "required": [
