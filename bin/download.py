@@ -80,9 +80,11 @@ if __name__ == '__main__':
     if is_run_needed(target):
         run_query(target)
 
-    if not Path(args.target).exists():
+    target_path = Path(args.target)
+
+    if not target_path.exists():
         download_query(target)
     else:
-        Path(args.target).touch()
+        target_path.touch()
 
     close_client()
