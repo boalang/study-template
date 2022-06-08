@@ -60,9 +60,10 @@ def download_query(target):
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open(mode='w') as fh:
         fh.write(job.output())
-    if target.stat().st_size != job.output_size():
+    if target.stat().st_size != int(job.output_size()):
         logger.warning(f"Downloaded output of {target} is {target.stat().st_size}, should be {job.output_size()}, deleting.")
         target.unlink()
+        exit(23)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
