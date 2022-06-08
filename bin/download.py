@@ -60,6 +60,8 @@ def download_query(target):
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open(mode='w') as fh:
         fh.write(job.output())
+    if target.stat().st_size != job.output_size():
+        target.unlink()
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
