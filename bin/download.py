@@ -61,7 +61,7 @@ def download_query(target):
     with target.open(mode='w') as fh:
         fh.write(job.output())
     if target.stat().st_size != job.output_size():
-        raise Error(f"Output {target} is of incorrect size, deleting.")
+        logger.warning(f"Downloaded output of {target} is {target.stat().st_size}, should be {job.output_size()}, deleting.")
         target.unlink()
 
 if __name__ == '__main__':
