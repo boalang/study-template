@@ -40,7 +40,7 @@ def run_query(target):
         logger.error(f'See url: {job.get_url()}')
         exit(22)
 
-    update_query_data(target, job.id, sha256)
+    update_query_data(target, job.id, sha256, job.output_size())
 
     outputPath = Path(TXT_ROOT, target)
     if outputPath.exists():
@@ -61,6 +61,7 @@ def download_query(target):
     with target.open(mode='w') as fh:
         fh.write(job.output())
     if target.stat().st_size != job.output_size():
+        raise Error(f"Output {target} is of incorrect size, deleting.")
         target.unlink()
 
 if __name__ == '__main__':
