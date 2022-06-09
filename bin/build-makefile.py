@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         print(f'.PHONY: {clean_target}')
         print(f'{clean_target}:')
-        print(f'\t$(RM) $({clean_target}) ')
+        print(f'\t$(RM) {target} $({clean_target}) ')
 
     print('')
     print('.PHONY: txt csv')
