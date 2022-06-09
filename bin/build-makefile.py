@@ -94,8 +94,8 @@ if __name__ == '__main__':
                 print(f'{target_var} += {PQ_ROOT}$**/*-deduped.parquet')
                 print(f'{dupes_csv}: {dupes_txt}')
                 print('\t$(PYTHON) $(BOATOCSV) $< > $@')
-                print(f'\t@rm -f {PQ_ROOT}$**/dupes.parquet')
-                print(f'\t@rm -f {PQ_ROOT}$**/*-deduped.parquet')
+                print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
+                print(f'\t@$(RM) {PQ_ROOT}$**/*-deduped.parquet')
 
         print('')
         string = f'boa/{query_info["query"]} '
