@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
         print('')
         print(f'# Make targets for {target}')
-        print(f'{clean_target} := ')
+        print(f'{clean_target} := {clean_target}')
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         print(f'.PHONY: {clean_target}')
         print(f'{clean_target}:')
-        print(f'\t$(RM) {target} $({clean_target}) ')
+        print(f'\t$(RM) $({clean_target}) ')
 
     print('')
     print('.PHONY: txt csv')
