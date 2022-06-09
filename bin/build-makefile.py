@@ -42,6 +42,7 @@ if __name__ == '__main__':
 
         clean_target = f'clean-{target}'
 
+        print('')
         print(f'# Make targets for {target}')
         print(f'{clean_target} := ')
 
