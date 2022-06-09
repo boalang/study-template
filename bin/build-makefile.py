@@ -103,6 +103,7 @@ if __name__ == '__main__':
         print(f'\t${{DOWNLOAD}} $@')
         print('')
 
+        print(f'.PHONY: {target_to_clean(target)}')
         print(f'{target_to_clean(target)}:')
         print(f'\t$(RM) $({target_var}) ')
 
