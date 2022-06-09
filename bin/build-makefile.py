@@ -18,9 +18,6 @@
 from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
 import re
 
-def target_to_clean(target):
-    return f"clean-{target}"
-
 if __name__ == '__main__':
     configuration = get_query_config()
 
@@ -44,7 +41,7 @@ if __name__ == '__main__':
         target = TXT_ROOT + target
         txt.append(target)
 
-        clean_target = target_to_clean(target)
+        clean_target = f'clean-{target}'
 
         print(f'# Make targets for {target}')
         print(f'{clean_target} := ')
@@ -108,8 +105,8 @@ if __name__ == '__main__':
         print('\t$(PYTHON) $(DOWNLOAD) $@')
         print('')
 
-        print(f'.PHONY: {target_to_clean(target)}')
-        print(f'{target_to_clean(target)}:')
+        print(f'.PHONY: {clean_target}')
+        print(f'{clean_target}:')
         print(f'\t$(RM) $({clean_target}) ')
 
     print('')
