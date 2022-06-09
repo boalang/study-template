@@ -15,7 +15,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from utilities import get_query_config, build_replacements, target_to_var, target_to_clean, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
+from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
+import re
+
+def target_to_var(target):
+    return re.sub(r'[/\-\.]', '_', target).upper()
+
+def target_to_clean(target):
+    return f"clean-{target}"
 
 if __name__ == '__main__':
     configuration = get_query_config()

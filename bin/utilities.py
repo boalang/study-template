@@ -195,9 +195,3 @@ def is_run_needed(target):
     oldhash = query_data[target]['sha256']
     _, newhash = prepare_query(target)
     return oldhash != newhash
-
-def target_to_var(target):
-    return re.sub(r'[/\-\.]', '_', target).upper()
-
-def target_to_clean(target):
-    return f"clean-{target}"
