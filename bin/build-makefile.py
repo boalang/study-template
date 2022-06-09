@@ -49,10 +49,11 @@ if __name__ == '__main__':
             csv_output = CSV_ROOT + csv_info['output']
             csv.append(csv_output)
 
+            filename = csv_info['output'][:-4]
             print('')
             print(f'{target_var} += {csv_output}')
-            print(f'{target_var} += data/parquet/{csv_info["output"][:-4]}.parquet')
-            print(f'{target_var} += data/parquet/{csv_info["output"][:-4]}-deduped.parquet')
+            print(f'{target_var} += {PQ_ROOT}{filename}.parquet')
+            print(f'{target_var} += {PQ_ROOT}{filename}-deduped.parquet')
             print(f'{csv_output}: {target}')
             print(f'\t@mkdir -p $(dir $@)')
             string = '\t$(PYTHON) $(BOATOCSV)'
@@ -68,9 +69,8 @@ if __name__ == '__main__':
                 string += f' --numidx {int(csv_info["index"])}'
             string += ' $< > $@'
             print(string)
-            filename = csv_info['output'][:-4]
-            print('\t@rm -f data/parquet/' + filename + '.parquet')
-            print('\t@rm -f data/parquet/' + filename + '-deduped.parquet')
+            print(f'\t@$(RM) {PQ_ROOT}{filename}.parquet')
+            print(f'\t@$(RM) {PQ_ROOT}{filename}-deduped.parquet')
 
         if 'gendupes' in query_info and 'output' in query_info['gendupes']:
             dupes_info = query_info['gendupes']
