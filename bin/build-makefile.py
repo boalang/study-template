@@ -18,9 +18,6 @@
 from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
 import re
 
-def target_to_var(target):
-    return re.sub(r'[/\-\.]', '_', target).upper()
-
 def target_to_clean(target):
     return f"clean-{target}"
 
@@ -47,10 +44,10 @@ if __name__ == '__main__':
         target = TXT_ROOT + target
         txt.append(target)
 
-        target_var = target_to_var(target)
+        clean_target = target_to_clean(target)
 
         print(f'# Make targets for {target}')
-        print(f'{target_var} := ')
+        print(f'{clean_target} := ')
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
@@ -59,9 +56,9 @@ if __name__ == '__main__':
 
             filename = csv_info['output'][:-4]
             print('')
-            print(f'{target_var} += {csv_output}')
-            print(f'{target_var} += {PQ_ROOT}{filename}.parquet')
-            print(f'{target_var} += {PQ_ROOT}{filename}-deduped.parquet')
+            print(f'{clean_target} += {csv_output}')
+            print(f'{clean_target} += {PQ_ROOT}{filename}.parquet')
+            print(f'{clean_target} += {PQ_ROOT}{filename}-deduped.parquet')
             print(f'{csv_output}: {target}')
             print(f'\t@$(MKDIR) $(dir $@)')
             string = '\t$(PYTHON) $(BOATOCSV)'
@@ -86,7 +83,7 @@ if __name__ == '__main__':
             txt.append(dupes_txt)
 
             print('')
-            print(f'{target_var} += {dupes_txt}')
+            print(f'{clean_target} += {dupes_txt}')
             print(f'{dupes_txt}: {target} $(word 1, $(GENDUPES))')
             print(f'\t@$(MKDIR) $(dir $@)')
             print('\t$(PYTHON) $(GENDUPES) $< > $@')
@@ -96,9 +93,9 @@ if __name__ == '__main__':
                 csv.append(dupes_csv)
 
                 print('')
-                print(f'{target_var} += {dupes_csv}')
-                print(f'{target_var} += {PQ_ROOT}$**/dupes.parquet')
-                print(f'{target_var} += {PQ_ROOT}$**/*-deduped.parquet')
+                print(f'{clean_target} += {dupes_csv}')
+                print(f'{clean_target} += {PQ_ROOT}$**/dupes.parquet')
+                print(f'{clean_target} += {PQ_ROOT}$**/*-deduped.parquet')
                 print(f'{dupes_csv}: {dupes_txt}')
                 print('\t$(PYTHON) $(BOATOCSV) $< > $@')
                 print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
@@ -113,7 +110,7 @@ if __name__ == '__main__':
 
         print(f'.PHONY: {target_to_clean(target)}')
         print(f'{target_to_clean(target)}:')
-        print(f'\t$(RM) $({target_var}) ')
+        print(f'\t$(RM) $({clean_target}) ')
 
     print('')
     print('.PHONY: txt csv')
