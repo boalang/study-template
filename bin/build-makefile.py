@@ -93,7 +93,6 @@ if __name__ == '__main__':
         print(f'{target}: {string.strip()}')
         print(f'\t${{DOWNLOAD}} $@')
         print('')
-        direct_children = ' '.join([ csv_output, dupes_output, dupes_csv ])
 
         target_var = target_to_var(target)
         print(f'{target_var} := ')
