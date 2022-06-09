@@ -57,7 +57,7 @@ if __name__ == '__main__':
             print(f'{clean_target} += {PQ_ROOT}{filename}.parquet')
             print(f'{clean_target} += {PQ_ROOT}{filename}-deduped.parquet')
             print(f'{csv_output}: {target}')
-            print(f'\t@$(MKDIR) $(dir $@)')
+            print('\t@$(MKDIR) $(dir $@)')
             string = '\t$(PYTHON) $(BOATOCSV)'
             if 'test' in csv_info:
                 for test in csv_info['test']:
@@ -82,7 +82,7 @@ if __name__ == '__main__':
             print('')
             print(f'{clean_target} += {dupes_txt}')
             print(f'{dupes_txt}: {target} $(word 1, $(GENDUPES))')
-            print(f'\t@$(MKDIR) $(dir $@)')
+            print('\t@$(MKDIR) $(dir $@)')
             print('\t$(PYTHON) $(GENDUPES) $< > $@')
 
             if 'csv' in dupes_info:
