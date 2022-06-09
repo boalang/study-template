@@ -22,9 +22,9 @@ if __name__ == '__main__':
 
     print('# DO NOT EDIT')
     print('# this file was automatically generated')
-    print('DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)')
-    print('BOATOCSV:=$(PYTHON) bin/boa-to-csv.py')
-    print('GENDUPES:=$(PYTHON) bin/gendupes.py')
+    print('DOWNLOAD:=bin/download.py $(VERBOSE)')
+    print('BOATOCSV:=bin/boa-to-csv.py')
+    print('GENDUPES:=bin/gendupes.py')
     print('')
 
     print('.PHONY: data')
@@ -47,7 +47,7 @@ if __name__ == '__main__':
             print('')
             print(f'{csv_output}: {target}')
             print(f'\t@mkdir -p $(dir $@)')
-            string = '\t${BOATOCSV}'
+            string = '\t$(PYTHON) $(BOATOCSV)'
             if 'test' in csv_info:
                 for test in csv_info['test']:
                     string += ' -t "' + test.replace('$', '$$') + '"'
@@ -70,9 +70,9 @@ if __name__ == '__main__':
             txt.append(dupes_txt)
 
             print('')
-            print(f'{dupes_txt}: {target} bin/gendupes.py')
+            print(f'{dupes_txt}: {target} $(word 1, $(GENDUPES))')
             print(f'\t@mkdir -p $(dir $@)')
-            print('\t${GENDUPES} $< > $@')
+            print('\t$(PYTHON) $(GENDUPES) $< > $@')
 
             if 'csv' in dupes_info:
                 dupes_csv  = CSV_ROOT + dupes_info['csv']
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
                 print('')
                 print(f'{dupes_csv}: {dupes_txt}')
-                print('\t$(BOATOCSV) $< > $@')
+                print('\t$(PYTHON) $(BOATOCSV) $< > $@')
                 print(f'\t@rm -f {PQ_ROOT}$**/dupes.parquet')
                 print(f'\t@rm -f {PQ_ROOT}$**/*-deduped.parquet')
 
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         string = f'boa/{query_info["query"]} '
         string += ' '.join(substitution_files)
         print(f'{target}: {string.strip()}')
-        print(f'\t${{DOWNLOAD}} $@')
+        print('\t$(PYTHON) $(DOWNLOAD) $@')
 
     print('')
     print('.PHONY: txt csv')
