@@ -113,7 +113,8 @@ def update_query_data(target, job_id, sha256):
     old_job_data = get_query_data()
     old_job_data[target] = { 'job': int(job_id), 'sha256': sha256 }
     job_data = old_job_data
-    os.chmod(JOBS_JSON, 0o644)
+    if os.path.exists(JOBS_JSON):
+        os.chmod(JOBS_JSON, 0o644)
     with open(JOBS_JSON, 'w') as fh:
         json.dump(job_data, fh, indent = 2)
     os.chmod(JOBS_JSON, 0o444)
