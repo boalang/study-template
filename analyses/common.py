@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
-from typing import Optional, Union
+from typing import Optional, Union, List
 import pandas as pd
 
 __all__ = ["get_df", "get_deduped_df", "save_table"]
@@ -25,7 +25,7 @@ def _get_dir(subdir: Optional[str]):
         return ''
     return subdir + '/'
 
-def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[list[int], bool]]=None, **kwargs):
+def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[List[int], bool]]=None, **kwargs):
     '''Loads a CSV file into a DataFrame.
 
     Args:
