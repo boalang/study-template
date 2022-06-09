@@ -63,7 +63,6 @@ def download_query(target):
     if target.stat().st_size != int(job.output_size()):
         logger.warning(f"Downloaded output of {target} is {target.stat().st_size}, should be {job.output_size()}, deleting.")
         target.unlink()
-        exit(23)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
