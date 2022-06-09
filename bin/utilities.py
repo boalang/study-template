@@ -197,7 +197,7 @@ def is_run_needed(target):
     return oldhash != newhash
 
 def target_to_var(target):
-    return re.sub(target, r'[-/\.]', '_').upper()
+    return re.sub(r'[/\-\.]', '_', target).upper()
 
 def target_to_clean(target):
     return f"clean-{target}"
