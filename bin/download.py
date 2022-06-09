@@ -40,7 +40,7 @@ def run_query(target):
         logger.error(f'See url: {job.get_url()}')
         exit(22)
 
-    update_query_data(target, job.id, sha256, job.output_size())
+    update_query_data(target, job.id, sha256)
 
     outputPath = Path(TXT_ROOT, target)
     if outputPath.exists():
