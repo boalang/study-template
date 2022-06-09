@@ -15,7 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
+from utilities import get_query_config, build_replacements, target_to_var, target_to_clean, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
 
 if __name__ == '__main__':
     configuration = get_query_config()
@@ -38,6 +38,9 @@ if __name__ == '__main__':
         substitution_files = [x for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files = True)]
         target = TXT_ROOT + target
         txt.append(target)
+        csv_output = None
+        dupes_output = None
+        dupes_csv = None
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
@@ -89,6 +92,20 @@ if __name__ == '__main__':
         string += ' '.join(substitution_files)
         print(f'{target}: {string.strip()}')
         print(f'\t${{DOWNLOAD}} $@')
+        print('')
+        direct_children = ' '.join([ csv_output, dupes_output, dupes_csv ])
+
+        target_var = target_to_var(target)
+        print(f'{target_var} := ')
+        if csv_output:
+            print(f'{target_var} += {csv_output}')
+        if dupes_output:
+            print(f'{target_var} += {dupes_output}')
+        if dupes_csv:
+            print(f'{target_var} += {dupes_csv}')
+        print(f'.PHONY: {target_to_clean(target)}')
+        print(f'{target_to_clean(target)}:')
+        print(f'\t$(RM) $({target_var}) ')
 
     print('')
     print('.PHONY: txt csv')

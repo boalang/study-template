@@ -17,6 +17,7 @@
 import json
 import logging
 import sys
+import re
 
 STUDY_JSON = 'study-config.json'
 JOBS_JSON = 'jobs.json'
@@ -117,7 +118,6 @@ def update_query_data(target, job_id, sha256):
 
 def expand_replacements(replacements, query):
     if len(replacements) > 0:
-        import re
         has_replaced = True
         while has_replaced:
             has_replaced = False
@@ -195,3 +195,9 @@ def is_run_needed(target):
     oldhash = query_data[target]['sha256']
     _, newhash = prepare_query(target)
     return oldhash != newhash
+
+def target_to_var(target):
+    return re.sub(target, r'[-/\.]', '_').upper()
+
+def target_to_clean(target):
+    return f"clean-{target}"
