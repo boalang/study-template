@@ -38,9 +38,11 @@ if __name__ == '__main__':
         substitution_files = [x for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files = True)]
         target = TXT_ROOT + target
         txt.append(target)
-        csv_output = None
-        dupes_output = None
-        dupes_csv = None
+
+        target_var = target_to_var(target)
+
+        print(f'# Make targets for {target}')
+        print(f'{target_var} := ')
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
@@ -48,6 +50,9 @@ if __name__ == '__main__':
             csv.append(csv_output)
 
             print('')
+            print(f'{target_var} += {csv_output}')
+            print(f'{target_var} += data/parquet/{csv_info["output"][:-4]}.parquet')
+            print(f'{target_var} += data/parquet/{csv_info["output"][:-4]}-deduped.parquet')
             print(f'{csv_output}: {target}')
             print(f'\t@mkdir -p $(dir $@)')
             string = '\t${BOATOCSV}'
@@ -73,6 +78,7 @@ if __name__ == '__main__':
             txt.append(dupes_txt)
 
             print('')
+            print(f'{target_var} += {dupes_txt}')
             print(f'{dupes_txt}: {target} bin/gendupes.py')
             print(f'\t@mkdir -p $(dir $@)')
             print('\t${GENDUPES} $< > $@')
@@ -82,6 +88,9 @@ if __name__ == '__main__':
                 csv.append(dupes_csv)
 
                 print('')
+                print(f'{target_var} += {dupes_csv}')
+                print(f'{target_var} += {PQ_ROOT}$**/dupes.parquet')
+                print(f'{target_var} += {PQ_ROOT}$**/*-deduped.parquet')
                 print(f'{dupes_csv}: {dupes_txt}')
                 print('\t$(BOATOCSV) $< > $@')
                 print(f'\t@rm -f {PQ_ROOT}$**/dupes.parquet')
@@ -94,15 +103,6 @@ if __name__ == '__main__':
         print(f'\t${{DOWNLOAD}} $@')
         print('')
 
-        target_var = target_to_var(target)
-        print(f'{target_var} := ')
-        if csv_output:
-            print(f'{target_var} += {csv_output}')
-        if dupes_output:
-            print(f'{target_var} += {dupes_output}')
-        if dupes_csv:
-            print(f'{target_var} += {dupes_csv}')
-        print(f'.PHONY: {target_to_clean(target)}')
         print(f'{target_to_clean(target)}:')
         print(f'\t$(RM) $({target_var}) ')
 
