@@ -25,6 +25,7 @@ if __name__ == '__main__':
     print('DOWNLOAD:=bin/download.py $(VERBOSE)')
     print('BOATOCSV:=bin/boa-to-csv.py')
     print('GENDUPES:=bin/gendupes.py')
+    print('MKDIR:=mkdir -p')
     print('')
 
     print('.PHONY: data')
@@ -55,7 +56,7 @@ if __name__ == '__main__':
             print(f'{target_var} += {PQ_ROOT}{filename}.parquet')
             print(f'{target_var} += {PQ_ROOT}{filename}-deduped.parquet')
             print(f'{csv_output}: {target}')
-            print(f'\t@mkdir -p $(dir $@)')
+            print(f'\t@$(MKDIR) $(dir $@)')
             string = '\t$(PYTHON) $(BOATOCSV)'
             if 'test' in csv_info:
                 for test in csv_info['test']:
@@ -80,7 +81,7 @@ if __name__ == '__main__':
             print('')
             print(f'{target_var} += {dupes_txt}')
             print(f'{dupes_txt}: {target} $(word 1, $(GENDUPES))')
-            print(f'\t@mkdir -p $(dir $@)')
+            print(f'\t@$(MKDIR) $(dir $@)')
             print('\t$(PYTHON) $(GENDUPES) $< > $@')
 
             if 'csv' in dupes_info:
