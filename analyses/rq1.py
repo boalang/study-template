@@ -19,4 +19,4 @@ from common import *
 
 if __name__ == '__main__':
     df = get_deduped_df('rq1', 'kotlin', names=['var', 'project', 'file', 'astcount'])
-    save_table(df.describe(), 'rq1.tex', 'kotlin')
+    save_table(df['astcount'].describe(), 'rq1.tex', 'kotlin')
