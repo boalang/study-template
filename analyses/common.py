@@ -19,7 +19,13 @@ import sys
 import pandas as pd
 from typing import Optional, Union, List
 
-__all__ = ["get_df", "get_deduped_df", "save_table"]
+__all__ = [
+    "get_df",
+    "get_deduped_df",
+    "save_table",
+    "highlight_cols",
+    "highlight_rows",
+    ]
 
 def _get_dir(subdir: Optional[str]):
     if subdir is None:
@@ -76,8 +82,18 @@ def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'h
     df4 = df3[pd.isnull(df3['hash'])]
     return df4.drop(columns=['hash'])
 
+def highlight_cols(styler):
+    styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
+    styler = styler.format_index(None, escape='latex', axis='columns')
+    return styler.hide(names=True, axis='columns')
+   
+def highlight_rows(styler):
+    styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
+    styler = styler.format_index(None, escape='latex', axis='index')
+    return styler.hide(names=True, axis='index')
+
 _colsepname = ''
-def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, thousands: str=',', colsep: Union[bool, str]=False, highlight_column_labels: bool=False, highlight_row_labels: bool=False, **kwargs):
+def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, decimals=2, thousands: str=',', colsep: Union[bool, str]=False, styler=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
@@ -95,20 +111,12 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
 
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
+    if not styler:
+        styler = df.styler
+
     with pd.option_context("max_colwidth", 1000):
-        styler = df.style
-        if highlight_column_labels:
-            styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
-            styler = styler.format_index(None, escape='latex', axis='columns')
-            styler = styler.hide(names=True, axis='columns')
-        if highlight_row_labels:
-            styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
-            styler = styler.format_index(None, escape='latex', axis='index')
-            styler = styler.hide(names=True, axis='index')
         styler = styler.format(None, precision=decimals, thousands=thousands, escape='latex')
         tab1 = styler.to_latex(**kwargs)
-
-        #tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis="columns").format_index(lambda x: x, escape='latex', axis='columns').format(None, precision=decimals, thousands=',', escape='latex').to_latex(hrules=True, **kwargs)
 
     os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
     with open(f'tables/{_get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:
