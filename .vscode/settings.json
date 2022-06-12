@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "*.study": "makefile"
+        "**/Makefile.study": "makefile"
     },
     "files.exclude": {
         "**/.gitkeep": true,
