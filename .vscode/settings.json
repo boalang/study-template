@@ -1,5 +1,14 @@
 {
     "files.associations": {
-       "*.study": "makefile"
+        "*.study": "makefile"
+    },
+    "files.exclude": {
+        "**/.gitkeep": true,
+        "**/__pycache__": true
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "study-config.json": "jobs.json, Makefile, Makefile.study"
     }
 }
