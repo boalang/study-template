@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # coding: utf-8
 
 # Copyright 2022, Robert Dyer,
@@ -15,13 +14,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from typing import Optional
 
-from common.df import get_deduped_df
-from common.tables import get_styler, highlight_cols, highlight_rows, save_table
-
-if __name__ == '__main__':
-    df = get_deduped_df('rq1', 'kotlin', names=['var', 'project', 'file', 'astcount'])
-    df = df['astcount'].describe()
-
-    style = highlight_rows(highlight_cols(get_styler(df)))
-    save_table(style, 'rq1.tex', 'kotlin')
+def _get_dir(subdir: Optional[str]):
+    if subdir is None:
+        return ''
+    return subdir + '/'
