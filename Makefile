@@ -46,19 +46,19 @@ zip:
 
 clean:
 	rm -Rf __pycache__ bin/__pycache__
-	rm -f figures/*/*.pdf figures/*.pdf
-	rm -f tables/*/*.tex tables/*.tex
+	rm -f figures/**/*.pdf figures/*.pdf
+	rm -f tables/**/*.tex tables/*.tex
 
 clean-data: clean-csv clean-pq clean-txt
 
 clean-csv:
-	rm -f data/csv/*/*.csv data/csv/*.csv
+	rm -f data/csv/**/*.csv data/csv/*.csv
 
 clean-pq:
-	rm -f data/parquet/*/*.parquet data/parquet/*.parquet
+	rm -f data/parquet/**/*.parquet data/parquet/*.parquet
 
 clean-txt:
-	rm -f data/txt/*/*.txt data/txt/*.txt
+	rm -f data/txt/**/*.txt data/txt/*.txt
 
 clean-zip:
 	rm -f *.zip
