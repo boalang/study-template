@@ -90,12 +90,10 @@ def get_styler(df):
 
 def highlight_cols(styler):
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
-    styler = styler.format_index(None, escape='latex', axis='columns')
     return styler.hide(names=True, axis='columns')
 
 def highlight_rows(styler):
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
-    styler = styler.format_index(None, escape='latex', axis='index')
     return styler.hide(names=True, axis='index')
 
 _colsepname = ''
@@ -115,6 +113,8 @@ def save_table(styler, filename: str, subdir: Optional[str]=None, decimals: Opti
         _colsepname = _colsepname + 'A'
 
     with pd.option_context("max_colwidth", 1000):
+        styler = styler.format_index(None, escape='latex', axis='columns')
+        styler = styler.format_index(None, escape='latex', axis='index')
         tab1 = styler.format(None, precision=decimals, thousands=thousands, escape='latex').to_latex(**kwargs)
 
     os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
