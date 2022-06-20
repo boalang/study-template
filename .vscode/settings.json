@@ -1,8 +1,4 @@
 {
-    "recommendations": [
-        "Boa.boalang",
-        "ms-python.python"
-    ],
     "files.associations": {
         "**/Makefile.study": "makefile"
     },
