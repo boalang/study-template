@@ -237,9 +237,9 @@
                 "additionalProperties": false,
                 "properties": {
                     "target": {
-                        "description": "A target in the template to substitute.",
+                        "description": "A target in the template to substitute.  Targets can contain alpha-numeric characters, or the following special characters: .-_:",
                         "type": "string",
-                        "pattern": "^{@.+@}$",
+                        "pattern": "^{@[-a-zA-Z0-9_.:]+@}$",
                         "minLength": 5
                     },
                     "replacement": {
