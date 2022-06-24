@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
         print('')
         print(f'# Make targets for {target}')
-        print(f'{clean_target} := {clean_target}')
+        print(f'{clean_target} := {target}')
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
