@@ -18,7 +18,7 @@ import os
 import pandas as pd
 from typing import Optional, Union, List
 
-from .utils import _get_dir
+from .utils import _resolve_dir, _get_dir
 
 __all__ = [
     "get_df",
@@ -36,11 +36,11 @@ def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[Lis
         pd.DataFrame: the CSV file as a Pandas DataFrame
     '''
     try:
-        df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet')
+        df = pd.read_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'))
     except:
-        df = pd.read_csv(f'data/csv/{_get_dir(subdir)}{filename}.csv', index_col=False, header=header, **kwargs)
-        os.makedirs(f'data/parquet/{_get_dir(subdir)}', 0o755, True)
-        df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}.parquet', compression='gzip')
+        df = pd.read_csv(_resolve_dir(f'data/csv/{_get_dir(subdir)}{filename}.csv'), index_col=False, header=header, **kwargs)
+        os.makedirs(_resolve_dir(f'data/parquet/{_get_dir(subdir)}'), 0o755, True)
+        df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'), compression='gzip')
     return df
 
 def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs):
@@ -56,14 +56,14 @@ def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs
         pd.DataFrame: the CSV file as a Pandas DataFrame
     '''
     try:
-        df = pd.read_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet')
+        df = pd.read_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'))
     except:
         if ts:
             df = _remove_dupes(get_df(filename, subdir, **kwargs), subdir, names=['var', 'hash', 'project', 'ts', 'file'])
         else:
             df = _remove_dupes(get_df(filename, subdir, **kwargs), subdir)
-        os.makedirs(f'data/parquet/{_get_dir(subdir)}', 0o755, True)
-        df.to_parquet(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet', compression='gzip')
+        os.makedirs(_resolve_dir(f'data/parquet/{_get_dir(subdir)}'), 0o755, True)
+        df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'), compression='gzip')
     return df
 
 def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'hash', 'project', 'file']):

@@ -14,7 +14,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
 from typing import Optional
+
+def _resolve_dir(dir: str):
+    curdir = os.getcwd()
+    if curdir.endswith('/analyses'):
+        return '../' + dir
+    return dir
 
 def _get_dir(subdir: Optional[str]):
     if subdir is None:
