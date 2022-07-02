@@ -55,7 +55,7 @@
     },
     {
       "target": "{@project-filter@}",
-      "replacement": ""
+      "replacement": "if (input.stars >= 5)"
     }
   ],
   "analyses": {
