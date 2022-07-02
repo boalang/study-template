@@ -13,13 +13,13 @@ visit(input, visitor {
 		stop;
 	}
 
-    before cf: ChangedFile -> {
-        if (match(`_ERROR$`, string(cf.kind)))
-            stop;
-        astCount = 0;
-    }
-    after  cf: ChangedFile ->
-        o[input.id][escape(cf.name)] << astCount;
+	before cf: ChangedFile -> {
+		if (match(`_ERROR$`, string(cf.kind)))
+			stop;
+		astCount = 0;
+	}
+	after  cf: ChangedFile ->
+		o[input.id][escape(cf.name)] << astCount;
 
 	# by default, count all visited nodes
 	before _ -> astCount++;
