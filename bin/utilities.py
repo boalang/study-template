@@ -79,7 +79,8 @@ def get_client():
 
 def close_client():
     global client
-    client.close()
+    if client:
+        client.close()
     client = None
 
 config = None
