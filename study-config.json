@@ -1,5 +1,5 @@
 {
-  "$schema": "schemas/0.1.0/study-config.schema.json",
+  "$schema": "schemas/0.1.1/study-config.schema.json",
   "datasets": {
     "kotlin": "2021 Aug/Kotlin",
     "python": "2021 Aug/Python",
@@ -30,6 +30,7 @@
     "kotlin/project-count.txt": {
       "query": "queries/project-count.boa",
       "dataset": "kotlin",
+      "public": false,
       "csv": {
         "output": "kotlin/project-count.csv",
         "drop": [

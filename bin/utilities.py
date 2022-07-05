@@ -165,7 +165,7 @@ def build_replacements(global_replacements, local_replacements, only_files=False
 def get_make_public(target):
     config = get_query_config()
     try:
-        return config['queries'][target]['make_public']
+        return config['queries'][target]['public']
     except:
         return True
 

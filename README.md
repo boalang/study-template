@@ -116,7 +116,7 @@ can point to any path under that folder) and the name of a dataset defined
 earlier.
 
 If for some reason you don't want the Boa job to be marked public, you can set
-the `make_public` key to `false`.  By default, all submitted jobs will be marked
+the `public` key to `false`.  By default, all submitted jobs will be marked
 public after submission.
 
 A query can also indicate if it should be converted to CSV format.  Most
