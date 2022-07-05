@@ -30,7 +30,6 @@
     "kotlin/project-count.txt": {
       "query": "queries/project-count.boa",
       "dataset": "kotlin",
-      "public": false,
       "csv": {
         "output": "kotlin/project-count.csv",
         "drop": [
