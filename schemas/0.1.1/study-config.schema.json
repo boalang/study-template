@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "/schemas/0.1.0/study-config",
+    "$id": "/schemas/0.1.1/study-config",
     "title": "study-config.json",
     "description": "A Boa study template configuration file.",
     "type": "object",
