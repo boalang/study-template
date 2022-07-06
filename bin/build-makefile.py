@@ -126,7 +126,7 @@ if __name__ == '__main__':
         inputs = [CSV_ROOT + x for x in inputs]
 
         print('')
-        print(f'{target}: data {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
+        print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
         print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
 
     if len(analyses) > 0:
