@@ -94,6 +94,7 @@ if __name__ == '__main__':
                 print(f'{clean_target} += {PQ_ROOT}$**/dupes.parquet')
                 print(f'{clean_target} += {PQ_ROOT}$**/*-deduped.parquet')
                 print(f'{dupes_csv}: {dupes_txt}')
+                print('\t@$(MKDIR) $(dir $@)')
                 print('\t$(PYTHON) $(BOATOCSV) $< > $@')
                 print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
                 print(f'\t@$(RM) {PQ_ROOT}$**/*-deduped.parquet')
