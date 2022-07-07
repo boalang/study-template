@@ -33,7 +33,8 @@ def run_query(target):
 
     if job.compiler_status is CompilerStatus.ERROR:
         logger.error(f'Job {job.id} had a compilation error.')
-        logger.error(job.get_compiler_errors())
+        for error in job.get_compiler_errors():
+            logger.error(error)
         exit(21)
     if job.exec_status is ExecutionStatus.ERROR:
         logger.error(f'Job {job.id} had an execution error.')
