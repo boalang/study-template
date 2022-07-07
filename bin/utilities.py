@@ -34,6 +34,8 @@ PQ_ROOT = DATA_ROOT + 'parquet/'
 
 ANALYSIS_ROOT = 'analyses/'
 
+ADMIN_PREFIX = '[admin] '
+
 logger = logging.getLogger('boa.logger')
 logger.addHandler(logging.StreamHandler(sys.stderr))
 
@@ -175,7 +177,10 @@ def get_dataset(target):
 
     if dataset_name in config['datasets']:
         client = get_client()
-        return client.get_dataset(config['datasets'][dataset_name])
+        ds = client.get_dataset(config['datasets'][dataset_name])
+        if ds is None:
+            ds = client.get_dataset(ADMIN_PREFIX + config['datasets'][dataset_name])
+        return ds
 
     logger.critical(f'Dataset named "{dataset_name}" is not known.')
     exit(20)
