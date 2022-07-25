@@ -196,6 +196,13 @@
                                 "pattern": "^.+\\.csv$",
                                 "minLength": 1
                             }
+                        },
+                        "disabled": {
+                            "input": {
+                                "description": "(Optional) Is this analysis disabled?",
+                                "type": "boolean",
+                                "default": false
+                            }
                         }
                     }
                 }
