@@ -198,11 +198,9 @@
                             }
                         },
                         "disabled": {
-                            "input": {
-                                "description": "(Optional) Is this analysis disabled?",
-                                "type": "boolean",
-                                "default": false
-                            }
+                            "description": "(optional) If this analysis is disabled.",
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 }

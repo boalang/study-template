@@ -124,7 +124,7 @@ if __name__ == '__main__':
     for script in configuration['analyses']:
         script = escape(script)
         target = script.split('.')[0]
-        if 'disabled' not in configuration['analyses'][script].keys() or not configuration['analyses'][script]['disabled']:
+        if 'disabled' not in configuration['analyses'][script] or not configuration['analyses'][script]['disabled']:
             analyses.append(target)
 
         inputs = configuration['analyses'][script]['input']
