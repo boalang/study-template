@@ -124,7 +124,8 @@ if __name__ == '__main__':
     for script in configuration['analyses']:
         script = escape(script)
         target = script.split('.')[0]
-        analyses.append(target)
+        if 'disabled' not in configuration['analyses'][script] or not configuration['analyses'][script]['disabled']:
+            analyses.append(target)
 
         inputs = configuration['analyses'][script]['input']
         inputs = [CSV_ROOT + escape(x) for x in inputs]
