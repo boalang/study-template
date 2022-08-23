@@ -16,7 +16,7 @@
 # limitations under the License.
 import os
 import pandas as pd
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Callable
 
 from .utils import _resolve_dir, _get_dir
 
@@ -25,12 +25,13 @@ __all__ = [
     "get_deduped_df",
     ]
 
-def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[List[int], bool]]=None, **kwargs):
+def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[List[int], bool, str]]=None, precache_function: Optional[Callable[[pd.DataFrame], pd.DataFrame]]=None, **kwargs):
     '''Loads a CSV file into a DataFrame.
 
     Args:
         filename (str): the CSV file to load, without the '.csv' extension
         subdir (Optional[str], optional): the sub-directory, underneath 'data/csv/', that it lives in. Defaults to None.
+        precache_function (Callable[DataFrame] -> DataFrame, optional): a function to modify the the data frame before caching.
 
     Returns:
         pd.DataFrame: the CSV file as a Pandas DataFrame
@@ -39,6 +40,8 @@ def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[Lis
         df = pd.read_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'))
     except:
         df = pd.read_csv(_resolve_dir(f'data/csv/{_get_dir(subdir)}{filename}.csv'), index_col=False, header=header, **kwargs)
+        if precache_function:
+            df = precache_function(df)
         os.makedirs(_resolve_dir(f'data/parquet/{_get_dir(subdir)}'), 0o755, True)
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'), compression='gzip')
     return df
