@@ -19,18 +19,37 @@ import argparse
 import os
 import re
 
+
 def valid_file(parser, arg):
     if os.path.exists(arg):
         return arg
     parser.error(f'Invalid path: {arg}')
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('boaToCsv.py')
-    parser.add_argument('--test', '-t', action='append', type=str, help='add a "column,test" pair, where the given column keeps consuming the row until the given regex test matches')
-    parser.add_argument('--drop', '-d', action='append', type=int, help='columns (0-indexed) to drop when converting')
-    parser.add_argument('--header', type=str, help='a header row to prepend to the CSV output')
-    parser.add_argument('--numidx', type=int, default=None, help='number of indices in the Boa output - if not given, infers from the first line')
-    parser.add_argument('filename', metavar='boa-jobXX-output.txt', action='store', type=lambda x: valid_file(parser, x), help='path to the Boa output file to convert')
+    parser.add_argument('--test',
+                        '-t',
+                        action='append',
+                        type=str,
+                        help='add a "column,test" pair, where the given column keeps consuming the row until the given regex test matches')
+    parser.add_argument('--drop',
+                        '-d',
+                        action='append',
+                        type=int,
+                        help='columns (0-indexed) to drop when converting')
+    parser.add_argument('--header',
+                        type=str,
+                        help='a header row to prepend to the CSV output')
+    parser.add_argument('--numidx',
+                        type=int,
+                        default=None,
+                        help='number of indices in the Boa output - if not given, infers from the first line')
+    parser.add_argument('filename',
+                        metavar='boa-jobXX-output.txt',
+                        action='store',
+                        type=lambda x: valid_file(parser, x),
+                        help='path to the Boa output file to convert')
 
     args = parser.parse_args()
 
@@ -82,7 +101,7 @@ if __name__ == '__main__':
                             while idx > -1 and idx < len(s) and not re.search(ext[len(parts)], s[cur:idx].lower()):
                                 idx = s.find('][', idx + 2)
                             if idx == -1 or idx == len(s):
-                                break;
+                                break
                         parts.append('"' + s[cur:idx] + '"')
                         cur = idx + 2
                         idx = s.find('][', cur)

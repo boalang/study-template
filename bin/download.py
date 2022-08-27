@@ -20,6 +20,7 @@ from hashlib import md5
 from pathlib import Path
 from utilities import *
 
+
 def run_query(target):
     logger.info('Running query again...')
 
@@ -47,6 +48,7 @@ def run_query(target):
     if target_path.exists():
         target_path.unlink()
 
+
 def download_query(target):
     logger.info(f'Downloading query output "{target}"...')
 
@@ -64,6 +66,7 @@ def download_query(target):
     if target_path.stat().st_size != int(job.output_size()):
         logger.warning(f"Downloaded output of {target} is {target_path.stat().st_size}, should be {job.output_size()}, deleting.")
         target_path.unlink()
+
 
 def verifyDownload(target):
     target_path = Path(TXT_ROOT, target)
@@ -95,6 +98,7 @@ def verifyDownload(target):
     target_path.touch()
     return True
 
+
 if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
@@ -106,7 +110,7 @@ if __name__ == '__main__':
     logger.setLevel(verbosity)
     logger.info(f'Setting verbosity to {verbosity}')
 
-    target = args.target[len(TXT_ROOT):] # trim off 'data/txt/'
+    target = args.target[len(TXT_ROOT):]  # trim off 'data/txt/'
 
     if is_run_needed(target):
         run_query(target)

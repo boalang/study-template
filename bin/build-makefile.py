@@ -17,8 +17,10 @@
 # limitations under the License.
 from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
 
+
 def escape(s):
     return s.replace(' ', '\\ ')
+
 
 if __name__ == '__main__':
     configuration = get_query_config()
@@ -39,7 +41,7 @@ if __name__ == '__main__':
 
     for target in configuration['queries']:
         query_info = configuration['queries'][target]
-        substitution_files = [escape(x) for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files = True)]
+        substitution_files = [escape(x) for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files=True)]
         target = TXT_ROOT + escape(target)
         txt.append(target)
 
@@ -89,7 +91,7 @@ if __name__ == '__main__':
             print('\t$(PYTHON) $(GENDUPES) "$<" > "$@"')
 
             if 'csv' in dupes_info:
-                dupes_csv  = CSV_ROOT + escape(dupes_info['csv'])
+                dupes_csv = CSV_ROOT + escape(dupes_info['csv'])
                 csv.append(dupes_csv)
 
                 print('')
@@ -117,7 +119,6 @@ if __name__ == '__main__':
     print('.PHONY: txt csv')
     print('txt: ' + ' '.join(txt))
     print('csv: ' + ' '.join(csv))
-
 
     analyses = []
 

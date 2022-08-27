@@ -39,6 +39,7 @@ ADMIN_PREFIX = '[admin] '
 logger = logging.getLogger('boa.logger')
 logger.addHandler(logging.StreamHandler(sys.stderr))
 
+
 def get_credentials():
     user = None
     password = None
@@ -70,14 +71,18 @@ def get_credentials():
 
     return (user, password)
 
+
 client = None
+
+
 def get_client():
     global client
     if client is None:
         from boaapi.boa_client import BoaClient, BOA_API_ENDPOINT
-        client = BoaClient(endpoint = BOA_API_ENDPOINT)
+        client = BoaClient(endpoint=BOA_API_ENDPOINT)
         client.login(*get_credentials())
     return client
+
 
 def close_client():
     global client
@@ -85,8 +90,11 @@ def close_client():
         client.close()
     client = None
 
+
 config = None
-def get_query_config(filename = STUDY_JSON):
+
+
+def get_query_config(filename=STUDY_JSON):
     global config
     if config is None:
         try:
@@ -97,7 +105,10 @@ def get_query_config(filename = STUDY_JSON):
             exit(10)
     return config
 
+
 job_data = None
+
+
 def get_query_data():
     global job_data
 
@@ -109,18 +120,20 @@ def get_query_data():
             query_data = json.load(fh)
         return query_data
     except:
-        return { "$schema": "schemas/0.1.0/jobs.schema.json" }
+        return {"$schema": "schemas/0.1.0/jobs.schema.json"}
+
 
 def update_query_data(target, job_id, sha256):
     global job_data
     old_job_data = get_query_data()
-    old_job_data[target] = { 'job': int(job_id), 'sha256': sha256 }
+    old_job_data[target] = {'job': int(job_id), 'sha256': sha256}
     job_data = old_job_data
     if os.path.exists(JOBS_JSON):
         os.chmod(JOBS_JSON, 0o644)
     with open(JOBS_JSON, 'w') as fh:
-        json.dump(job_data, fh, indent = 2)
+        json.dump(job_data, fh, indent=2)
     os.chmod(JOBS_JSON, 0o444)
+
 
 def expand_replacements(replacements, query):
     if len(replacements) > 0:
@@ -131,11 +144,14 @@ def expand_replacements(replacements, query):
             for (before, after) in replacements:
                 after = (r'\1' + after.strip()).replace('\n', '\n\\1')
                 before = re.sub(r'([{}])', r'\\\1', before)
-                replaced = re.sub(r'([ \t]*)' + before + '(\n?)', after + r'\2', query)
+                replaced = re.sub(r'([ \t]*)' + before + '(\n?)',
+                                  after + r'\2',
+                                  query)
                 if query != replaced:
                     has_replaced = True
                     query = replaced
     return query
+
 
 def build_replacements(global_replacements, local_replacements, only_files=False):
     replacements = {}
@@ -164,12 +180,14 @@ def build_replacements(global_replacements, local_replacements, only_files=False
         repls.append(('', STUDY_JSON))
     return repls
 
+
 def get_make_public(target):
     config = get_query_config()
     try:
         return config['queries'][target]['public']
     except:
         return True
+
 
 def get_dataset(target):
     config = get_query_config()
@@ -185,6 +203,7 @@ def get_dataset(target):
     logger.critical(f'Dataset named "{dataset_name}" is not known.')
     exit(20)
 
+
 def prepare_query(target):
     from hashlib import sha256
 
@@ -194,10 +213,12 @@ def prepare_query(target):
     with open(QUERY_ROOT + query_info['query'], 'r') as fh:
         query = fh.read()
 
-    query_substitutions = build_replacements(config.get('substitutions', []), query_info.get('substitutions', []))
+    query_substitutions = build_replacements(config.get('substitutions', []),
+                                             query_info.get('substitutions', []))
     query = expand_replacements(query_substitutions, query)
 
     return (query, sha256(str.encode(get_dataset(target)['name'] + query)).hexdigest())
+
 
 def is_run_needed(target):
     query_data = get_query_data()
