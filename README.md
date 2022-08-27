@@ -239,7 +239,24 @@ Otherwise, the downloader will simply grab the output from the `job` specified.
 
 ## Packaging
 
-If you run `make zip`, a replication package ZIP file will be generated.
+If you run `make package`, replication package ZIP files will be generated.  It
+generates three different ZIP files: `replication-pkg.zip`, `data.zip`, and
+`data-cache.zip`.  The first is the main replication package and should include
+all Boa queries, analysis scripts, support scripts, and additional things like
+the documentation and Makefile.  The second is the contents of the `data/txt/`
+folder, which is the raw outputs from Boa.  The third is the processed Parquet
+file caches.
+
+Most people simply trying to regenerate the tables/figures will only need the
+first and third files.  The file with the full data is typically quite large
+and only needed if someone plans to extend/enhance the analyses somehow.
+
+Note that the command updates existing ZIP files if they exist, so you can
+simply re-run it after small changes to a few files and it will update.  It
+will not, however, remove any files from the ZIP files so if you wind up
+deleting a query/analysis you either need to remove the ZIPs with `make
+clean-zip` and regenerate, or manually run the `zip` command and remove file(s)
+from the generates ZIPs.
 
 ## Cleanup
 
@@ -249,5 +266,5 @@ There are several `make` targets to clean up:
 - `make clean-csv` removes generates CSV files
 - `make clean-pq` removes cached intermediate Parquet files
 - `make clean-txt` removes downloaded TXT files
-- `make clean-zip` removes any ZIP files
+- `make clean-zip` removes generated ZIP files
 - `make clean-all` runs all of the clean targets
