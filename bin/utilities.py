@@ -142,7 +142,7 @@ def expand_replacements(replacements, query):
         while has_replaced:
             has_replaced = False
             for (before, after) in replacements:
-                after = (r'\1' + after.strip()).replace('\n', '\n\\1')
+                after = (r'\g<1>' + after.strip()).replace('\n', '\n\\1')
                 before = re.sub(r'([{}])', r'\\\1', before)
                 replaced = re.sub(r'([ \t]*)' + before + '(\n?)',
                                   after + r'\2',
