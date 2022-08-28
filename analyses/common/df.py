@@ -46,7 +46,7 @@ def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[Lis
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'), compression='gzip')
     return df
 
-def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs):
+def get_deduped_df(filename: str, subdir: Optional[str]=None, ts: bool=False, **kwargs):
     '''Loads a CSV file into a DataFrame and de-duplicates the data.
 
     This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.
@@ -54,6 +54,7 @@ def get_deduped_df(filename: str, subdir: Optional[str]=None, ts=False, **kwargs
     Args:
         filename (str): the CSV file to load, without the '.csv' extension
         subdir (Optional[str], optional): the sub-directory, underneath 'data/csv/', that it lives in. Defaults to None.
+        ts (bool): if the hash file also has the file timestamps or not
 
     Returns:
         pd.DataFrame: the CSV file as a Pandas DataFrame
