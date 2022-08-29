@@ -227,4 +227,8 @@ def is_run_needed(target):
 
     oldhash = query_data[target]['sha256']
     _, newhash = prepare_query(target)
+
+    logger.debug('old query hash = ' + oldhash)
+    logger.debug('new query hash = ' + newhash)
+
     return oldhash != newhash
