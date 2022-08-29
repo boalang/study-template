@@ -222,13 +222,14 @@ def prepare_query(target):
 
 def is_run_needed(target):
     query_data = get_query_data()
+
+    _, newhash = prepare_query(target)
+    logger.debug('new query hash = ' + newhash)
+
     if target not in query_data:
         return True
 
     oldhash = query_data[target]['sha256']
-    _, newhash = prepare_query(target)
-
     logger.debug('old query hash = ' + oldhash)
-    logger.debug('new query hash = ' + newhash)
 
     return oldhash != newhash
