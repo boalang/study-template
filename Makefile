@@ -22,7 +22,7 @@ ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
 
 
 .PHONY: all
-all: data analysis
+all: analysis
 
 include Makefile.study
 
