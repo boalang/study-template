@@ -65,7 +65,7 @@ def download_query(target):
         with target_path.open(mode='w') as fh:
             fh.write(job.output())
     finally:
-        verify_download(target)
+        verifyDownload(target)
 
 
 def verifyDownload(target):
