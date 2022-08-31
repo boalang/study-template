@@ -1,5 +1,5 @@
 {
-  "$schema": "schemas/0.1.1/study-config.schema.json",
+  "$schema": "schemas/0.1.2/study-config.schema.json",
   "datasets": {
     "kotlin": "2021 Aug/Kotlin",
     "python": "2021 Aug/Python",
@@ -12,9 +12,14 @@
     "kotlin/hashes.txt": {
       "query": "queries/hashes.boa",
       "dataset": "kotlin",
-      "gendupes": {
-        "output": "kotlin/dupes.txt",
-        "csv": "kotlin/dupes.csv"
+      "processors": {
+        "gendupes.py": {
+          "output": "data/txt/kotlin/dupes.txt",
+          "csv": "kotlin/dupes.csv",
+          "cacheclean": [
+            "kotlin/*-deduped.parquet"
+          ]
+        }
       }
     },
     "kotlin/rq1.txt": {

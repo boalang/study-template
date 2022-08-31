@@ -27,7 +27,7 @@ all: analysis
 include Makefile.study
 
 Makefile.study: study-config.json bin/build-makefile.py
-	jsonschema --instance study-config.json schemas/0.1.1/study-config.schema.json
+	jsonschema --instance study-config.json schemas/0.1.2/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
 
 

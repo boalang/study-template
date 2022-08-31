@@ -88,9 +88,14 @@ The next object in the study config is the `queries` object:
     "kotlin/hashes.txt": {
       "query": "queries/hashes.boa",
       "dataset": "kotlin",
-      "gendupes": {
-        "output": "kotlin/dupes.txt",
-        "csv": "kotlin/dupes.csv"
+      "processors": {
+        "gendupes.py": {
+          "output": "data/txt/kotlin/dupes.txt",
+          "csv": "kotlin/dupes.csv",
+          "cacheclean": [
+            "kotlin/*-deduped.parquet"
+          ]
+        }
       }
     },
     "kotlin/rq1.txt": {
@@ -121,9 +126,10 @@ public after submission.
 
 A query can also indicate if it should be converted to CSV format.  Most
 queries probably want to convert to CSV, so you can easily load the data into
-Pandas for analysis.  This is indicated by adding a `csv` key.  The value is an
-object listing the `output` path for the CSV file (stored in `data/csv/`, with
-the prefix omitted here) and some optional parameters:
+Pandas for analysis.  This is indicated by adding a `csv` key.  The value is
+either a string listing the output path for the CSV file (stored in
+`data/csv/`, with the prefix omitted here) or an object listing the `output`
+path and some optional parameters:
 
 * `test` (can be repeated)
   * Add a `"column,test"` pair, where the given column keeps consuming the row
@@ -144,9 +150,11 @@ Finally, a query can also indicate if the `gendupes.py` script should run on
 the output file.  This is used for queries that output file hashes from Boa, to
 allow identifying duplicate files (based on matching AST hashes) for later
 de-duplication during analysis.  The value takes the `output` path where to
-store the generated TXT file with duplicate hash data (stored in `data/txt/`,
-with the prefix omitted here).  It can also provide an optional `csv` key to
-convert the generated TXT file into CSV format.
+store the generated TXT file with duplicate hash data (here, you must provide
+the `data/txt/` prefix).  It can also provide an optional `csv` key to convert
+the generated TXT file into CSV format (with the prefix omitted).  An optional
+`cacheclean` key allows listing additional cache (Parquet) files to clean up
+when re-generating this output.
 
 ```json
   "substitutions": [

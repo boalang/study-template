@@ -22,6 +22,47 @@ def escape(s):
     return s.replace(' ', '\\ ')
 
 
+def processCSV(csv_info, target, clean_target, cacheclean=None):
+    if isinstance(csv_info, str):
+        csv_filename = csv_info
+    else:
+        csv_filename = csv_info['output']
+
+    csv_output = CSV_ROOT + escape(csv_filename)
+
+    filename = escape(csv_filename[:-4])
+    print('')
+    print(f'{clean_target} += {csv_output}')
+    print(f'{clean_target} += {PQ_ROOT}$**/{filename}.parquet')
+    print(f'{clean_target} += {PQ_ROOT}$**/{filename}-deduped.parquet')
+    if cacheclean:
+        for clean in cacheclean:
+            print(f'{clean_target} += {PQ_ROOT}$**/{clean}')
+    print(f'{csv_output}: {target}')
+    print('\t@$(MKDIR) "$(dir $@)"')
+    string = '\t$(PYTHON) $(BOATOCSV)'
+    if not isinstance(csv_info, str):
+        if 'test' in csv_info:
+            for test in csv_info['test']:
+                string += ' -t "' + test.replace('$', '$$') + '"'
+        if 'drop' in csv_info:
+            for d in csv_info['drop']:
+                string += f' -d {int(d)}'
+        if 'header' in csv_info:
+            string += f' --header "{csv_info["header"]}"'
+        if 'numidx' in csv_info:
+            string += f' --numidx {int(csv_info["index"])}'
+    string += ' "$<" > "$@"'
+    print(string)
+    print(f'\t@$(RM) {PQ_ROOT}$**/{filename}.parquet')
+    print(f'\t@$(RM) {PQ_ROOT}$**/{filename}-deduped.parquet')
+    if cacheclean:
+        for clean in cacheclean:
+            print(f'\t@$(RM) {PQ_ROOT}$**/{clean}')
+
+    return csv_output
+
+
 if __name__ == '__main__':
     configuration = get_query_config()
 
@@ -29,7 +70,6 @@ if __name__ == '__main__':
     print('# this file was automatically generated')
     print('DOWNLOAD:=bin/download.py $(VERBOSE)')
     print('BOATOCSV:=bin/boa-to-csv.py')
-    print('GENDUPES:=bin/gendupes.py')
     print('MKDIR:=mkdir -p')
     print('')
 
@@ -51,58 +91,23 @@ if __name__ == '__main__':
         print(f'# Make targets for {target}')
         print(f'{clean_target} := {target}')
 
-        if 'csv' in query_info and 'output' in query_info['csv']:
-            csv_info = query_info['csv']
-            csv_output = CSV_ROOT + escape(csv_info['output'])
-            csv.append(csv_output)
+        if 'csv' in query_info:
+            csv.append(processCSV(query_info['csv'], target, clean_target))
 
-            filename = escape(csv_info['output'][:-4])
-            print('')
-            print(f'{clean_target} += {csv_output}')
-            print(f'{clean_target} += {PQ_ROOT}{filename}.parquet')
-            print(f'{clean_target} += {PQ_ROOT}{filename}-deduped.parquet')
-            print(f'{csv_output}: {target}')
-            print('\t@$(MKDIR) "$(dir $@)"')
-            string = '\t$(PYTHON) $(BOATOCSV)'
-            if 'test' in csv_info:
-                for test in csv_info['test']:
-                    string += ' -t "' + test.replace('$', '$$') + '"'
-            if 'drop' in csv_info:
-                for d in csv_info['drop']:
-                    string += f' -d {int(d)}'
-            if 'header' in csv_info:
-                string += f' --header "{csv_info["header"]}"'
-            if 'numidx' in csv_info:
-                string += f' --numidx {int(csv_info["index"])}'
-            string += ' "$<" > "$@"'
-            print(string)
-            print(f'\t@$(RM) {PQ_ROOT}{filename}.parquet')
-            print(f'\t@$(RM) {PQ_ROOT}{filename}-deduped.parquet')
-
-        if 'gendupes' in query_info and 'output' in query_info['gendupes']:
-            dupes_info = query_info['gendupes']
-            dupes_txt = TXT_ROOT + escape(dupes_info['output'])
-            txt.append(dupes_txt)
-
-            print('')
-            print(f'{clean_target} += {dupes_txt}')
-            print(f'{dupes_txt}: {target} $(word 1, $(GENDUPES))')
-            print('\t@$(MKDIR) "$(dir $@)"')
-            print('\t$(PYTHON) $(GENDUPES) "$<" > "$@"')
-
-            if 'csv' in dupes_info:
-                dupes_csv = CSV_ROOT + escape(dupes_info['csv'])
-                csv.append(dupes_csv)
+        if 'processors' in query_info:
+            for postproc in query_info['processors']:
+                processor = query_info['processors'][postproc]
+                proc_output = escape(processor['output'])
+                txt.append(proc_output)
 
                 print('')
-                print(f'{clean_target} += {dupes_csv}')
-                print(f'{clean_target} += {PQ_ROOT}$**/dupes.parquet')
-                print(f'{clean_target} += {PQ_ROOT}$**/*-deduped.parquet')
-                print(f'{dupes_csv}: {dupes_txt}')
-                print('\t@$(MKDIR) "$(dir $@)"')
-                print('\t$(PYTHON) $(BOATOCSV) "$<" > "$@"')
-                print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
-                print(f'\t@$(RM) {PQ_ROOT}$**/*-deduped.parquet')
+                print(f'{clean_target} += {proc_output}')
+                print(f'{proc_output}: {target}')
+                print(f'\t@$(MKDIR) "$(dir {proc_output})"')
+                print(f'\t$(PYTHON) bin/{postproc} "{target}" > "$@"')
+
+                if 'csv' in processor:
+                    csv.append(processCSV(processor['csv'], proc_output, clean_target, processor['cacheclean']))
 
         print('')
         string = escape(f'boa/{query_info["query"]}')
