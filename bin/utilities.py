@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import sys
+import time
 
 STUDY_JSON = 'study-config.json'
 JOBS_JSON = 'jobs.json'
@@ -219,3 +220,18 @@ def is_run_needed(target):
     logger.debug('old query hash = ' + oldhash)
 
     return oldhash != newhash
+
+class Timer:
+    def __init__(self):
+        self._start = None
+
+    def __enter__(self):
+        self._start = time.perf_counter()
+        return self
+
+    def __exit__(self, *exc_info):
+        if self._start is not None:
+            elapsed = time.perf_counter() - self._start
+            self._start = None
+
+            logger.debug(f'Elapsed time: {elapsed:0.4f} seconds')

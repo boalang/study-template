@@ -15,7 +15,8 @@ def run_query(target):
     job = client.query(query, get_dataset(target))
 
     logger.debug(f'Job {job.id} is running...')
-    job.wait()
+    with Timer():
+        job.wait()
     logger.debug(f'Job {job.id} is complete.')
 
     if job.compiler_status is CompilerStatus.ERROR:
@@ -48,11 +49,11 @@ def download_query(target):
     target_path = Path(TXT_ROOT, target)
     target_path.parent.mkdir(parents=True, exist_ok=True)
     try:
-        with target_path.open(mode='w') as fh:
-            fh.write(job.output())
+        with Timer():
+            with target_path.open(mode='w') as fh:
+                fh.write(job.output())
     finally:
-        # verifyDownload(target)
-        pass
+        verifyDownload(target)
 
 
 def verifyDownload(target):
