@@ -19,7 +19,8 @@ Makefile.study: study-config.json bin/build-makefile.py
 ####################
 # packaging targets
 #
-.PHONY: package
+.PHONY: package zip
+zip: package
 package:
 	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
