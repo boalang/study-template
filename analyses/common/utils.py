@@ -3,6 +3,12 @@
 import os
 from typing import Optional
 
+
+__all__ = [
+    "_resolve_dir",
+    "_get_dir",
+]
+
 def _resolve_dir(dir: str):
     curdir = os.getcwd()
     if curdir.endswith('/analyses'):
