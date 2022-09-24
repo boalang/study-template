@@ -14,16 +14,16 @@ __all__ = [
     "save_table",
     ]
 
-def get_styler(df: pd.DataFrame|pd.Series):
+def get_styler(df: pd.DataFrame|pd.Series) -> pd.io.formats.style.Styler:
     if isinstance(df, pd.Series):
         return df.to_frame().style
     return df.style
 
-def highlight_cols(styler: pd.io.formats.style.Styler):
+def highlight_cols(styler: pd.io.formats.style.Styler) -> pd.io.formats.style.Styler:
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
     return styler.hide(names=True, axis='columns')
 
-def highlight_rows(styler: pd.io.formats.style.Styler):
+def highlight_rows(styler: pd.io.formats.style.Styler) -> pd.io.formats.style.Styler:
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 

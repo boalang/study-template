@@ -1,10 +1,11 @@
 # coding: utf-8
 
 from matplotlib import pyplot as plt
+from typing import Dict, Any
 
 __all__ = ["setup_plots"]
 
-def setup_plots(rcParams = None):
+def setup_plots(rcParams: Dict[str, Any] = None):
     # avoid Type 3 fonts
     plt.rcParams['pdf.fonttype'] = 42
     plt.rcParams['ps.fonttype'] = 42
