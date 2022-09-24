@@ -11,7 +11,7 @@ __all__ = [
     "get_deduped_df",
     ]
 
-def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[List[int], bool, str]]=None, precache_function: Optional[Callable[[pd.DataFrame], pd.DataFrame]]=None, **kwargs):
+def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[List[int], bool, str]]=None, precache_function: Optional[Callable[[pd.DataFrame], pd.DataFrame]]=None, **kwargs) -> pd.DataFrame:
     '''Loads a CSV file into a DataFrame.
 
     Args:
@@ -32,7 +32,7 @@ def get_df(filename: str, subdir: Optional[str]=None, header: Optional[Union[Lis
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}.parquet'), compression='gzip')
     return df
 
-def get_deduped_df(filename: str, subdir: Optional[str]=None, ts: bool=False, **kwargs):
+def get_deduped_df(filename: str, subdir: Optional[str]=None, ts: bool=False, **kwargs) -> pd.DataFrame:
     '''Loads a CSV file into a DataFrame and de-duplicates the data.
 
     This function assumes your table has columns named 'project' and 'file', and no column named 'hash'.
@@ -56,7 +56,7 @@ def get_deduped_df(filename: str, subdir: Optional[str]=None, ts: bool=False, **
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'), compression='gzip')
     return df
 
-def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'hash', 'project', 'file']):
+def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'hash', 'project', 'file']) -> pd.DataFrame:
     df2 = get_df('dupes', subdir, names=names).drop(columns=['var'])
 
     df2 = df2[df2.duplicated(subset=['hash'])]

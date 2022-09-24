@@ -3,7 +3,7 @@
 import os
 import pandas as pd
 import sys
-from typing import Optional
+from typing import Optional, Union
 
 from .utils import _resolve_dir, _get_dir
 
@@ -14,7 +14,7 @@ __all__ = [
     "save_table",
     ]
 
-def get_styler(df: pd.DataFrame|pd.Series) -> pd.io.formats.style.Styler:
+def get_styler(df: Union[pd.DataFrame, pd.Series]) -> pd.io.formats.style.Styler:
     if isinstance(df, pd.Series):
         return df.to_frame().style
     return df.style
