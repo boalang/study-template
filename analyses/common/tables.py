@@ -14,25 +14,25 @@ __all__ = [
     "save_table",
     ]
 
-def get_styler(df):
+def get_styler(df: pd.DataFrame|pd.Series):
     if isinstance(df, pd.Series):
         return df.to_frame().style
     return df.style
 
-def highlight_cols(styler):
+def highlight_cols(styler: pd.io.formats.style.Styler):
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
     return styler.hide(names=True, axis='columns')
 
-def highlight_rows(styler):
+def highlight_rows(styler: pd.io.formats.style.Styler):
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
 _colsepname = ''
-def save_table(styler, filename: str, subdir: Optional[str]=None, decimals: Optional[int]=2, thousands: Optional[str]=',', colsep: Optional[str]=None, **kwargs):
+def save_table(styler: pd.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, decimals: Optional[int]=2, thousands: Optional[str]=',', colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
-        styler: A Pandas Styler object for formatting a table.
+        styler (pd.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
         decimals (Optional[int]): How many decimal places for floats. Defaults to 2.
