@@ -35,11 +35,11 @@ There are also optional packages you can install to improve the experience.
 
 #### Optional Python Requirements
 
-If you install `tqdm`, some of the scripts will display a progress bar.  This
-can be very useful when processing extremely large (multi-GB) output files.
+If you install `tqdm>=4.64.0`, some of the scripts will display a progress bar.
+This can be very useful when processing extremely large (multi-GB) output files.
 
-If you install `keyring`, you can store your API credentials in your OS's
-keyring.  This is more secure than storing it in plaintext in the
+If you install `keyring>=23.8.2`, you can store your API credentials in your
+OS's keyring.  This is more secure than storing it in plaintext in the
 `boa-credentials.txt` file.  If you don't utilize either of those options, it
 will prompt you for your username/password (once for **each** output it tries
 to download!).
