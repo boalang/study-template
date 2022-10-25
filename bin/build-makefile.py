@@ -131,3 +131,5 @@ if __name__ == '__main__':
             print('')
             print('.PHONY: analysis ' + ' '.join(analyses))
             print('analysis: ' + ' '.join(analyses))
+    else:
+        print('analysis: data')
