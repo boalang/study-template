@@ -129,10 +129,10 @@ def expand_replacements(replacements, query):
         while has_replaced:
             has_replaced = False
             for (before, after) in replacements:
-                after = (r'\g<1>' + after.strip()).replace('\n', '\n\\1')
+                after = (r'\g<1>\g<2>' + after.strip()).replace('\n', '\n\\1')
                 before = re.sub(r'([{}])', r'\\\1', before)
-                replaced = re.sub(r'([ \t]*)' + before + '(\n?)',
-                                  after + r'\2',
+                replaced = re.sub(r'([ \t]*)(.*(?=' + before + '))' + before + '(\n?)',
+                                  after + r'\3',
                                   query)
                 if query != replaced:
                     has_replaced = True
