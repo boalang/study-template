@@ -111,22 +111,23 @@ if __name__ == '__main__':
     print('txt: ' + ' '.join(txt))
     print('csv: ' + ' '.join(csv))
 
-    analyses = []
+    if 'analyses' in configuration:
+        analyses = []
 
-    for script in configuration['analyses']:
-        script = escape(script)
-        target = script.split('.')[0]
-        if 'disabled' not in configuration['analyses'][script] or not configuration['analyses'][script]['disabled']:
-            analyses.append(target)
+        for script in configuration['analyses']:
+            script = escape(script)
+            target = script.split('.')[0]
+            if 'disabled' not in configuration['analyses'][script] or not configuration['analyses'][script]['disabled']:
+                analyses.append(target)
 
-        inputs = configuration['analyses'][script]['input']
-        inputs = [CSV_ROOT + escape(x) for x in inputs]
+            inputs = configuration['analyses'][script]['input']
+            inputs = [CSV_ROOT + escape(x) for x in inputs]
 
-        print('')
-        print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
-        print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
+            print('')
+            print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
+            print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
 
-    if len(analyses) > 0:
-        print('')
-        print('.PHONY: analysis ' + ' '.join(analyses))
-        print('analysis: ' + ' '.join(analyses))
+        if len(analyses) > 0:
+            print('')
+            print('.PHONY: analysis ' + ' '.join(analyses))
+            print('analysis: ' + ' '.join(analyses))
