@@ -111,9 +111,9 @@ if __name__ == '__main__':
     print('txt: ' + ' '.join(txt))
     print('csv: ' + ' '.join(csv))
 
+    analyses = []
+    
     if 'analyses' in configuration:
-        analyses = []
-
         for script in configuration['analyses']:
             script = escape(script)
             target = script.split('.')[0]
@@ -127,7 +127,11 @@ if __name__ == '__main__':
             print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
             print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
 
-        if len(analyses) > 0:
-            print('')
-            print('.PHONY: analysis ' + ' '.join(analyses))
-            print('analysis: ' + ' '.join(analyses))
+    if len(analyses) > 0:
+        print('')
+        print('.PHONY: analysis ' + ' '.join(analyses))
+        print('analysis: ' + ' '.join(analyses))
+    else:
+        print('')
+        print('.PHONY: analysis')
+        print('analysis:')
