@@ -1,0 +1,25 @@
+{
+    "title": "TODO: provide a title for the dataset",
+    "description": "TODO: provide a description",
+    "keywords": [
+        "kw1",
+        "kw2"
+    ],
+    "communities": [
+        {
+            "identifier": "zenodo"
+        }
+    ],
+    "upload_type": "dataset",
+    "language": "eng",
+    "creators": [
+        {
+            "affiliation": "Anonymous",
+            "name": "Anonymous"
+        }
+    ],
+    "access_right": "open",
+    "license": "cc-by-4.0",
+    "version": "1.0.0",
+    "prereserve_doi": true
+}

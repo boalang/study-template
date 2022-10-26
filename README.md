@@ -266,6 +266,56 @@ deleting a query/analysis you either need to remove the ZIPs with `make
 clean-zip` and regenerate, or manually run the `zip` command and remove file(s)
 from the generates ZIPs.
 
+## Publishing the Package
+
+Once you have build your replication package, you can also upload it to Zenodo.
+To do so, you will need to create a `.env` file with the following contents:
+
+```sh
+ZENODO_API_TOKEN='<your API token here>'
+ZENODO_API_ENDPOINT='https://zenodo.org'
+      <or>
+ZENODO_API_ENDPOINT='https://sandbox.zenodo.org'
+```
+
+This requires logging into Zenodo and creating an API token.  Be sure to not
+share the `.env` file with anyone once you create it!  It will not be placed
+into any ZIP files and is ignored by Git, but you will still want to be careful
+with it.
+
+Then select an API endpoint.  If you want to test creating a Zenodo record you
+can utilize their sandbox server.  Otherwise, use the main server.  Note that
+if you use the sandbox, you need to create a token *on that server*, as tokens
+are not shared across the two servers.
+
+To utilize the script, simply run `make zenodo`.
+
+The metadata for the Zenodo record is stored in the `.zenodo.json` file.  This
+file can be shared and by default is stored in Git.  If one does not exist, the
+first time you run the command one will be generated and it will stop
+processing to allow you time to edit it.  This file contains the metadata for
+your record, including things like the title, description, creators, and
+license info.  By default we selected CC-By-4.0 as the license, so feel free to
+change it if needed.
+
+For a double-blinded submission, you will want to ensure the creators are
+listed as anonymous and the access rights set to "open":
+
+```json
+    "creators": [
+        {
+            "affiliation": "Anonymous",
+            "name": "Anonymous"
+        }
+    ],
+```
+
+After your paper is published, you can update the metadata and re-run the
+script to have it publish with your actual author name(s).
+
+For more details on the metadata JSON format, see this link:
+https://developers.zenodo.org/#representation
+
 ## Cleanup
 
 There are several `make` targets to clean up:
