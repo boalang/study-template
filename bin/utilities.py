@@ -9,8 +9,6 @@ import time
 STUDY_JSON = 'study-config.json'
 JOBS_JSON = 'jobs.json'
 
-CREDENTIALS_FILE = 'boa-credentials.txt'
-
 QUERY_ROOT = 'boa/'
 SNIPPET_ROOT = QUERY_ROOT + 'snippets/'
 
@@ -31,29 +29,20 @@ def get_credentials():
     user = None
     password = None
 
-    try:
-        with open(CREDENTIALS_FILE, 'r') as fh:
-            creds = [line.strip() for line in fh.readlines()]
-        if len(creds) > 0:
-            user = creds[0]
-        if len(creds) > 1:
-            password = creds[1]
-    except:
-        pass
+    from dotenv import load_dotenv
+    load_dotenv()
 
-    if not user or not password:
-        import getpass
+    import getpass
+    user = os.environ['BOA_API_USER'] if 'BOA_API_USER' in os.environ else input('Username [%s]: ' % getpass.getuser())
+    password = os.environ['BOA_API_PW'] if 'BOA_API_PW' in os.environ else None
+
+    if not password:
         try:
             import keyring
-            user = user or getpass.getuser()
             password = keyring.get_password('boaapi', user)
             if password is None:
                 raise Exception()
         except:
-            if not user:
-                user = input('Username [%s]: ' % getpass.getuser())
-            if not user:
-                user = getpass.getuser()
             password = getpass.getpass()
 
     return (user, password)

@@ -5,17 +5,21 @@ A template for setting up an empirical study utilizing the Boa infrastructure.
 Note that a username/password to the Boa website and API are required.  You
 can request one here: https://boa.cs.iastate.edu/request/
 
-Once you have an API login, edit the file `boa-credentials.txt` and enter your
-username on the first line, then save and close the file.  We recommend also
-setting your password in your OS keyring, so you are not prompted to enter it
-each time a download triggers.  To do this, first install the keyring Python
-package and then run:
+Once you have an API login, edit the file `.env` and enter your username as
+`BOA_API_USER='<username here>'`, then save and close the file.  We recommend
+also setting your password in your OS keyring, so you are not prompted to
+enter it each time a download triggers.  To do this, first install the
+keyring Python package and then run:
 
 ```
 keyring set boaapi <username>
 ```
 
-where `<username>` is your Boa username.
+where `<username>` is your Boa username.  If you are unable to use the keyring,
+you can also enter your password into the `.env` file as
+`BOA_API_PW='<password here>'`.  Finally, if the script can't find your
+username and/or password, it will prompt you for it.  Note however it will
+prompt *for each file it downloads*.
 
 ## Requirements
 
