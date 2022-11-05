@@ -37,7 +37,8 @@ def run_query(target):
 
 
 def download_query(target):
-    logger.info(f'Downloading query output "{target}"...')
+    target_path = Path(TXT_ROOT, target)
+    logger.info(f'Downloading query output "{target_path}"...')
 
     job_data = get_query_data()
 
@@ -46,7 +47,6 @@ def download_query(target):
 
     job.set_public(get_make_public(target))
 
-    target_path = Path(TXT_ROOT, target)
     target_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         with Timer():
