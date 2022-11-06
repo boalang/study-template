@@ -54,15 +54,15 @@ def get_deduped_df(filename: str, subdir: Optional[str]=None, drop: Optional[Lis
         df = pd.read_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'))
     except:
         if ts:
-            df = _remove_dupes(get_df(filename, subdir, drop, precache_function, **kwargs), subdir, names=['var', 'hash', 'project', 'ts', 'file'])
+            df = _remove_dupes(get_df(filename, subdir, drop, precache_function, **kwargs), names=['var', 'hash', 'project', 'ts', 'file'])
         else:
-            df = _remove_dupes(get_df(filename, subdir, drop, precache_function, **kwargs), subdir)
+            df = _remove_dupes(get_df(filename, subdir, drop, precache_function, **kwargs))
         os.makedirs(_resolve_dir(f'data/parquet/{_get_dir(subdir)}'), 0o755, True)
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'), compression='gzip')
     return df
 
-def _remove_dupes(df: pd.DataFrame, subdir: Optional[str]=None, names=['var', 'hash', 'project', 'file']) -> pd.DataFrame:
-    df2 = get_df('dupes', subdir, names=names).drop(columns=['var'])
+def _remove_dupes(df: pd.DataFrame, names=['var', 'hash', 'project', 'file']) -> pd.DataFrame:
+    df2 = get_df('dupes', names=names).drop(columns=['var'])
 
     df2 = df2[df2.duplicated(subset=['hash'])]
     df3 = pd.merge(df, df2, how='left', left_on=['project', 'file'], right_on=['project', 'file'])
