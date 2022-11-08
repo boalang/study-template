@@ -7,12 +7,12 @@ from pathlib import Path
 from utilities import *
 
 
-def run_query(target):
+def run_query(config, target):
     logger.info('Running query again...')
 
     client = get_client()
-    query, sha256 = prepare_query(target)
-    job = client.query(query, get_dataset(target))
+    query, sha256 = prepare_query(config, target)
+    job = client.query(query, get_dataset(config, target))
 
     logger.debug(f'Job {job.id} is running...')
     with Timer():
@@ -36,7 +36,7 @@ def run_query(target):
         target_path.unlink()
 
 
-def download_query(target):
+def download_query(config, target):
     target_path = Path(TXT_ROOT, target)
     logger.info(f'Downloading query output "{target_path}"...')
 
@@ -45,7 +45,7 @@ def download_query(target):
     client = get_client()
     job = client.get_job(job_data[target]['job'])
 
-    job.set_public(get_make_public(target))
+    job.set_public(get_make_public(config, target))
 
     target_path.parent.mkdir(parents=True, exist_ok=True)
     try:
@@ -102,12 +102,13 @@ if __name__ == '__main__':
     logger.setLevel(verbosity)
     logger.info(f'Setting verbosity to {verbosity}')
 
+    config = get_query_config()
     target = args.target[len(TXT_ROOT):]  # trim off 'data/txt/'
 
-    if is_run_needed(target):
-        run_query(target)
+    if is_run_needed(config, target):
+        run_query(config, target)
 
     if not verifyDownload(target):
-        download_query(target)
+        download_query(config, target)
 
     close_client()

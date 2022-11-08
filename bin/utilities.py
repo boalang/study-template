@@ -157,16 +157,14 @@ def build_replacements(global_replacements, local_replacements, only_files=False
     return repls
 
 
-def get_make_public(target):
-    config = get_query_config()
+def get_make_public(config, target):
     try:
         return config['queries'][target]['public']
     except:
         return True
 
 
-def get_dataset(target):
-    config = get_query_config()
+def get_dataset(config, target):
     dataset_name = config['queries'][target]['dataset']
 
     if dataset_name in config['datasets']:
@@ -180,10 +178,9 @@ def get_dataset(target):
     exit(20)
 
 
-def prepare_query(target):
+def prepare_query(config, target):
     from hashlib import sha256
 
-    config = get_query_config()
     query_info = config['queries'][target]
 
     with open(QUERY_ROOT + query_info['query'], 'r') as fh:
@@ -193,13 +190,13 @@ def prepare_query(target):
                                              query_info.get('substitutions', []))
     query = expand_replacements(query_substitutions, query)
 
-    return (query, sha256(str.encode(get_dataset(target)['name'] + query)).hexdigest())
+    return (query, sha256(str.encode(get_dataset(config, target)['name'] + query)).hexdigest())
 
 
-def is_run_needed(target):
+def is_run_needed(config, target):
     query_data = get_query_data()
 
-    _, newhash = prepare_query(target)
+    _, newhash = prepare_query(config, target)
     logger.debug('new query hash = ' + newhash)
 
     if target not in query_data:
