@@ -5,7 +5,7 @@ from common.df import get_deduped_df
 from common.tables import get_styler, highlight_cols, highlight_rows, save_table
 
 if __name__ == '__main__':
-    df = get_deduped_df('rq1', 'kotlin', names=['var', 'project', 'file', 'astcount'])
+    df = get_deduped_df('rq1', 'kotlin', 'kotlin', names=['var', 'project', 'file', 'astcount'])
     df = df['astcount'].describe()
 
     style = highlight_rows(highlight_cols(get_styler(df)))
