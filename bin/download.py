@@ -11,7 +11,7 @@ def run_query(config, target):
     logger.info('Running query again...')
 
     client = get_client()
-    query, sha256 = prepare_query(config, target)
+    query, hash = prepare_query(config, target)
     job = client.query(query, get_dataset(config, target))
 
     logger.debug(f'Job {job.id} is running...')
@@ -29,7 +29,7 @@ def run_query(config, target):
         logger.error(f'See url: {job.get_url()}')
         exit(22)
 
-    update_query_data(target, job.id, sha256)
+    update_query_data(target, job.id, hash)
 
     target_path = Path(TXT_ROOT, target)
     if target_path.exists():

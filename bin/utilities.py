@@ -96,13 +96,13 @@ def get_query_data():
             query_data = json.load(fh)
         return query_data
     except:
-        return {"$schema": "schemas/0.1.0/jobs.schema.json"}
+        return {"$schema": "schemas/0.1.2/jobs.schema.json"}
 
 
-def update_query_data(target, job_id, sha256):
+def update_query_data(target, job_id, hash):
     global job_data
     old_job_data = get_query_data()
-    old_job_data[target] = {'job': int(job_id), 'sha256': sha256}
+    old_job_data[target] = {'job': int(job_id), 'job-hash': hash}
     job_data = old_job_data
     if os.path.exists(JOBS_JSON):
         os.chmod(JOBS_JSON, 0o644)
@@ -202,7 +202,7 @@ def is_run_needed(config, target):
     if target not in query_data:
         return True
 
-    oldhash = query_data[target]['sha256']
+    oldhash = query_data[target]['job-hash']
     logger.debug('old query hash = ' + oldhash)
 
     return oldhash != newhash
