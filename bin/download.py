@@ -105,6 +105,10 @@ if __name__ == '__main__':
     config = get_query_config()
     target = args.target[len(TXT_ROOT):]  # trim off 'data/txt/'
 
+    if target not in config['queries']:
+        print(f'The download target {target} is not in the study-config.json.')
+        exit(3)
+
     if is_run_needed(config, target):
         run_query(config, target)
 
