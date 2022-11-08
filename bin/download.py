@@ -52,6 +52,10 @@ def download_query(target):
         with Timer():
             with target_path.open(mode='w') as fh:
                 fh.write(job.output())
+    except Exception as e:
+        target_path.unlink()
+        print(e)
+        exit(30)
     finally:
         verifyDownload(target)
 
