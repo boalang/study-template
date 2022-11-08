@@ -37,7 +37,7 @@ zenodo:
 
 clean:
 	rm -Rf __pycache__ bin/__pycache__
-	rm -f figures/**/*.pdf figures/*.pdf
+	rm -f figures/**/*.pdf figures/*.pdf figures/**/*.png figures/*.png
 	rm -f tables/**/*.tex tables/*.tex
 
 clean-data: clean-csv clean-pq clean-txt
