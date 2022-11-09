@@ -109,6 +109,8 @@ if __name__ == '__main__':
         print(f'The download target {target} is not in the study-config.json.')
         exit(3)
 
+    cache_config(config, target)
+
     if is_run_needed(config, target):
         run_query(config, target)
 

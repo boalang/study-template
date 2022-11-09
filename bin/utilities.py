@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from hashlib import sha256
 import json
 import logging
 import os
@@ -111,6 +112,18 @@ def update_query_data(target, job_id, hash):
     os.chmod(JOBS_JSON, 0o444)
 
 
+def cache_config(config, target):
+    global job_data
+    old_job_data = get_query_data()
+    old_job_data[target]['config-hash'] = sha256(str.encode(json.dumps(config['queries'][target], indent=2))).hexdigest()
+    job_data = old_job_data
+    if os.path.exists(JOBS_JSON):
+        os.chmod(JOBS_JSON, 0o644)
+    with open(JOBS_JSON, 'w') as fh:
+        json.dump(job_data, fh, indent=2)
+    os.chmod(JOBS_JSON, 0o444)
+
+
 def expand_replacements(replacements, query):
     if len(replacements) > 0:
         import re
@@ -179,8 +192,6 @@ def get_dataset(config, target):
 
 
 def prepare_query(config, target):
-    from hashlib import sha256
-
     query_info = config['queries'][target]
 
     with open(QUERY_ROOT + query_info['query'], 'r') as fh:

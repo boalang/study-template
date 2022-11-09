@@ -14,7 +14,8 @@
             "type": "object",
             "required": [
                 "job",
-                "job-hash"
+                "job-hash",
+                "config-hash"
             ],
             "additionalProperties": false,
             "properties": {
@@ -24,6 +25,13 @@
                 },
                 "job-hash": {
                     "description": "A hash of the fully substituted query, used for caching.",
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+$",
+                    "minLength": 64,
+                    "maxLength": 64
+                },
+                "config-hash": {
+                    "description": "A hash of the config, used for caching.",
                     "type": "string",
                     "pattern": "^[a-z0-9]+$",
                     "minLength": 64,
