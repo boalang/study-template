@@ -37,22 +37,22 @@ zenodo:
 .PHONY: clean clean-data clean-csv clean-pq clean-txt clean-zip clean-all
 
 clean:
-	rm -Rf __pycache__ bin/__pycache__
-	rm -f figures/**/*.pdf figures/*.pdf figures/**/*.png figures/*.png
-	rm -f tables/**/*.tex tables/*.tex
+	${RM} -R __pycache__ bin/__pycache__
+	${RM} figures/**/*.pdf figures/*.pdf figures/**/*.png figures/*.png
+	${RM} tables/**/*.tex tables/*.tex
 
 clean-data: clean-csv clean-pq clean-txt
 
 clean-csv:
-	rm -f data/csv/**/*.csv data/csv/*.csv
+	${RM} data/csv/**/*.csv data/csv/*.csv
 
 clean-pq:
-	rm -f data/parquet/**/*.parquet data/parquet/*.parquet
+	${RM} data/parquet/**/*.parquet data/parquet/*.parquet
 
 clean-txt:
-	rm -f data/txt/**/*.txt data/txt/*.txt
+	${RM} data/txt/**/*.txt data/txt/*.txt
 
 clean-zip:
-	rm -f replication-pkg.zip data.zip data-cache.zip
+	${RM} replication-pkg.zip data.zip data-cache.zip
 
 clean-all: clean clean-data clean-zip
