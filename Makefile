@@ -23,7 +23,11 @@ Makefile.study: study-config.json bin/build-makefile.py
 .PHONY: package zip zenodo
 zip: package
 package:
+	@cp -f requirements.txt requirements.txt.save
+	@sed 's/>=/==/g' requirements.txt.save > requirements.txt
 	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
+	@cp -f requirements.txt.save requirements.txt
+	@$(RM) requirements.txt.save
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
 
