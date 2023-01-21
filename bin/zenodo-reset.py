@@ -21,26 +21,17 @@ params = {'access_token': os.environ['ZENODO_API_TOKEN']}
 headers = {'Content-Type': 'application/json'}
 
 
-def delete():
-    r = requests.get(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions', params=params, json={}, headers=headers)
+if __name__ == '__main__':
+    r = requests.get(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions?status=draft&all_versions=1&size=10000', params=params, json={}, headers=headers)
+
     if r.status_code == 200:
         if len(r.json()) > 0:
-            deleted = 0
             for i in r.json():
-                if i['submitted']:
-                    continue
                 print('trying:', i['record_id'])
                 r = requests.delete(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions/' + str(i['record_id']), params=params, json={}, headers=headers)
                 if r.status_code == 204:
                     print('deleted:', i['record_id'])
-                    deleted += 1
                 else:
                     print('error:', r)
-            if deleted:
-                delete()
     else:
         print(json.dumps(r.json(), indent=2))
-
-
-if __name__ == '__main__':
-    delete()
