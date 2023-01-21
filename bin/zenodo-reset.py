@@ -28,10 +28,13 @@ if __name__ == '__main__':
         if len(r.json()) > 0:
             for i in r.json():
                 print('trying:', i['record_id'])
-                r = requests.delete(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions/' + str(i['record_id']), params=params, json={}, headers=headers)
+                r = requests.delete(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions/{i["record_id"]}', params=params, json={}, headers=headers)
                 if r.status_code == 204:
                     print('deleted:', i['record_id'])
                 else:
                     print('error:', r)
+                    r = requests.post(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions/{i["record_id"]}/actions/discard', params=params, json={}, headers=headers)
+                    if r.status_code == 201:
+                        print('discarded draft:', i['record_id'])
     else:
         print(json.dumps(r.json(), indent=2))
