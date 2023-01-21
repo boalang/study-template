@@ -5,9 +5,15 @@ ZIP:=zip
 ZIPOPTIONS:=-u -r
 ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
 
+DOWNLOAD:=bin/download.py $(VERBOSE)
+BOATOCSV:=bin/boa-to-csv.py
+MKDIR:=mkdir -p
 
 .PHONY: all
 all: analysis
+
+.PHONY: data
+data: txt csv
 
 include Makefile.study
 
