@@ -26,7 +26,7 @@ def processCSV(csv_info, target, clean_target, cacheclean=None):
             print(f'{clean_target} += {PQ_ROOT}$**/{clean}')
     print(f'{csv_output}: {target}')
     print('\t@$(MKDIR) "$(dir $@)"')
-    string = '\t$(PYTHON) $(BOATOCSV)'
+    string = '\t$(BOATOCSV)'
     if not isinstance(csv_info, str):
         if 'test' in csv_info:
             for test in csv_info['test']:
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         string = escape(f'boa/{query_info["query"]}')
         string += ' ' + ' '.join(substitution_files)
         print(f'{target}: {string.strip()}')
-        print('\t$(PYTHON) $(DOWNLOAD) "$@"')
+        print('\t$(DOWNLOAD) "$@"')
         print('')
 
         print(f'.PHONY: {clean_target}')

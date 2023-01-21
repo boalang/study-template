@@ -5,9 +5,13 @@ ZIP:=zip
 ZIPOPTIONS:=-u -r
 ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
 
-DOWNLOAD:=bin/download.py $(VERBOSE)
-BOATOCSV:=bin/boa-to-csv.py
+DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)
+BOATOCSV:=$(PYTHON) bin/boa-to-csv.py
+
+JSONSCHEMA:=jsonschema
+SED:=sed
 MKDIR:=mkdir -p
+CP:=cp -f
 
 .PHONY: all
 all: analysis
@@ -18,7 +22,7 @@ data: txt csv
 include Makefile.study
 
 Makefile.study: study-config.json bin/build-makefile.py
-	jsonschema --instance study-config.json schemas/0.1.2/study-config.schema.json
+	$(JSONSCHEMA) --instance study-config.json schemas/0.1.2/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
 
 
@@ -28,10 +32,10 @@ Makefile.study: study-config.json bin/build-makefile.py
 .PHONY: package zip zenodo
 zip: package
 package:
-	@cp -f requirements.txt requirements.txt.save
-	@sed 's/>=/==/g' requirements.txt.save > requirements.txt
+	@$(CP) requirements.txt requirements.txt.save
+	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
 	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
-	@cp -f requirements.txt.save requirements.txt
+	@$(CP) requirements.txt.save requirements.txt
 	@$(RM) requirements.txt.save
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
