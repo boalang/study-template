@@ -1,3 +1,7 @@
+# be sure to change this name if you build a Docker image
+DOCKER-IMAGE:=study-template
+
+# you might need to update some paths below, but probably not
 PYTHON:=python3
 VERBOSE:=
 
@@ -12,6 +16,11 @@ JSONSCHEMA:=jsonschema
 SED:=sed
 MKDIR:=mkdir -p
 CP:=cp -f
+
+
+############################
+# DO NOT MODIFY BELOW HERE #
+############################
 
 .PHONY: all
 all: analysis
@@ -39,6 +48,17 @@ package:
 	@$(RM) requirements.txt.save
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
+
+.PHONY: docker run-docker
+docker:
+	@$(CP) requirements.txt requirements.txt.save
+	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
+	docker build -t $(DOCKER-IMAGE):latest .
+	@$(CP) requirements.txt.save requirements.txt
+	@$(RM) requirements.txt.save
+
+run-docker: docker
+	docker run -it -v $(shell pwd):/study $(DOCKER-IMAGE):latest
 
 zenodo:
 	$(PYTHON) bin/zenodo.py
