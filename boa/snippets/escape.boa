@@ -1,3 +1,3 @@
 escape := function(s: string): string {
-	return strreplace(s, "\\n", "\\\\n", true);
+	return strreplace(strreplace(s, "\\r", "\\\\r", true), "\\n", "\\\\n", true);
 };
