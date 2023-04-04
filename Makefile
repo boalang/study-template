@@ -43,7 +43,7 @@ zip: package
 package:
 	@$(CP) requirements.txt requirements.txt.save
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile Dockerfile README.md requirements.txt study-config.json $(ZIPIGNORES)
 	@$(CP) requirements.txt.save requirements.txt
 	@$(RM) requirements.txt.save
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
