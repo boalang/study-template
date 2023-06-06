@@ -74,6 +74,14 @@ if __name__ == '__main__':
             csv.append(processCSV(query_info['csv'], target, clean_target))
 
         if 'processors' in query_info:
+            procTarget = target
+            if 'csv' in query_info:
+                if isinstance(query_info['csv'], str):
+                    csv_filename = query_info['csv']
+                else:
+                    csv_filename = query_info['csv']['output']
+                procTarget = CSV_ROOT + escape(csv_filename)
+
             for postproc in query_info['processors']:
                 processor = query_info['processors'][postproc]
                 proc_output = escape(processor['output'])
@@ -81,9 +89,9 @@ if __name__ == '__main__':
 
                 print('')
                 print(f'{clean_target} += {proc_output}')
-                print(f'{proc_output}: {target}')
+                print(f'{proc_output}: {procTarget}')
                 print(f'\t@$(MKDIR) "$(dir {proc_output})"')
-                print(f'\t$(PYTHON) bin/{postproc} "{target}" > "$@"')
+                print(f'\t$(PYTHON) bin/{postproc} "{procTarget}" > "$@"')
 
                 if 'csv' in processor:
                     csv.append(processCSV(processor['csv'], proc_output, clean_target, processor['cacheclean']))
