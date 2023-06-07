@@ -66,26 +66,31 @@ def verifyDownload(target):
     if not target_path.exists():
         return False
 
-    job_data = get_query_data()
+    try:
+        job_data = get_query_data()
 
-    client = get_client()
-    job = client.get_job(job_data[target]['job'])
+        client = get_client()
+        job = client.get_job(job_data[target]['job'])
 
-    actual_size = target_path.stat().st_size
-    expected_size = int(job.output_size())
-    if actual_size != expected_size:
-        logger.warning(f"Downloaded output of {target} is {actual_size}, should be {expected_size}, deleting.")
+        actual_size = target_path.stat().st_size
+        expected_size = int(job.output_size())
+        if actual_size != expected_size:
+            logger.warning(f'Downloaded output of {target} is {actual_size}, should be {expected_size}, deleting.')
+            target_path.unlink()
+            return False
+
+        expected_hash = job.output_hash()
+        with target_path.open(mode='rb') as fh:
+            data = fh.read(expected_hash[0])
+        actual_hash = md5(data).hexdigest()
+        if expected_hash[1] != actual_hash:
+            logger.warning(f'Downloaded output of {target} has bad hash ({actual_hash}, was expecting {expected_hash[1]}), deleting.')
+            target_path.unlink()
+            return False
+    except Exception as e:
+        logger.warning(f'Downloaded output of {target} had verification problem, deleting.')
         target_path.unlink()
-        return False
-
-    expected_hash = job.output_hash()
-    with target_path.open(mode='rb') as fh:
-        data = fh.read(expected_hash[0])
-    actual_hash = md5(data).hexdigest()
-    if expected_hash[1] != actual_hash:
-        logger.warning(f"Downloaded output of {target} has bad hash ({actual_hash}, was expecting {expected_hash[1]}), deleting.")
-        target_path.unlink()
-        return False
+        raise e
 
     target_path.touch()
     return True
