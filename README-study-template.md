@@ -159,6 +159,13 @@ the generated TXT file into CSV format (with the prefix omitted).  An optional
 `cacheclean` key allows listing additional cache (Parquet) files to clean up
 when re-generating this output.
 
+There is another variant called `genclones.py` that takes token sets from Boa
+and identifies files that are either exact clones, or near-miss clones.  This
+algorithm follows the same approach as SourcererCC (later used by Allamanis)
+and computes a token set and a multiset, then pairwise computes Jaccard
+distances for each.  If the token set has a Jaccard scores of > 0.8, or if the
+multiset has a Jaccard score of > 0.7, then it will be filtered out.
+
 ```json
   "substitutions": [
     {
@@ -209,10 +216,15 @@ any substitutions (i.e., a steady state has been reached).
 
 ## Adding Analyses
 
-There is one sample analysis given in `analyses/rq1.py`.  This relies on the sample
-query given in `boa/queries/rq1.boa` and makes use of deduplication, which relies
-(indirectly) on the query given in `boa/queries/hashes.boa`.  This analysis will
+There is one sample analysis given in `analyses/rq1.py`.  This relies on the
+sample query given in `boa/queries/rq1.boa` and makes use of deduplication and
+decloning, which relies (indirectly) on the queries given in
+`boa/queries/hashes.boa` and `boa/queries/token-sets.boa`.  This analysis will
 generate a single result, the table in `tables/kotlin/rq1.tex`.
+
+Note that this example shows the three ways to load an output for analysis: 1)
+loading all data, including duplicates, 2) loading data with exact duplicates
+removed, and 3) loading data with near-miss clones also removed.
 
 The steps to add a new analysis are as follows:
 

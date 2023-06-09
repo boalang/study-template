@@ -9,6 +9,41 @@
     "original": "2012 July/SF"
   },
   "queries": {
+    "kotlin/token-sets.txt": {
+      "query": "queries/token-sets.boa",
+      "dataset": "kotlin",
+      "processors": {
+        "genclones.py": {
+          "output": "data/csv/kotlin/clones.csv",
+          "cacheclean": [
+            "kotlin/*-noclones.parquet"
+          ]
+        }
+      },
+      "csv": {
+        "output": "kotlin/token-sets.csv"
+      }
+    },
+    "kotlin/project-count.txt": {
+      "query": "queries/project-count.boa",
+      "dataset": "kotlin",
+      "csv": {
+        "output": "kotlin/project-count.csv",
+        "drop": [
+          1
+        ]
+      }
+    },
+    "python/project-count.txt": {
+      "query": "queries/project-count.boa",
+      "dataset": "python",
+      "csv": {
+        "output": "python/project-count.csv",
+        "drop": [
+          1
+        ]
+      }
+    },
     "kotlin/hashes.txt": {
       "query": "queries/hashes.boa",
       "dataset": "kotlin",
@@ -31,26 +66,6 @@
           "3,\\.kts?$"
         ]
       }
-    },
-    "kotlin/project-count.txt": {
-      "query": "queries/project-count.boa",
-      "dataset": "kotlin",
-      "csv": {
-        "output": "kotlin/project-count.csv",
-        "drop": [
-          1
-        ]
-      }
-    },
-    "python/project-count.txt": {
-      "query": "queries/project-count.boa",
-      "dataset": "python",
-      "csv": {
-        "output": "python/project-count.csv",
-        "drop": [
-          1
-        ]
-      }
     }
   },
   "substitutions": [
@@ -67,7 +82,8 @@
     "rq1.py": {
       "input": [
         "kotlin/rq1.csv",
-        "kotlin/dupes.csv"
+        "kotlin/dupes.csv",
+        "kotlin/clones.csv"
       ]
     }
   }
