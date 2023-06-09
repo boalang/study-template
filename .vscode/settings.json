@@ -1,4 +1,8 @@
 {
+    "files.readonlyInclude": {
+        "Makefile.study": true,
+        "jobs.json": true
+    },
     "files.associations": {
         "**/Makefile.study": "makefile"
     },
