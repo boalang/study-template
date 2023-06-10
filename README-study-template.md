@@ -248,6 +248,14 @@ query (after running through the template engine).  The hash is used to
 determine if the source query has changed and trigger re-submitted it.
 Otherwise, the downloader will simply grab the output from the `job` specified.
 
+## Adding a README.md file
+
+Your replication package will need a README file.  We provide a template file,
+`sample-README.md`, that you can use as a starting point for your package.  Just
+rename the file to `README.md` and edit accordingly.  There are several places
+with "TODO" notices that you will definitely want to change.  And we recommend
+also adding a section at the end that describes each analysis in a bit more detail.
+
 ## Packaging
 
 If you run `make package`, replication package ZIP files will be generated.  It
