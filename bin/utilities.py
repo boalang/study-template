@@ -147,7 +147,7 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                     else:
                         try:
                             with open(SNIPPET_ROOT + repl['file'], 'r') as fh:
-                                replacements[target] = fh.read()
+                                replacements[target] = fh.read().replace('\\', '\\\\')
                         except FileNotFoundError as e:
                             raise FileNotFoundError(f"Snippet file '{repl['file']}' not found for substitution '{repl['target']}'.") from e
                 if target in replacements:
