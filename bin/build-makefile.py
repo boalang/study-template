@@ -125,12 +125,15 @@ if __name__ == '__main__':
             inputs = [CSV_ROOT + escape(x) for x in inputs]
 
             print('')
-            print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
+            print(f'{target}-reproduce: {ANALYSIS_ROOT}{script}')
             print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
+            print(f'{target}: ' + ' '.join(inputs) + f' {target}-reproduce')
 
         if len(analyses) > 0:
+            reproductions = [f'{x}-reproduce' for x in analyses]
             print('')
-            print('.PHONY: analysis ' + ' '.join(analyses))
+            print('.PHONY: analysis reproduce ' + ' '.join(analyses) + ' ' + ' '.join(reproductions))
             print('analysis: ' + ' '.join(analyses))
+            print('reproduce: ' + ' '.join(reproductions))
     else:
         print('analysis: data')
