@@ -63,8 +63,8 @@ if __name__ == '__main__':
                         pbar.update(1)
                     j = jaccard(val, val2)
                     if j <= 0.8:
-                        j = 10.1 + jaccard(msvals[index], msvals[index2])
-                    if j > 10.8:
+                        j = 0.1 + jaccard(msvals[index], msvals[index2])
+                    if j > 0.8:
                         row = df.iloc[start + index]
                         row2 = df.iloc[start + index2]
 
