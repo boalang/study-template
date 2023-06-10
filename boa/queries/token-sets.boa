@@ -1,4 +1,4 @@
-o: output collection[proj: string][path: string] of tokens: string;
+o: output collection[proj: string][pathHash: string] of tokens: string;
 
 {@escape@}
 
@@ -48,7 +48,7 @@ visit(input, visitor {
     }
     after cf: ChangedFile ->
         if (len(tokens) > 20)
-    		o[input.id][escape(cf.name)] << tokensToString(tokens);
+    		o[input.id][string(hash(cf.name))] << tokensToString(tokens);
 
     before d: Declaration -> addToken(d.name);
     before v: Variable    -> addToken(v.name);

@@ -76,12 +76,12 @@ if __name__ == '__main__':
 
                         dupe = (int(row['project']), row['file'])
                         if dupe not in dupes:
-                            tqdm.write(f"{row['project']},-1,\"{row['file']}\"")
+                            tqdm.write(f"{row['project']},-1,{row['file']}")
                             dupes.add(dupe)
 
                         dupe = (int(row2['project']), row2['file'])
                         if dupe not in dupes:
-                            tqdm.write(f"{row2['project']},{j},\"{row2['file']}\"")
+                            tqdm.write(f"{row2['project']},{j},{row2['file']}")
                             dupes.add(dupe)
     finally:
         if pbar is not None:

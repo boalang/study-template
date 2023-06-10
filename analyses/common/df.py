@@ -99,12 +99,22 @@ def get_decloned_df(filename: str, subdir: Optional[str]=None, clonesdir: Option
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-noclones.parquet'), compression='gzip')
     return df
 
-def _remove_clones(df: pd.DataFrame, clonesdir: Optional[str]=None, names=['project', 'jaccard', 'file']) -> pd.DataFrame:
-    df2 = get_df('clones', clonesdir, names=names)
+def _javaStrHash(s):
+    h = 0
+    for c in s:
+        h = int((((31 * h + ord(c)) ^ 0x80000000) & 0xFFFFFFFF) - 0x80000000)
+    return h
 
-    df2 = df2[df2.duplicated(subset=['project', 'file'])]
-    df3 = pd.merge(df, df2, how='left', left_on=['project', 'file'], right_on=['project', 'file'])
+def _remove_clones(df: pd.DataFrame, clonesdir: Optional[str]=None, names=['project', 'jaccard', 'filehash']) -> pd.DataFrame:
+    dfhash = df
+    dfhash['filehash'] = dfhash['file'].apply(_javaStrHash)
+
+    df2 = get_df('clones', clonesdir, names=names)
+    df2 = df2.drop_duplicates(subset=['project', 'filehash'])
+
+    df3 = pd.merge(dfhash, df2, how='left', left_on=['project', 'filehash'], right_on=['project', 'filehash'])
     df3['jaccard'] = df3['jaccard'].fillna(-1)
+
     # df4 consists of rows in df3 where 'jaccard' is a number, but not -1
     df4 = df3[df3['jaccard'] == -1]
-    return df4.drop(columns=['jaccard'])
+    return df4.drop(columns=['filehash', 'jaccard'])
