@@ -16,9 +16,15 @@ def convertToMultiset(x):
         return s
     return set()
 
+def getval(x):
+    try:
+        return x[x.index(':') + 1:]
+    except:
+        return x
+
 def convertToSet(ms):
     try:
-        return { x[x.index(':') + 1:] for x in ms }
+        return { getval(x) for x in ms }
     except Exception as e:
         print(ms)
         raise e

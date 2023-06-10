@@ -5,15 +5,30 @@ o: output collection[proj: string][path: string] of tokens: string;
 tokens: set of string;
 tokenCounts: map[string] of int;
 
+getcount := function(v: string): string {
+    if (tokenCounts[v] > 1)
+        return string(tokenCounts[v]) + ":";
+    return "";
+};
+
+maybehash := function(s: string): string {
+    h := "#" + string(hash(s));
+    if (len(h) < len(s)) return h;
+    if (substring(s, 0, 1) == "\"") return h;
+    if (strfind(":", s) > -1) return h;
+    return s;
+};
+
 tokensToString := function(tokens: set of string): string {
     s := "";
     vals := values(tokens);
     foreach (i: int; len(vals[i]) > 0)
-        s += "\"" + string(tokenCounts[vals[i]]) + ":" + strreplace(vals[i], "\"", "\"\"", true) + "\",";
-    return escape(s);
+        s += getcount(vals[i]) + maybehash(vals[i]) + ",";
+    return escape(substring(s, 0, len(s) - 1));
 };
 
 addToken := function(t: string) {
+    if (!def(t) || len(t) == 0) return;
     add(tokens, t);
     tokenCounts[t] = lookup(tokenCounts, t, 0) + 1;
 };
