@@ -15,11 +15,18 @@ __all__ = [
     "highlight_rows",
     "save_table",
     ]
-
-def get_styler(df: Union[pd.DataFrame, pd.Series]) -> pandas.io.formats.style.Styler:
+def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
+    '''Gets a Styler object for formatting a table.
+    
+    Args:
+        decimals (Optional[int]): How many decimal places for floats. Defaults to 2.
+        thousands (Optional[str]): What mark should be used for thousands separator.  Defaults to ','.
+    '''
     if isinstance(df, pd.Series):
-        return df.to_frame().style
-    return df.style
+        styler = df.to_frame().style
+    else:
+        styler = df.style
+    return styler.format(None, precision=decimals, thousands=thousands, escape='latex')
 
 def highlight_cols(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.style.Styler:
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='columns')
@@ -29,15 +36,13 @@ def highlight_rows(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
-def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, decimals: Optional[int]=2, thousands: Optional[str]=',', mids: Optional[Union[int,List[int]]]=None, colsep: Optional[str]=None, **kwargs):
+def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, mids: Optional[Union[int,List[int]]]=None, colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
         styler (pandas.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
-        decimals (Optional[int]): How many decimal places for floats. Defaults to 2.
-        thousands (Optional[str]): What mark should be used for thousands separator.  Defaults to ','.
         mids (Optional[Union[int,List[int]]]): If None, do not place \midrule anywhere.  Otherwise, a list of row numbers (or single int) to place \midrule before. Defaults to None.
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
@@ -54,7 +59,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
                 {'selector': 'toprule', 'props': ':toprule;'},
                 {'selector': 'bottomrule', 'props': ':bottomrule;'},
             ], overwrite=False)
-        tab1 = styler.format(None, precision=decimals, thousands=thousands, escape='latex').to_latex(**kwargs)
+        tab1 = styler.to_latex(**kwargs)
 
     if mids is not None:
         if isinstance(mids, int):
