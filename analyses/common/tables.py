@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.io.formats.style
 import re
 import sys
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 from .utils import _resolve_dir, _get_dir
 
@@ -29,7 +29,7 @@ def highlight_rows(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
-def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, decimals: Optional[int]=2, thousands: Optional[str]=',', colsep: Optional[str]=None, **kwargs):
+def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, decimals: Optional[int]=2, thousands: Optional[str]=',', mids: Optional[Union[int,List[int]]]=None, colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
@@ -38,6 +38,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
         decimals (Optional[int]): How many decimal places for floats. Defaults to 2.
         thousands (Optional[str]): What mark should be used for thousands separator.  Defaults to ','.
+        mids (Optional[Union[int,List[int]]]): If None, do not place \midrule anywhere.  Otherwise, a list of row numbers (or single int) to place \midrule before. Defaults to None.
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
     if colsep:
@@ -49,7 +50,21 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
     with pd.option_context("max_colwidth", 1000):
         styler = styler.format_index(None, escape='latex', axis='columns')
         styler = styler.format_index(None, escape='latex', axis='index')
+        styler = styler.set_table_styles([
+                {'selector': 'toprule', 'props': ':toprule;'},
+                {'selector': 'bottomrule', 'props': ':bottomrule;'},
+            ], overwrite=False)
         tab1 = styler.format(None, precision=decimals, thousands=thousands, escape='latex').to_latex(**kwargs)
+
+    if mids is not None:
+        if isinstance(mids, int):
+            mids = [mids]
+        lines = tab1.splitlines()
+        offset = 0
+        for m in set(mids):
+            lines.insert(offset + m + 2, '\midrule')
+            offset += 1
+        tab1 = '\n'.join(lines)
 
     os.makedirs(_resolve_dir(f'tables/{_get_dir(subdir)}'), 0o755, True)
     with open(_resolve_dir(f'tables/{_get_dir(subdir)}{filename}'), 'w', encoding='utf-8') as f:
