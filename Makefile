@@ -7,7 +7,7 @@ VERBOSE:=
 
 ZIP:=zip
 ZIPOPTIONS:=-u -r
-ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
+ZIPIGNORES:=-x \*.DS_Store\* -x \*.gitkeep\* -x data/csv/\*
 
 DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)
 BOATOCSV:=$(PYTHON) bin/boa-to-csv.py
