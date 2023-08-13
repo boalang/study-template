@@ -57,7 +57,7 @@ package-cache:
 docker:
 	@$(CP) requirements.txt requirements.txt.save
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
-	docker build -t $(DOCKER-IMAGE):latest .
+	-docker build -t $(DOCKER-IMAGE):latest .
 	@$(CP) requirements.txt.save requirements.txt
 	@$(RM) requirements.txt.save
 
