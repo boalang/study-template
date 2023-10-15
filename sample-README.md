@@ -81,6 +81,16 @@ for your username/password (once for **each** output it tries to download!).
 
 ------------------------------------------------------
 
+## Docker Support
+
+If you have Docker installed, you can use the provided `Dockerfile` to build an
+image capable of running all the scripts.  This is the easiest way to get a
+working environment.  To build and run the image, run:
+
+> make run-docker
+
+------------------------------------------------------
+
 ## File Organization
 
 Here is an overview of the folders layout.  The root contains scripts for

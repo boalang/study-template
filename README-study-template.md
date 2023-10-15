@@ -267,6 +267,16 @@ The hash is used to determine if the source query has changed and trigger
 re-submitted it.  Otherwise, the downloader will simply grab the output from
 the `job` specified.
 
+## Configuring Docker Support
+
+The study template has a sample `Dockerfile` to build a Python-based container
+that is capable of building the study.  You will need to update two things.
+First, update the version of Python used.  Currently, the Dockerfile is set to
+Python 3.10, so if you used a newer version of Python be sure to update.  Try
+to use a concrete version (e.g., `3.11.2`) rather than a generic version.
+Second, you will want to edit the `Makefile` to change the name of the
+generated Docker image.  By default, the image will be named "study-template".
+
 ## Adding a README.md file
 
 Your replication package will need a README file.  We provide a template file,
