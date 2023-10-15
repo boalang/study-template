@@ -9,7 +9,7 @@ Once you have an API login, edit the file [`.env`](.env) and enter your
 username as `BOA_API_USER='<username here>'`, then save and close the file.  We
 recommend also setting your password in your OS keyring, so you are not
 prompted to enter it each time a download triggers.  To do this, first install
-the keyring Python package and then run:
+the `keyring` Python package and then run:
 
 ```
 keyring set boaapi <username>
@@ -49,6 +49,13 @@ OS's keyring.  This is more secure than storing it in plaintext in the
 [`.env`](.env) file.  If you don't utilize either of those options, it will
 prompt you for your username/password (once for **each** output it tries to
 download!).
+
+See [`requirements-optional.txt`](requirements-optional.txt) for the package
+requirements.  To install them, run:
+
+```
+pip3 install -r requirements-optional.txt
+```
 
 ## Adding Queries
 
