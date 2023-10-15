@@ -40,9 +40,8 @@ There are also optional packages you can install to improve the experience.
 
 #### Optional Python Requirements
 
-If you install `tqdm>=4.64.0`, some of the scripts will display a progress bar.
-This can be very useful when processing extremely large (multi-GB) output
-files.
+If you install `tqdm>=4.64.0`, some scripts will display a progress bar.  This
+can be very useful when processing extremely large (multi-GB) output files.
 
 If you install `keyring>=23.8.2`, you can store your API credentials in your
 OS's keyring.  This is more secure than storing it in plaintext in the
@@ -70,7 +69,7 @@ sub-folders under the query folder: [`boa/queries/`](boa/queries) and
 store most of your Boa queries.  A few re-usable queries and examples are
 already provided there.
 
-The [`boa/snippets/`](boa/snippets) folder is where the query templating system
+The [`boa/snippets/`](boa/snippets) folder is where the query template system
 looks for any included files.  The template system is described in the next
 section.
 
@@ -157,8 +156,8 @@ either a string listing the output path for the CSV file (stored in
 * `drop` (can be repeated)
   * Drop a column (0-indexed) when converting.
 * `header`
-  * A header row to prepend to the CSV output.  Can be useful it you think
-    others might use the generated CSV files outside of your own analyses.
+  * A header row to prepend to the CSV output.  Can be useful if you think
+    others might use the generated CSV files outside your own analyses.
 * `index`
   * Number of indices in the Boa output - if not given, infers from the first
     line.  This is usually not needed.
@@ -209,7 +208,7 @@ section on adding an analysis for more details.
 Query templates are defined through a list of substitutions.  Substitutions are
 defined using two keys.  The `target` key is mandatory, containing the text
 which is replaced in the query.  Targets must start with `{@` and end with
-`@}`.  Target names are restricted to alpha-numeric characters, and some
+`@}`.  Target names are restricted to alphanumeric characters, and some
 special characters like `-_:.`.  Then, either `replacement` or `file` are used,
 with `replacement` providing the text directly, and `file` being the name of a
 file under [`boa/snippets/`](boa/snippets) which replaces `target`.  Care must
@@ -218,7 +217,7 @@ completed.
 
 Before performing substitutions, a substitutions list is constructed, first
 from local substitutions then from global substitutions.  If two substitutions
-define the same `target`, the first one defined is used.  Substition will
+define the same `target`, the first one defined is used.  Substitution will
 iterate through the substitutions list until a loop has been completed without
 any substitutions (i.e., a steady state has been reached).
 
@@ -226,7 +225,7 @@ any substitutions (i.e., a steady state has been reached).
 
 There is one sample analysis given in [`analyses/rq1.py`](analyses/rq1.py).
 This relies on the sample query given in
-[`boa/queries/rq1.boa`](boa/queries/rq1.boa) and makes use of deduplication,
+[`boa/queries/rq1.boa`](boa/queries/rq1.boa) and makes use of de-duplication,
 which relies (indirectly) on the query given in
 [`boa/queries/hashes.boa`](boa/queries/hashes.boa).  This analysis will
 generate a single result, the table in
@@ -259,7 +258,7 @@ To build, run `make`.  This will submit all queries, download their outputs,
 convert them (where necessary), and run all analysis tasks to generate the
 output tables/figures.
 
-As Boa queries are submitted, the are marked public (unless specified not to)
+As Boa queries are submitted, they are marked public (unless specified not to)
 and details about the submitted Boa job are cached in [`jobs.json`](jobs.json).
 This file contains keys that are the name of an output TXT file (without the
 [`data/txt/`](data/txt) prefix).  The values are the `job` number and a
@@ -329,7 +328,7 @@ The metadata for the Zenodo record is stored in the
 stored in Git.  If one does not exist, the first time you run the command one
 will be generated and it will stop processing to allow you time to edit it.
 This file contains the metadata for your record, including things like the
-title, description, creators, and license info.  By default we selected
+title, description, creators, and license info.  By default, we selected
 CC-By-4.0 as the license, so feel free to change it if needed.
 
 For a double-blinded submission, you will want to ensure the creators are
@@ -361,4 +360,4 @@ There are several `make` targets to clean up:
 - `make clean-csv` removes generated CSV files
 - `make clean-pq` removes cached/intermediate Parquet files
 - `make clean-zip` removes generated ZIP files
-- `make clean-all` runs all of the clean targets
+- `make clean-all` runs all the clean targets

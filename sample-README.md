@@ -11,16 +11,16 @@ replication pacakge.
 This replication package contains all data and scripts needed to reproduce the
 results from the paper.
 
-**TLDR: download `data-cache.zip` and run `make reproduce` to re-generate
-all tables/figures.**
+**TLDR: download `replication-pkg.zip` and `data-cache.zip` and run `make
+reproduce` to re-generate all tables/figures.**
 
 Note that all data was originally processed on a **TODO: put computer
 information here**.
 
-The raw data (`*.txt` files from Boa) is very large - around 14GB uncompressed.
-The cached Parquet files are quite a bit smaller.  Depending on your needs, you
-can probably skip downloading the `data.zip` file and only grab the
-`data-cache.zip` file.  This should be enough to allow running `make
+The raw data (`*.txt` files from Boa) is very large - around 14 GB
+uncompressed.  The cached Parquet files are quite a bit smaller.  Depending on
+your needs, you can probably skip downloading the `data.zip` file and only grab
+the `data-cache.zip` file.  This should be enough to allow running `make
 reproduce` to re-generate all tables and figures from the paper.
 
 If you plan to make changes to any of the queries or analysis scripts, you will
@@ -31,19 +31,18 @@ all CSV files from the TXT files.
 
 ## Boa Study Template
 
-This replicaton package utilizes the [Boa Study
-Template](https://github.com/boalang/study-template).  If you want to work
-with this package beyond simply re-generating the paper's figures and tables,
-we **strongly** encourage you to utilize [Visual Studio
-Code](https://code.visualstudio.com/) with the [Boa Language and
-Infrastructure
+This replication package utilizes the [Boa Study
+Template](https://github.com/boalang/study-template).  If you want to work with
+this package beyond simply re-generating the paper's figures and tables, we
+**strongly** encourage you to utilize [Visual Studio
+Code](https://code.visualstudio.com/) with the [Boa Language and Infrastructure
 Extension](https://marketplace.visualstudio.com/items?itemName=Boa.boalang)
 installed.
 
 If you have that extension, you can avoid running terminal commands (like
-`make`) and instead simply open the [study-config.json](study-config.json)
-file to control what files you download, which analyses you run, etc.  For
-more details on working with Boa's study template, see the [online
+`make`) and instead simply open the [study-config.json](study-config.json) file
+to control what files you download, which analyses you run, etc.  For more
+details on working with Boa's study template, see the [online
 documentation](https://github.com/boalang/study-template).
 
 ------------------------------------------------------
@@ -71,9 +70,8 @@ There are also optional packages you can install to improve your experience.
 
 #### Optional Python Requirements
 
-If you install `tqdm>=4.64.0`, some of the scripts will display a progress bar.
-This can be very useful when processing extremely large (multi-GB) output
-files.
+If you install `tqdm>=4.64.0`, some scripts will display a progress bar.  This
+can be very useful when processing extremely large (multi-GB) output files.
 
 If you install `keyring>=23.8.2`, you can store your Boa API credentials in
 your OS's keyring.  This is more secure than storing it in plaintext in the
@@ -141,8 +139,8 @@ If you want to run individual analyses, you can also do so:
 > make rq2
 
 Similar to the targets for running all analyses, these targets will also
-trigger running any missing Boa queries.  You can also run a single analysis
-on the cached data by adding `-reproduce` to the target name:
+trigger running any missing Boa queries.  You can also run a single analysis on
+the cached data by adding `-reproduce` to the target name:
 
 > make rq1-reproduce**TODO: update for your analysis script names**
 
