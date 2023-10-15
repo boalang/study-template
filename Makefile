@@ -71,11 +71,15 @@ zenodo:
 ################
 # clean targets
 #
-.PHONY: clean clean-data clean-csv clean-pq clean-txt clean-zip clean-all
+.PHONY: clean clean-figures clean-tables clean-data clean-csv clean-pq clean-txt clean-zip clean-all
 
-clean:
+clean: clean-figures clean-tables
 	${RM} -R __pycache__ bin/__pycache__
+
+clean-figures:
 	${RM} figures/**/*.pdf figures/*.pdf figures/**/*.png figures/*.png
+
+clean-tables:
 	${RM} tables/**/*.tex tables/*.tex
 
 clean-data: clean-csv clean-pq clean-txt

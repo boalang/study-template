@@ -348,8 +348,10 @@ https://developers.zenodo.org/#representation
 There are several `make` targets to clean up:
 
 - `make clean` cleans up some temporary files and analysis outputs
-- `make clean-csv` removes generates CSV files
-- `make clean-pq` removes cached intermediate Parquet files
+- `make clean-figures` removes generated figures (`.pdf` and .png anywhere in `figures/`)
+- `make clean-tables` removes generated tables (`.tex` anywhere in `tables/`)
 - `make clean-txt` removes downloaded TXT files
+- `make clean-csv` removes generated CSV files
+- `make clean-pq` removes cached/intermediate Parquet files
 - `make clean-zip` removes generated ZIP files
 - `make clean-all` runs all of the clean targets
