@@ -74,7 +74,7 @@ zenodo:
 .PHONY: clean clean-figures clean-tables clean-data clean-csv clean-pq clean-txt clean-zip clean-all
 
 clean: clean-figures clean-tables
-	${RM} -R __pycache__ bin/__pycache__
+	${RM} -R __pycache__ bin/__pycache__ analyses/**/__pycache__ analyses/__pycache__
 
 clean-figures:
 	${RM} figures/**/*.pdf figures/*.pdf figures/**/*.png figures/*.png
