@@ -37,7 +37,8 @@ this package beyond simply re-generating the paper's figures and tables, we
 **strongly** encourage you to utilize [Visual Studio
 Code](https://code.visualstudio.com/) with the [Boa Language and Infrastructure
 Extension](https://marketplace.visualstudio.com/items?itemName=Boa.boalang)
-installed.
+installed.  For more information, see the [Study Template
+README](README-study-template.md).
 
 If you have that extension, you can avoid running terminal commands (like
 `make`) and instead simply open the [study-config.json](study-config.json) file
