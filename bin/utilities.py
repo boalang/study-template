@@ -118,11 +118,11 @@ def expand_replacements(replacements, query):
         while has_replaced:
             has_replaced = False
             for (before, after) in replacements:
-                after = (r'\g<1>\g<2>' + after.strip()).replace('\n', '\n\\1')
+                after = (r'\g<1>\g<2>' + after.strip()).replace('\n', '\n\\1') + r'\3'
                 before = re.sub(r'([{}])', r'\\\1', before)
                 replaced = re.sub(r'([ \t]*)(.*(?=' + before + '))' + before + '(\n?)',
-                                  after + r'\3',
-                                  query)
+                                  after,
+                                  query).replace('#WHY#', '\\')
                 if query != replaced:
                     has_replaced = True
                     query = replaced
@@ -140,14 +140,14 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                 if 'replacement' in repl:
                     replacement_includes_string = True
                     if not only_files:
-                        replacements[target] = repl['replacement']
+                        replacements[target] = repl['replacement'].replace('\\', '#WHY#')
                 else:
                     if only_files:
                         replacements[target] = SNIPPET_ROOT + repl['file']
                     else:
                         try:
                             with open(SNIPPET_ROOT + repl['file'], 'r') as fh:
-                                replacements[target] = fh.read().replace('\\', '\\\\')
+                                replacements[target] = fh.read().replace('\\', '#WHY#')
                         except FileNotFoundError as e:
                             raise FileNotFoundError(f"Snippet file '{repl['file']}' not found for substitution '{repl['target']}'.") from e
                 if target in replacements:
