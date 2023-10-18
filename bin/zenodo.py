@@ -186,6 +186,7 @@ if __name__ == '__main__':
     (bucket_url, files) = get_deposition(deposition_id)
     for filepath in Path().glob('*.zip'):
         upload_file(bucket_url, files, str(filepath))
+    upload_file(bucket_url, files, 'README.md')
 
     update_metadata(deposition_id)
 
