@@ -12,7 +12,7 @@ ZIPIGNORES:=-x \*.DS_Store\* -x \*.gitkeep\* -x data/csv/\*
 DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)
 BOATOCSV:=$(PYTHON) bin/boa-to-csv.py
 
-JSONSCHEMA:=jsonschema
+JSONSCHEMA:=check-jsonschema
 SED:=sed
 MKDIR:=mkdir -p
 CP:=cp -f
@@ -31,7 +31,7 @@ data: txt csv
 include Makefile.study
 
 Makefile.study: study-config.json bin/build-makefile.py
-	$(JSONSCHEMA) --instance study-config.json schemas/0.1.2/study-config.schema.json
+	$(JSONSCHEMA) --verbose --schemafile schemas/0.1.2/study-config.schema.json study-config.json
 	$(PYTHON) bin/build-makefile.py > $@
 
 
