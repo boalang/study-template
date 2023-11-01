@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.io.formats.style
 import re
 import sys
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 from .utils import _resolve_dir, _get_dir
 
@@ -36,14 +36,28 @@ def highlight_rows(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
-def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, mids: Optional[Union[int,List[int]]]=None, colsep: Optional[str]=None, **kwargs):
+def _trim_spec(trim_left, trim_right):
+    if trim_left or trim_right:
+        trim_spec = '('
+        if trim_left:
+            trim_spec += 'l'
+        if trim_right:
+            trim_spec += 'r'
+        trim_spec += ')'
+        return trim_spec
+    else:
+        return ''
+
+def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
+               mids: Optional[Union[int,List[Union[int,Tuple[int, List[Tuple[int, int, bool, bool]]]]]]]=None,
+               colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
         styler (pandas.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
-        mids (Optional[Union[int,List[int]]]): If None, do not place \midrule anywhere.  Otherwise, a list of row numbers (or single int) to place \midrule before. Defaults to None.
+        mids (Optional[Union[int,List[Union[int, Tuple[int, List[Tuple[int, int, bool, bool]]]]]]]): If None, do not place \midrule anywhere. If a solitary int, place \midrule before it. If a list, the contents should be ints or pairs of ints and cmidrule specifications (the left column, right column, and whether or not the rule should be trimmed on the left and right). Default None.
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
     if colsep:
@@ -67,7 +81,13 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         lines = tab1.splitlines()
         offset = 0
         for m in set(mids):
-            lines.insert(offset + m + 2, '\midrule')
+            if isinstance(m, int):
+                rule = '\midrule'
+            else:
+                m, where = m
+                rule = ''.join([ f'\cmidrule{_trim_spec(trim_left, trim_right)}{{{start}-{end}}}'
+                                 for (start, end, trim_left, trim_right) in where ])
+            lines.insert(offset + m + 2, rule)
             offset += 1
         tab1 = '\n'.join(lines)
 
