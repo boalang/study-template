@@ -69,7 +69,12 @@ def rule_from_spec(spec: rule_specifier) -> Tuple[int, str]:
             return (-1, "Unhandled case")
 
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
-               mids: Optional[Union[int,List[Union[int,Tuple[int, str], Tuple[int, Union[Tuple[int, int, Union[bool, str], Union[bool, str]], List[Tuple[int, int, Union[bool, str], Union[bool, str]]]]]]]]]=None,
+               mids: Optional[Union[int,
+                                    Tuple[int, str],
+                                    Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]],
+                                    List[Union[int,
+                                               Tuple[int, str],
+                                               Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]]]]]]=None,
                colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
@@ -77,7 +82,13 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         styler (pandas.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
-        mids (Optional[Union[int,List[Union[int, Tuple[int, List[Tuple[int, int, bool, bool]]]]]]]): If None, do not place \midrule anywhere. If a solitary int, place \midrule before it. If a list, the contents should be ints or pairs of ints and cmidrule specifications (the left column, right column, and whether or not the rule should be trimmed on the left and right). Default None.
+        mids (Optional[Union[x=Union[int,
+                                     Tuple[int, str],
+                                     Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]]],
+                             List[x]]]): Specification of mid-table rules, as follows:
+           - row : place a \midrule after this row
+           - (row, width) : place a midrule with a width of str after row
+           - (row, [(left, right, trimleft, trimright)]) : place a series of \cmidrule(trimleft,trimright){left-right} afer row
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
     if colsep:
