@@ -41,15 +41,35 @@ def _trim_spec(trim_left, trim_right):
         trim_spec = '('
         if trim_left:
             trim_spec += 'l'
+            if isinstance(trim_left, str):
+                trim_spec += f"{{{trim_left}}}"
         if trim_right:
             trim_spec += 'r'
+            if isinstance(trim_right, str):
+                trim_spec += f"{{{trim_right}}}"
         trim_spec += ')'
         return trim_spec
     else:
         return ''
 
+def rule_from_spec(spec: rule_specifier) -> Tuple[int, str]:
+    match spec:
+        case int(row):
+            return (row, '\midrule')
+        case (int(row), str(width)):
+            return (row, f'\\midrule[{width}]')
+        case (int(row), list(specs)) | (int(row), specs):
+            specs = specs if isinstance(specs, list) else [specs]
+            specs = sorted(specs, key=lambda x: x[0])
+            rules = []
+            for spec in specs:
+                rules.append(f'\\cmidrule{_trim_spec(spec[2], spec[3])}{{{spec[0]}-{spec[1]}}}')
+            return (row, ' '.join(rules))
+        case _:
+            return (-1, "Unhandled case")
+
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
-               mids: Optional[Union[int,List[Union[int,Tuple[int, List[Tuple[int, int, bool, bool]]]]]]]=None,
+               mids: Optional[Union[int,List[Union[int,Tuple[int, str], Tuple[int, Union[Tuple[int, int, Union[bool, str], Union[bool, str]], List[Tuple[int, int, Union[bool, str], Union[bool, str]]]]]]]]]=None,
                colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
@@ -76,17 +96,12 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         tab1 = styler.to_latex(**kwargs)
 
     if mids is not None:
-        if isinstance(mids, int):
+        if not isinstance(mids, list):
             mids = [mids]
+        rules = sorted([rule_from_spec(mid) for mid in mids], key=lambda x: x[0])
         lines = tab1.splitlines()
         offset = 0
-        for m in set(mids):
-            if isinstance(m, int):
-                rule = '\midrule'
-            else:
-                m, where = m
-                rule = ''.join([ f'\cmidrule{_trim_spec(trim_left, trim_right)}{{{start}-{end}}}'
-                                 for (start, end, trim_left, trim_right) in where ])
+        for line, rule in rules:
             lines.insert(offset + m + 2, rule)
             offset += 1
         tab1 = '\n'.join(lines)
