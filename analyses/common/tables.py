@@ -36,7 +36,16 @@ def highlight_rows(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
-def _trim_spec(trim_left, trim_right):
+RuleLineIndex = int
+RuleWidth = str
+TrimSpec = Union[bool, RuleWidth]
+CmidruleSpec = Tuple[int, int, TrimSpec, TrimSpec]
+RuleSpecifier = Union[RuleLineIndex,
+                       Tuple[RuleLineIndex, RuleWidth],
+                       Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
+ConcreteRule = Tuple[RuleLineIndex, str]
+
+def _trim_spec(trim_left: TrimSpec, trim_right: TrimSpec) -> str:
     if trim_left or trim_right:
         trim_spec = '('
         if trim_left:
@@ -51,15 +60,6 @@ def _trim_spec(trim_left, trim_right):
         return trim_spec
     else:
         return ''
-
-RuleLineIndex = int
-RuleWidth = str
-TrimSpec = Union[bool, RuleWidth]
-CmidruleSpec = Tuple[int, int, TrimSpec, TrimSpec]
-RuleSpecifier = Union[RuleLineIndex,
-                       Tuple[RuleLineIndex, RuleWidth],
-                       Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
-ConcreteRule = Tuple[RuleLineIndex, str]
 
 def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
     match spec:
