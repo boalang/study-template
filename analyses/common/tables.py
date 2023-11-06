@@ -52,7 +52,7 @@ def _trim_spec(trim_left, trim_right):
     else:
         return ''
 
-def _rule_from_spec(spec: rule_specifier) -> Tuple[int, str]:
+def _rule_from_spec(spec) -> Tuple[int, str]:
     match spec:
         case int(row):
             return (row, '\midrule')
