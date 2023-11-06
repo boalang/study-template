@@ -66,6 +66,7 @@ def _rule_from_spec(spec) -> Tuple[int, str]:
                 rules.append(f'\\cmidrule{_trim_spec(spec[2], spec[3])}{{{spec[0]}-{spec[1]}}}')
             return (row, ' '.join(rules))
         case _:
+            print(f"Rule {spec!r} is invalid.", file=sys.err)
             return (-1, "Unhandled case")
 
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
@@ -109,7 +110,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
     if mids is not None:
         if not isinstance(mids, list):
             mids = [mids]
-        rules = sorted([_rule_from_spec(mid) for mid in mids], key=lambda x: x[0])
+        rules = filter(lambda x: x[0] >= 0, sorted([_rule_from_spec(mid) for mid in mids], key=lambda x: x[0]))
         lines = tab1.splitlines()
         offset = 0
         for line, rule in rules:
