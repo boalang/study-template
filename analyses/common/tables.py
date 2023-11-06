@@ -113,7 +113,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         lines = tab1.splitlines()
         offset = 0
         for line, rule in rules:
-            lines.insert(offset + m + 2, rule)
+            lines.insert(offset + line + 2, rule)
             offset += 1
         tab1 = '\n'.join(lines)
 
