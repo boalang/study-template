@@ -52,7 +52,16 @@ def _trim_spec(trim_left, trim_right):
     else:
         return ''
 
-def _rule_from_spec(spec) -> Tuple[int, str]:
+RuleLineIndex = int
+RuleWidth = str
+TrimSpec = Union[bool, RuleWidth]
+CmidruleSpec = Tuple[int, int, TrimSpec, TrimSpec]
+RuleSpecifier = Union[RuleLineIndex,
+                       Tuple[RuleLineIndex, RuleWidth],
+                       Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
+ConcreteRule = Tuple[RuleLineIndex, str]
+
+def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
     match spec:
         case int(row):
             return (row, '\midrule')
@@ -70,12 +79,7 @@ def _rule_from_spec(spec) -> Tuple[int, str]:
             return (-1, "Unhandled case")
 
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
-               mids: Optional[Union[int,
-                                    Tuple[int, str],
-                                    Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]],
-                                    List[Union[int,
-                                               Tuple[int, str],
-                                               Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]]]]]]=None,
+               mids: Optional[Union[RuleSpecifier, List[RuleSpecifier]]]=None,
                colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
