@@ -63,11 +63,11 @@ def _trim_spec(trim_left: TrimSpec, trim_right: TrimSpec) -> str:
 
 def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
     match spec:
-        case int(row):
+        case RuleLineIndex(row):
             return (row, '\midrule')
-        case (int(row), str(width)):
+        case (RuleLineIndex(row), RuleWidth(width)):
             return (row, f'\\midrule[{width}]')
-        case (int(row), list(specs)) | (int(row), specs):
+        case (RuleLineIndex(row), list(specs)) | (RuleLineIndex(row), specs):
             specs = specs if isinstance(specs, list) else [specs]
             specs = sorted(specs, key=lambda x: x[0])
             rules = []
