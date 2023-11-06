@@ -87,13 +87,11 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         styler (pandas.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
-        mids (Optional[Union[x=Union[int,
-                                     Tuple[int, str],
-                                     Tuple[int, Union[List[int, int, Union[bool, str], Union[bool, str]]]]],
-                             List[x]]]): Specification of mid-table rules, as follows:
-           - row : place a \midrule after this row
-           - (row, width) : place a midrule with a width of str after row
-           - (row, [(left, right, trimleft, trimright)]) : place a series of \cmidrule(trimleft,trimright){left-right} afer row
+        mids (Optional[Union[RuleSpecifier, List[RuleSpecifier]]]): Specification of mid-table rules, where a RuleSpecifier is one of the following:
+           - RuleLineIndex (an int): place a \midrule after the specified row.
+           - Tuple[RuleLineIndex, RuleWidth]: Place a \midrule[RuleWidth] after the specified row.
+           - Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]] where, CmidruleSpec is Tuple[lstart: int, rstart: int, ltrim: TrimSpec, rtrim: TrimSpec] and TrimSpec is Union[bool, RuleWidth]:
+             Place a (series of) \cmidrule(ltrim rtrim){lstart-rstart} after the specified row. ltrim is 'l' if true, 'l{width}' if a RuleWidth, similarly for rtrim.
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
     if colsep:
