@@ -52,7 +52,7 @@ def _trim_spec(trim_left, trim_right):
     else:
         return ''
 
-def rule_from_spec(spec: rule_specifier) -> Tuple[int, str]:
+def _rule_from_spec(spec: rule_specifier) -> Tuple[int, str]:
     match spec:
         case int(row):
             return (row, '\midrule')
@@ -109,7 +109,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
     if mids is not None:
         if not isinstance(mids, list):
             mids = [mids]
-        rules = sorted([rule_from_spec(mid) for mid in mids], key=lambda x: x[0])
+        rules = sorted([_rule_from_spec(mid) for mid in mids], key=lambda x: x[0])
         lines = tab1.splitlines()
         offset = 0
         for line, rule in rules:
