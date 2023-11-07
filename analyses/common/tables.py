@@ -17,6 +17,7 @@ __all__ = [
     "auto_header_rules",
     "auto_group_rules",
     ]
+
 def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
     '''Gets a Styler object for formatting a table.
     
