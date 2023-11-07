@@ -89,15 +89,20 @@ def generate_partition_rules(df: pd.DataFrame, skip_index: bool=False, level: in
     If SKIP_INDEX is true, generate a cmidrule which does not include the columns of the index.
     """
     assert isinstance(df.index, pd.MultiIndex), "Index must be a MultiIndex"
-    row_offset = 1
+
     num_cols = df.columns.size
+    row_offset = 1
     if isinstance(df.columns, pd.MultiIndex):
         row_offset = df.columns.nlevels
+
     index_offset = df.index.nlevels
+
     values = df.index.get_level_values(level).array
     cur_row = 1
     cur_label = values[0]
+
     rules = []
+
     for label in values[1:]:
         if cur_label != label:
             cur_label = label
@@ -106,6 +111,7 @@ def generate_partition_rules(df: pd.DataFrame, skip_index: bool=False, level: in
             else:
                 rules.append((cur_row + row_offset, (index_offset + 1, num_cols + index_offset, False, False)))
         cur_row += 1
+
     return rules
 
 def _trim_spec(trim_left: TrimSpec, trim_right: TrimSpec) -> str:
