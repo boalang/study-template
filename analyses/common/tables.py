@@ -82,6 +82,12 @@ def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
             return (-1, "Unhandled case")
 
 def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, left_trim: TrimSpec=True, right_trim: TrimSpec=True) -> List[RuleSpecifier]:
+    """Generate post-header rule for DF, including cut rules for the column groups at LEVEL.
+
+    If skip_index is False, simply return a specification for a regular \midrule after the column header(s).
+    Otherwise, generate an offset midrule or cmidrules for groups.
+    When grouping is performed, obey LEFT_TRIM and RIGHT_TRIM between \cmidrule s
+    """
     index_cols = 1
     if isinstance(df.index, pd.MultiIndex):
         index_cols = df.index.nlevels
@@ -110,7 +116,11 @@ def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, lef
         starts.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
         return [(df.columns.nlevels, starts)]
 
-def auto_group_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0) -> List[RuleSpecifier]:
+def auto_group_rules(df: pd.DataFrame, skip_index: bool=False, level: int=0) -> List[RuleSpecifier]:
+    """Generate post-row-group rules for DF for row-groups at LEVEL.
+
+    If SKIP_INDEX is true, generate a cmidrule which does not include the columns of the index.
+    """
     assert isinstance(df.index, pd.MultiIndex), "Index must be a MultiIndex"
     row_offset = 1
     num_cols = df.columns.size
