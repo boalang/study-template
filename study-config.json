@@ -1,5 +1,5 @@
 {
-  "$schema": "schemas/0.1.2/study-config.schema.json",
+  "$schema": "schemas/0.1.3/study-config.schema.json",
   "datasets": {
     "kotlin": "2021 Aug/Kotlin",
     "python": "2021 Aug/Python",

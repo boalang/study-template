@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
+import re
 
 
 def escape(s):
@@ -126,7 +127,12 @@ if __name__ == '__main__':
 
             print('')
             print(f'{target}-reproduce: {ANALYSIS_ROOT}{script}')
-            print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
+
+            if re.match(r'\.ipynb$', script):
+                print(f'\$(JUPYTER) nbconvert --execute --to notebook --inplace {ANALYSIS_ROOT}{script}')
+            elif re.match(r'\.py$', script):
+                print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
+
             print(f'{target}: ' + ' '.join(inputs) + f' {target}-reproduce')
 
         if len(analyses) > 0:

@@ -3,6 +3,7 @@ DOCKER-IMAGE:=study-template
 
 # you might need to update some paths below, but probably not
 PYTHON:=python3
+JUPYTER:=jupyter
 VERBOSE:=
 
 ZIP:=zip
@@ -31,7 +32,7 @@ data: txt csv
 include Makefile.study
 
 Makefile.study: study-config.json bin/build-makefile.py
-	$(JSONSCHEMA) --verbose --schemafile schemas/0.1.2/study-config.schema.json study-config.json
+	$(JSONSCHEMA) --verbose --schemafile schemas/0.1.3/study-config.schema.json study-config.json
 	$(PYTHON) bin/build-makefile.py > $@
 
 
