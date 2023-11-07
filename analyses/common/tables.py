@@ -15,6 +15,7 @@ __all__ = [
     "highlight_rows",
     "save_table",
     "auto_header_rules",
+    "auto_group_rules",
     ]
 def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
     '''Gets a Styler object for formatting a table.
@@ -107,6 +108,27 @@ def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, lef
             val += 1
         starts.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
         return [(df.columns.nlevels, starts)]
+
+def auto_group_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0) -> List[RuleSpecifier]:
+    assert isinstance(df.index, pd.MultiIndex), "Index must be a MultiIndex"
+    row_offset = 1
+    num_cols = df.columns.size
+    if isinstance(df.columns, pd.MultiIndex):
+        row_offset = df.columns.nlevels
+    index_offset = df.index.nlevels
+    values = df.index.get_level_values(level).array
+    cur_row = 1
+    cur_label = values[0]
+    rules = []
+    for label in values[1:]:
+        if cur_label != label:
+            cur_label = label
+            if skip_index:
+                rules.append(cur_row + row_offset)
+            else:
+                rules.append((cur_row + row_offset, (index_offset + 1, num_cols + index_offset, False, False)))
+        cur_row += 1
+    return rules
 
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
                mids: Optional[Union[RuleSpecifier, List[RuleSpecifier]]]=None,
