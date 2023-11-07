@@ -14,6 +14,7 @@ __all__ = [
     "highlight_cols",
     "highlight_rows",
     "save_table",
+    "auto_header_rules",
     ]
 def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
     '''Gets a Styler object for formatting a table.
@@ -77,6 +78,35 @@ def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
         case _:
             print(f"Rule {spec!r} is invalid.", file=sys.err)
             return (-1, "Unhandled case")
+
+def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, left_trim: TrimSpec=True, right_trim: TrimSpec=True) -> List[RuleSpecifier]:
+    index_cols = 1
+    if isinstance(df.index, pd.MultiIndex):
+        index_cols = df.index.nlevels
+    if not isinstance(df.columns, pd.MultiIndex):
+        if skip_index:
+            return [(1, (1 + index_cols, df.columns.size + index_cols, False, False))]
+        else:
+            return [1]
+    else:
+        if not skip_index:
+            return [df.columns.nlevels]
+        values = df.columns.get_level_values(level).array
+        starts = []
+        cur = values[0]
+        cur_start = 1
+        val = 1
+        for label in values[1:]:
+            if label != cur:
+                cur = label
+                if cur_start == 1:
+                    starts.append((cur_start + index_cols, val + index_cols, False, right_trim))
+                else:
+                    starts.append((cur_start + index_cols, val + index_cols, left_trim, right_trim))
+                cur_start = val + 1
+            val += 1
+        starts.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
+        return [(df.columns.nlevels, starts)]
 
 def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
                mids: Optional[Union[RuleSpecifier, List[RuleSpecifier]]]=None,
