@@ -14,6 +14,8 @@ __all__ = [
     "highlight_cols",
     "highlight_rows",
     "save_table",
+    "generate_column_rules",
+    "generate_partition_rules",
     ]
 
 def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
@@ -46,7 +48,7 @@ RuleSpecifier = Union[RuleLineIndex,
                        Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
 ConcreteRule = Tuple[RuleLineIndex, str]
 
-def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, left_trim: TrimSpec=True, right_trim: TrimSpec=True) -> List[RuleSpecifier]:
+def generate_column_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, left_trim: TrimSpec=True, right_trim: TrimSpec=True) -> List[RuleSpecifier]:
     """Generate post-header rule for DF, including cut rules for the column groups at LEVEL.
 
     If skip_index is False, simply return a specification for a regular \midrule after the column header(s).
@@ -81,7 +83,7 @@ def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, lef
         starts.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
         return [(df.columns.nlevels, starts)]
 
-def auto_group_rules(df: pd.DataFrame, skip_index: bool=False, level: int=0) -> List[RuleSpecifier]:
+def generate_partition_rules(df: pd.DataFrame, skip_index: bool=False, level: int=0) -> List[RuleSpecifier]:
     """Generate post-row-group rules for DF for row-groups at LEVEL.
 
     If SKIP_INDEX is true, generate a cmidrule which does not include the columns of the index.
