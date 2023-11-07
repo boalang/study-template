@@ -15,6 +15,7 @@ __all__ = [
     "highlight_rows",
     "save_table",
     ]
+
 def get_styler(df: Union[pd.DataFrame, pd.Series], decimals: Optional[int]=2, thousands: Optional[str]=',') -> pandas.io.formats.style.Styler:
     '''Gets a Styler object for formatting a table.
     
@@ -44,7 +45,6 @@ RuleSpecifier = Union[RuleLineIndex,
                        Tuple[RuleLineIndex, RuleWidth],
                        Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
 ConcreteRule = Tuple[RuleLineIndex, str]
-
 
 def auto_header_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0, left_trim: TrimSpec=True, right_trim: TrimSpec=True) -> List[RuleSpecifier]:
     """Generate post-header rule for DF, including cut rules for the column groups at LEVEL.
