@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.io.formats.style
 import re
 import sys
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 from .utils import _resolve_dir, _get_dir
 
@@ -36,14 +36,62 @@ def highlight_rows(styler: pandas.io.formats.style.Styler) -> pandas.io.formats.
     styler = styler.applymap_index(lambda x: 'textbf:--rwrap;', axis='index')
     return styler.hide(names=True, axis='index')
 
-def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None, mids: Optional[Union[int,List[int]]]=None, colsep: Optional[str]=None, **kwargs):
+RuleLineIndex = int
+RuleWidth = str
+TrimSpec = Union[bool, RuleWidth]
+CmidruleSpec = Tuple[int, int, TrimSpec, TrimSpec]
+RuleSpecifier = Union[RuleLineIndex,
+                       Tuple[RuleLineIndex, RuleWidth],
+                       Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]]]
+ConcreteRule = Tuple[RuleLineIndex, str]
+
+def _trim_spec(trim_left: TrimSpec, trim_right: TrimSpec) -> str:
+    if trim_left or trim_right:
+        trim_spec = '('
+        if trim_left:
+            trim_spec += 'l'
+            if isinstance(trim_left, str):
+                trim_spec += f"{{{trim_left}}}"
+        if trim_right:
+            trim_spec += 'r'
+            if isinstance(trim_right, str):
+                trim_spec += f"{{{trim_right}}}"
+        trim_spec += ')'
+        return trim_spec
+    else:
+        return ''
+
+def _rule_from_spec(spec: RuleSpecifier) -> ConcreteRule:
+    match spec:
+        case RuleLineIndex(row):
+            return (row, '\midrule')
+        case (RuleLineIndex(row), RuleWidth(width)):
+            return (row, f'\\midrule[{width}]')
+        case (RuleLineIndex(row), list(specs)) | (RuleLineIndex(row), specs):
+            specs = specs if isinstance(specs, list) else [specs]
+            specs = sorted(specs, key=lambda x: x[0])
+            rules = []
+            for spec in specs:
+                rules.append(f'\\cmidrule{_trim_spec(spec[2], spec[3])}{{{spec[0]}-{spec[1]}}}')
+            return (row, ' '.join(rules))
+        case _:
+            print(f"Rule {spec!r} is invalid.", file=sys.err)
+            return (-1, "Unhandled case")
+
+def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Optional[str]=None,
+               mids: Optional[Union[RuleSpecifier, List[RuleSpecifier]]]=None,
+               colsep: Optional[str]=None, **kwargs):
     '''Saves a DataFrame to a LaTeX table.
 
     Args:
         styler (pandas.io.formats.style.Styler): A Pandas Styler object for formatting a table.
         filename (str): The filename to save to, including '.tex' extension. Files are saved under 'tables/'.
         subdir (Optional[str]): the sub-directory, underneath 'tables/', to save in. Defaults to None.
-        mids (Optional[Union[int,List[int]]]): If None, do not place \midrule anywhere.  Otherwise, a list of row numbers (or single int) to place \midrule before. Defaults to None.
+        mids (Optional[Union[RuleSpecifier, List[RuleSpecifier]]]): Specification of mid-table rules, where a RuleSpecifier is one of the following:
+           - RuleLineIndex (an int): place a \midrule after the specified row.
+           - Tuple[RuleLineIndex, RuleWidth]: Place a \midrule[RuleWidth] after the specified row.
+           - Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]] where, CmidruleSpec is Tuple[lstart: int, rstart: int, ltrim: TrimSpec, rtrim: TrimSpec] and TrimSpec is Union[bool, RuleWidth]:
+             Place a (series of) \cmidrule(ltrim rtrim){lstart-rstart} after the specified row. ltrim is 'l' if true, 'l{width}' if a RuleWidth, similarly for rtrim.
         colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
     '''
     if colsep:
@@ -62,12 +110,13 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
         tab1 = styler.to_latex(**kwargs)
 
     if mids is not None:
-        if isinstance(mids, int):
+        if not isinstance(mids, list):
             mids = [mids]
+        rules = filter(lambda x: x[0] >= 0, sorted([_rule_from_spec(mid) for mid in mids], key=lambda x: x[0]))
         lines = tab1.splitlines()
         offset = 0
-        for m in set(mids):
-            lines.insert(offset + m + 2, '\midrule')
+        for line, rule in rules:
+            lines.insert(offset + line + 2, rule)
             offset += 1
         tab1 = '\n'.join(lines)
 
