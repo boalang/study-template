@@ -58,30 +58,31 @@ def generate_column_rules(df: pd.DataFrame, skip_index: bool=True, level: int=0,
     index_cols = 1
     if isinstance(df.index, pd.MultiIndex):
         index_cols = df.index.nlevels
+
     if not isinstance(df.columns, pd.MultiIndex):
         if skip_index:
             return [(1, (1 + index_cols, df.columns.size + index_cols, False, False))]
-        else:
-            return [1]
+        return [1]
     else:
         if not skip_index:
             return [df.columns.nlevels]
+
+        cmidrules = []
         values = df.columns.get_level_values(level).array
-        starts = []
         cur = values[0]
         cur_start = 1
         val = 1
+
         for label in values[1:]:
             if label != cur:
                 cur = label
-                if cur_start == 1:
-                    starts.append((cur_start + index_cols, val + index_cols, False, right_trim))
-                else:
-                    starts.append((cur_start + index_cols, val + index_cols, left_trim, right_trim))
+                cmidrules.append((cur_start + index_cols, val + index_cols, False if cur_start==1 else left_trim, right_trim))
                 cur_start = val + 1
             val += 1
-        starts.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
-        return [(df.columns.nlevels, starts)]
+
+        cmidrules.append((cur_start + index_cols, len(values) + index_cols, left_trim, False))
+
+        return [(df.columns.nlevels, cmidrules)]
 
 def generate_partition_rules(df: pd.DataFrame, skip_index: bool=False, level: int=0) -> List[RuleSpecifier]:
     """Generate post-row-group rules for DF for row-groups at LEVEL.
