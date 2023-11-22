@@ -183,7 +183,6 @@
                 {
                     "type": "string",
                     "description": "Path to store the converted CSV file.  Must live in data/csv (but do not include the prefix here).",
-                    "type": "string",
                     "default": ".csv",
                     "pattern": "^.+\\.csv$"
                 },
