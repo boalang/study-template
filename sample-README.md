@@ -149,9 +149,8 @@ If you want to run individual analyses, you can also do so:
 
 > make rq2
 
-Similar to the targets for running all analyses, these targets will also
-trigger running any missing Boa queries.  You can also run a single analysis on
-the cached data by adding `-reproduce` to the target name:
+You can also run a single analysis on the cached data by adding `-reproduce` to
+the target name:
 
 > make rq1-reproduce**TODO: update for your analysis script names**
 
