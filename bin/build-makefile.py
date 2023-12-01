@@ -133,7 +133,8 @@ if __name__ == '__main__':
             reproductions = [f'{x}-reproduce' for x in analyses]
             print('')
             print('.PHONY: analysis reproduce ' + ' '.join(analyses) + ' ' + ' '.join(reproductions))
-            print('analysis: ' + ' '.join(analyses))
-            print('reproduce: ' + ' '.join(reproductions))
+            print('analysis:: ' + ' '.join(analyses))
+            print('reproduce:: ' + ' '.join(reproductions))
     else:
-        print('analysis: data')
+        print('analysis:: data')
+        print('reproduce::')
