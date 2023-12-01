@@ -136,7 +136,7 @@ To generate all the figures and tables for the paper, you need to run the
 analysis for each specific research question on the output from Boa.  There is
 also a helper target to run all analyses:
 
-> make rqs
+> make analysis
 
 Note that this triggers download of any missing Boa query outputs.  Or you can
 run all analyses on only the cached data:
