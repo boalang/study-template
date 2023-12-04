@@ -7,9 +7,9 @@
 boa-credentials.txt
 Makefile.study
 jobs.json
-data/csv/**/*.csv
-data/parquet/**/*.parquet
-data/txt/**/*.txt
+data/csv/
+data/parquet/
+data/txt/
 *.zip
 
 # Emacs Stuff
