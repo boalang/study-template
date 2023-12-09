@@ -45,9 +45,12 @@ package: package-replication package-data package-cache
 package-replication:
 	@$(CP) requirements.txt requirements.txt.save
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
+	@$(CP) requirements-optional.txt requirements-optional.txt.save
+	@$(SED) 's/>=/==/g' requirements-optional.txt.save > requirements-optional.txt
 	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile Dockerfile README.md requirements.txt requirements-optional.txt study-config.json $(ZIPIGNORES)
 	@$(CP) requirements.txt.save requirements.txt
-	@$(RM) requirements.txt.save
+	@$(CP) requirements-optional.txt.save requirements-optional.txt
+	@$(RM) requirements.txt.save requirements-optional.txt.save
 package-data:
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 package-cache:
@@ -57,9 +60,12 @@ package-cache:
 docker:
 	@$(CP) requirements.txt requirements.txt.save
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
+	@$(CP) requirements-optional.txt requirements-optional.txt.save
+	@$(SED) 's/>=/==/g' requirements-optional.txt.save > requirements-optional.txt
 	-docker build -t $(DOCKER-IMAGE):latest .
 	@$(CP) requirements.txt.save requirements.txt
-	@$(RM) requirements.txt.save
+	@$(CP) requirements-optional.txt.save requirements-optional.txt
+	@$(RM) requirements.txt.save requirements-optional.txt.save
 
 run-docker: docker
 	docker run -it -v $(shell pwd):/study $(DOCKER-IMAGE):latest
