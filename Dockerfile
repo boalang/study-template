@@ -6,6 +6,7 @@ RUN set -e \
 #
 && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     make=4.3-4.1 \
+    curl=7.74.0-1.3+deb11u10 \
 #
 # clean-up
 #

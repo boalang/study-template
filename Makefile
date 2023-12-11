@@ -8,6 +8,7 @@ VERBOSE:=
 ZIP:=zip
 ZIPOPTIONS:=-u -r
 ZIPIGNORES:=-x \*.DS_Store\* -x \*.gitkeep\* -x data/csv/\*
+ZENODO_DOWNLOAD=$(PYTHON) bin/zenodo-download.py
 
 DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)
 BOATOCSV:=$(PYTHON) bin/boa-to-csv.py
@@ -72,6 +73,16 @@ run-docker: docker
 
 zenodo:
 	$(PYTHON) bin/zenodo.py
+
+
+##########################
+# downloading from Zenodo
+#
+get-data:
+	$(ZENODO_DOWNLOAD) data.zip
+
+get-cache:
+	$(ZENODO_DOWNLOAD) data-cache.zip
 
 
 ################
