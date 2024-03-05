@@ -60,12 +60,12 @@ If for some reason you don't want the Boa job to be marked public, you can set
 the `public` key to `false`.  By default, all submitted jobs will be marked
 public after submission.
 
-A query can also indicate if it should be converted to CSV format.  Most
-queries probably want to convert to CSV, so you can easily load the data into
-Pandas for analysis.  This is indicated by adding a `csv` key.  The value is
-either a string listing the output path for the CSV file (stored in
-`data/csv/`, with the prefix omitted here) or an object listing the
-`output` path and some optional parameters:
+A query can also indicate if it should be converted to CSV format.  The output
+of most queries will probably need to be converted to CSV, so you can easily
+load the data into Pandas for analysis. This is indicated by adding a `csv` key.
+The value is either a string listing the output path for the CSV file (stored in
+`data/csv/`, with the prefix omitted here) or an object listing the `output`
+path and some optional parameters:
 
 * `test` (can be repeated)
     * Add a `"column,test"` pair, where the given column keeps consuming the row
