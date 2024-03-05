@@ -7,7 +7,7 @@ The steps to add a new analysis are as follows:
     1. Add any missing common snippets into `boa/snippets/`.
     1. Add the query into the `study-config.json`.
     1. Repeat Step 1 as many times as necessary.
-1. Create a new Python script to analyze the data (e.g., `foo.py`) in the top folder.
+1. Create a new Python script to analyze the data (e.g., `foo.py`) in the `analyses/` directory.
 1. Add a new entry to the `study-config.json` in the `analyses` object.
     1. The name of the entry is the script filename (e.g., `foo.py`, without the `analyses/` prefix).
     1. Add an `input` key, that is an array of CSV filenames that the analysis depends on.
