@@ -1,3 +1,5 @@
+Read below for instructions on installing the Boa Study Template.  Note that the instructions will differ a bit depending on whether you are starting a new study or using a replication package.
+
 ## Boa API Credentials
 
 /// admonition | Boa API Access for New Studies
@@ -35,3 +37,21 @@ If you are unable to use the keyring, you can also enter your password into the 
 Finally, if the script can't find your
 username and/or password, it will prompt you for it.  Note however it will
 prompt *for each file it downloads*.
+
+## Using a Replication Package
+
+Most likely, the only thing you need to do to use a replication package is to unzip the `replication-pkg.zip` file (or equivalent).  This will create a directory with the Boa queries, the Python analyses, and the generated figures and tables.
+
+If you also wish to re-run the analyses, you will need the `data-cache.zip` file (or equivalent).  Unzip this file starting in the root of the replication package and it will place files into the `data/parquet/` folder.
+
+If you wish to generate new analyses, you may need the raw data.  You will need the `data.zip` file (or equivalent).  Unzip this file starting in the root of the replication package and it will place files into the `data/txt/` folder.
+
+## Starting a new Study
+
+To start a new study, first clone the study template from GitHub:
+
+```sh linenums="0"
+git clone https://github.com/boalang/study-template.git
+```
+
+Then follow our guide on [using the template in a research study](research/index.md).
