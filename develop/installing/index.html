@@ -488,6 +488,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-a-replication-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Replication Package
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-a-new-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      Starting a new Study
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -765,6 +783,7 @@
 
   <h1>Installing</h1>
 
+<p>Read below for instructions on installing the Boa Study Template.  Note that the instructions will differ a bit depending on whether you are starting a new study or using a replication package.</p>
 <h2 id="boa-api-credentials">Boa API Credentials</h2>
 <div class="admonition warning">
 <p class="admonition-title">Boa API Access for New Studies</p>
@@ -791,6 +810,15 @@ the <code>keyring</code> Python package and then run:</p>
 <p>Finally, if the script can't find your
 username and/or password, it will prompt you for it.  Note however it will
 prompt <em>for each file it downloads</em>.</p>
+<h2 id="using-a-replication-package">Using a Replication Package</h2>
+<p>Most likely, the only thing you need to do to use a replication package is to unzip the <code>replication-pkg.zip</code> file (or equivalent).  This will create a directory with the Boa queries, the Python analyses, and the generated figures and tables.</p>
+<p>If you also wish to re-run the analyses, you will need the <code>data-cache.zip</code> file (or equivalent).  Unzip this file starting in the root of the replication package and it will place files into the <code>data/parquet/</code> folder.</p>
+<p>If you wish to generate new analyses, you may need the raw data.  You will need the <code>data.zip</code> file (or equivalent).  Unzip this file starting in the root of the replication package and it will place files into the <code>data/txt/</code> folder.</p>
+<h2 id="starting-a-new-study">Starting a new Study</h2>
+<p>To start a new study, first clone the study template from GitHub:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/boalang/study-template.git
+</code></pre></div>
+<p>Then follow our guide on <a href="../research/">using the template in a research study</a>.</p>
 
 
 
