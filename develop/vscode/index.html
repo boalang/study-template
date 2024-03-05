@@ -732,9 +732,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#editing-boa-queries" class="md-nav__link">
+  <a href="#viewing-and-writing-boa-queries" class="md-nav__link">
     <span class="md-ellipsis">
-      Editing Boa Queries
+      Viewing and Writing Boa Queries
     </span>
   </a>
   
@@ -801,26 +801,30 @@
   <h1>VSCode Extension</h1>
 
 <p>Boa provides a Visual Studio Code extension on the <a href="https://marketplace.visualstudio.com/items?itemName=Boa.boalang">marketplace</a> and the <a href="https://open-vsx.org/extension/Boa/boalang">Open VSX Registry</a>.</p>
-<p>Note: While you can use this extension to write Boa queries, most functionality (like submitting/managing jobs) requires having a user/password on the Boa infrastructure. If you do not yet have one, please request a user.</p>
+<div class="admonition warning">
+<p class="admonition-title">Boa API Access</p>
+<p>While you can use this extension to view and write Boa queries, most functionality (like submitting and managing jobs) requires having a user/password on the Boa infrastructure. If you do not yet have one, please <a href="https://boa.cs.iastate.edu/request/">request a user</a>.</p>
+</div>
 <h2 id="features">Features</h2>
-<h3 id="editing-boa-queries">Editing Boa Queries</h3>
-<p>This extension provides support for writing Boa queries:</p>
+<h3 id="viewing-and-writing-boa-queries">Viewing and Writing Boa Queries</h3>
+<p>This extension provides support for viewing and writing Boa queries:</p>
 <p><img alt="Query Writing" src="https://github.com/boalang/vscode/raw/HEAD/images/syntax.gif" /></p>
 <p>This includes things like syntax highlighting, the ability to insert useful code snippets, code completion, and support for study template substitutions (templates).</p>
+<p>Any substitutions in the <code>study-config.json</code> are automatically highlighted by the editor.  If you hover over one, you can see the value it will be replaced with.  The code completion also includes these substitutions.</p>
+<p>Note that since the editor does not know the context of which query you are editing, it will show all possible substitutions that could match.  If you want to view the file for a particular query, you can click the preview button in the top right of the editor and select the query you want to preview it for.</p>
 <h3 id="submitting-and-managing-boa-jobs">Submitting and Managing Boa Jobs</h3>
-<p>The extensions also provides support for submittin queries to Boa and managing existing jobs:</p>
+<p>The extensions also provides support for submitting queries to Boa and managing existing jobs:</p>
 <p><img alt="Job Management" src="https://github.com/boalang/vscode/raw/HEAD/images/jobs.gif" /></p>
 <p>This allows you to effectively stay in the IDE and never need to go to the Boa website.</p>
 <h3 id="using-boas-study-template">Using Boa's Study Template</h3>
-<p>Boa provides a study template to help manage running empirical studies using Boa.</p>
-<p>This plugin tightly integrates with the study template:</p>
+<p>If you are using the study template, either for a new study or a replication package, the extension provides additional support for managing the study:</p>
 <p><img alt="Study Template" src="https://github.com/boalang/vscode/raw/HEAD/images/studytemplate.gif" /></p>
-<p>Providing support for managing the substitutions, running and downloading query output, and running analyses.</p>
+<p>Simply open the <code>study-config.json</code> file and you will see several code actions available to you that allow you to download specific outputs, clean data, run specific analyses, etc.  This is an alternative to running <code>make</code> on the command line.  There is also a tree view that shows the various outputs and analyses that can be run and allows clicking on it to run them.</p>
+<p>Most of the filenames shown in the file can also be clicked on to open the file in the editor.</p>
 <h2 id="extension-settings">Extension Settings</h2>
-<p>This extension contributes the following settings:</p>
+<p>The extension will automatically prompt you for your Boa API credentials the first time you use it.</p>
+<p>This extension also contributes the following settings:</p>
 <ul>
-<li><code>boalang.api.endpoint</code>: Boa API endpoint URL</li>
-<li><code>boalang.login.username</code>: Boa API username</li>
 <li><code>boalang.dataset.favorite</code>: Favorite Boa dataset</li>
 <li><code>boalang.joblist.pagesize</code>: Number of jobs to show in the jobs tree view</li>
 <li><code>boalang.output.size</code>: Size (in bytes) to limit displaying query outputs</li>
