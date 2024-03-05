@@ -962,20 +962,28 @@ either a string listing the output path for the CSV file (stored in
 <code>data/csv/</code>, with the prefix omitted here) or an object listing the
 <code>output</code> path and some optional parameters:</p>
 <ul>
-<li><code>test</code> (can be repeated)</li>
+<li><code>test</code> (can be repeated)<ul>
 <li>Add a <code>"column,test"</code> pair, where the given column keeps consuming the row
-    until the given regex test matches. This is useful because the output from
-    Boa does not escape, so if a column (other than the last) contains strings
-    and if those strings wind up having <code>][</code> in them (as some filenames do),
-    the conversion script might break and create a jagged CSV table.</li>
-<li><code>drop</code> (can be repeated)</li>
+  until the given regex test matches. This is useful because the output from
+  Boa does not escape, so if a column (other than the last) contains strings
+  and if those strings wind up having <code>][</code> in them (as some filenames do),
+  the conversion script might break and create a jagged CSV table.</li>
+</ul>
+</li>
+<li><code>drop</code> (can be repeated)<ul>
 <li>Drop a column (0-indexed) when converting.</li>
-<li><code>header</code></li>
+</ul>
+</li>
+<li><code>header</code><ul>
 <li>A header row to prepend to the CSV output.  Can be useful if you think
-    others might use the generated CSV files outside your own analyses.</li>
-<li><code>index</code></li>
+  others might use the generated CSV files outside your own analyses.</li>
+</ul>
+</li>
+<li><code>index</code><ul>
 <li>Number of indices in the Boa output - if not given, infers from the first
-    line.  This is usually not needed.</li>
+  line.  This is usually not needed.</li>
+</ul>
+</li>
 </ul>
 <p>Finally, a query can also indicate if the <code>gendupes.py</code>
 script should run on the output file.  This is used for queries that output
@@ -1028,7 +1036,7 @@ queries.  See <a href="../templates/">templates</a> for more details.</p>
 <span class="w">  </span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>The last object is the list of analysis scripts you want to run.  See the
-section on adding an analysis for more details.</p>
+section on <a href="../add-analysis/">adding an analysis</a> for more details.</p>
 
 
 

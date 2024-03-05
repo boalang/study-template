@@ -733,7 +733,7 @@
 <li>Repeat Step 1 as many times as necessary.</li>
 </ol>
 </li>
-<li>Create a new Python script to analyze the data (e.g., <code>foo.py</code>) in the top folder.</li>
+<li>Create a new Python script to analyze the data (e.g., <code>foo.py</code>) in the <code>analyses/</code> directory.</li>
 <li>Add a new entry to the <code>study-config.json</code> in the <code>analyses</code> object.<ol>
 <li>The name of the entry is the script filename (e.g., <code>foo.py</code>, without the <code>analyses/</code> prefix).</li>
 <li>Add an <code>input</code> key, that is an array of CSV filenames that the analysis depends on.</li>
@@ -741,6 +741,7 @@
 </li>
 </ol>
 <p>Once this is done, you should be able to run <code>make foo</code> (the target is the name of the script, without the file extension) to run the analysis task, or run <code>make analysis</code> to run all analysis tasks.</p>
+<p>Analyses can be disabled by setting the <code>disabled</code> key to true.  This will prevent the analysis from being run by <code>make analysis</code>, but will still allow <code>make foo</code>.</p>
 
 
 
