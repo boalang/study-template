@@ -1,5 +1,5 @@
 site_name: Boa Study Template
-site_url: http://127.0.0.1:8000/
+site_url: https://boalang.github.io/study-template/
 nav:
   - Home:
     - index.md
