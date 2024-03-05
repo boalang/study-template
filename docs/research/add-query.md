@@ -109,4 +109,4 @@ queries.  See [templates](templates.md) for more details.
 ```
 
 The last object is the list of analysis scripts you want to run.  See the
-section on adding an analysis for more details.
+section on [adding an analysis](add-analysis.md) for more details.
