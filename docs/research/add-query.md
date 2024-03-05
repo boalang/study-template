@@ -68,19 +68,19 @@ either a string listing the output path for the CSV file (stored in
 `output` path and some optional parameters:
 
 * `test` (can be repeated)
-  * Add a `"column,test"` pair, where the given column keeps consuming the row
-    until the given regex test matches. This is useful because the output from
-    Boa does not escape, so if a column (other than the last) contains strings
-    and if those strings wind up having `][` in them (as some filenames do),
-    the conversion script might break and create a jagged CSV table.
+    * Add a `"column,test"` pair, where the given column keeps consuming the row
+      until the given regex test matches. This is useful because the output from
+      Boa does not escape, so if a column (other than the last) contains strings
+      and if those strings wind up having `][` in them (as some filenames do),
+      the conversion script might break and create a jagged CSV table.
 * `drop` (can be repeated)
-  * Drop a column (0-indexed) when converting.
+    * Drop a column (0-indexed) when converting.
 * `header`
-  * A header row to prepend to the CSV output.  Can be useful if you think
-    others might use the generated CSV files outside your own analyses.
+    * A header row to prepend to the CSV output.  Can be useful if you think
+      others might use the generated CSV files outside your own analyses.
 * `index`
-  * Number of indices in the Boa output - if not given, infers from the first
-    line.  This is usually not needed.
+    * Number of indices in the Boa output - if not given, infers from the first
+      line.  This is usually not needed.
 
 Finally, a query can also indicate if the `gendupes.py`
 script should run on the output file.  This is used for queries that output
