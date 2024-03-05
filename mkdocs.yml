@@ -38,13 +38,14 @@ theme:
     - navigation.instant.progress
     - navigation.top
     - content.code.copy
+    - content.tabs.link
     - search.suggest
     - search.highlight
   language: en
   logo: images/boa.png
   favicon: images/boa.png
   icon:
-    repo: fontawesome/brands/git-alt
+    repo: material/git
     edit: material/pencil 
     view: material/eye
   palette:

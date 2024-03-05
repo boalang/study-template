@@ -1,6 +1,6 @@
 # Using the Template
 
-/// admonition | If you downloaded a replication package that utilizes the study template, please see the section on [Using a Replication](index copy.md).
+/// admonition | If you downloaded a replication package that utilizes the study template, please see the section on [Using a Replication](../replications.md).
     type: warning
 ///
 

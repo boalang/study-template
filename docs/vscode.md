@@ -7,14 +7,14 @@ Note: While you can use this extension to write Boa queries, most functionality 
 ### Editing Boa Queries
 This extension provides support for writing Boa queries:
 
-<img src="https://github.com/boalang/vscode/raw/HEAD/images/syntax.gif" alt="Query Writing">
+![Query Writing](https://github.com/boalang/vscode/raw/HEAD/images/syntax.gif)
 
 This includes things like syntax highlighting, the ability to insert useful code snippets, code completion, and support for study template substitutions (templates).
 
 ### Submitting and Managing Boa Jobs
 The extensions also provides support for submittin queries to Boa and managing existing jobs:
 
-<img src="https://github.com/boalang/vscode/raw/HEAD/images/jobs.gif" alt="Job Management">
+![Job Management](https://github.com/boalang/vscode/raw/HEAD/images/jobs.gif)
 
 This allows you to effectively stay in the IDE and never need to go to the Boa website.
 
@@ -23,7 +23,7 @@ Boa provides a study template to help manage running empirical studies using Boa
 
 This plugin tightly integrates with the study template:
 
-<img src="https://github.com/boalang/vscode/raw/HEAD/images/studytemplate.gif" alt="Study Template">
+![Study Template](https://github.com/boalang/vscode/raw/HEAD/images/studytemplate.gif)
 
 Providing support for managing the substitutions, running and downloading query output, and running analyses.
 
