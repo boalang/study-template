@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>http://127.0.0.1:8000/develop/</loc>
+         <loc>https://boalang.github.io/study-template/develop/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/index%20copy/</loc>
+         <loc>https://boalang.github.io/study-template/develop/index%20copy/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/installing/</loc>
+         <loc>https://boalang.github.io/study-template/develop/installing/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/replications/</loc>
+         <loc>https://boalang.github.io/study-template/develop/replications/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/requirements/</loc>
+         <loc>https://boalang.github.io/study-template/develop/requirements/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/vscode/</loc>
+         <loc>https://boalang.github.io/study-template/develop/vscode/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/add-analysis/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/add-analysis/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/add-query/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/add-query/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/building/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/building/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/paths/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/paths/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/publishing/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/publishing/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://127.0.0.1:8000/develop/research/templates/</loc>
+         <loc>https://boalang.github.io/study-template/develop/research/templates/</loc>
          <lastmod>2024-03-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
