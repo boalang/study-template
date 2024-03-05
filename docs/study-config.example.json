@@ -1,0 +1,74 @@
+{
+  "$schema": "schemas/0.1.2/study-config.schema.json",
+  "datasets": {
+    "kotlin": "2021 Aug/Kotlin",
+    "python": "2021 Aug/Python",
+    "python-ds": "2020 August/Python-DS",
+    "java": "2019 October/GitHub",
+    "java-sf": "2013 September/SF",
+    "original": "2012 July/SF"
+  },
+  "queries": {
+    "kotlin/hashes.txt": {
+      "query": "queries/hashes.boa",
+      "dataset": "kotlin",
+      "processors": {
+        "gendupes.py": {
+          "output": "data/txt/kotlin/dupes.txt",
+          "csv": "kotlin/dupes.csv",
+          "cacheclean": [
+            "kotlin/*-deduped.parquet"
+          ]
+        }
+      }
+    },
+    "kotlin/rq1.txt": {
+      "query": "queries/rq1.boa",
+      "dataset": "kotlin",
+      "csv": {
+        "output": "kotlin/rq1.csv",
+        "test": [
+          "3,\\.kts?$"
+        ]
+      }
+    },
+    "kotlin/project-count.txt": {
+      "query": "queries/project-count.boa",
+      "dataset": "kotlin",
+      "csv": {
+        "output": "kotlin/project-count.csv",
+        "drop": [
+          1
+        ]
+      }
+    },
+    "python/project-count.txt": {
+      "query": "queries/project-count.boa",
+      "dataset": "python",
+      "csv": {
+        "output": "python/project-count.csv",
+        "drop": [
+          1
+        ]
+      }
+    }
+  },
+  "substitutions": [
+    {
+      "target": "{@escape@}",
+      "file": "escape.boa"
+    },
+    {
+      "target": "{@project-filter@}",
+      "replacement": "if (input.stars >= 5)"
+    }
+  ],
+  "analyses": {
+    "rq1.py": {
+      "input": [
+        "kotlin/rq1.csv",
+        "kotlin/dupes.csv"
+      ]
+    }
+  }
+}

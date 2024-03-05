@@ -1,0 +1,141 @@
+site_name: Boa Study Template
+site_url: http://127.0.0.1:8000/
+nav:
+  - Home:
+    - index.md
+    - Requirements: requirements.md
+    - Installing: installing.md
+  - Using the Template:
+    - research/index.md
+    - Paths: research/paths.md
+    - Adding Queries: research/add-query.md
+    - Query Templates: research/templates.md
+    - Adding Analyses: research/add-analysis.md
+    - Building: research/building.md
+    - Publishing: research/publishing.md
+  - Using a Replication: replications.md
+  - VSCode Extension: vscode.md
+
+site_author: Robert Dyer
+site_description: >-
+  Documentation on how to use Boa's Study Template.
+
+repo_name: boalang/study-template
+repo_url: https://github.com/boalang/study-template
+# edit_uri: edit/main/
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - toc.follow
+    - toc.integrate
+    - navigation.indexes 
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  language: en
+  logo: images/boa.png
+  favicon: images/boa.png
+  icon:
+    repo: fontawesome/brands/git-alt
+    edit: material/pencil 
+    view: material/eye
+  palette:
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: custom
+      accent: custom
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      toggle:
+        icon: material/brightness-3
+        name: Switch to light mode
+      primary: custom
+      accent: custom
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      name: Robert Dyer on GitHub
+      link: https://github.com/psybers
+    - icon: fontawesome/brands/linkedin
+      name: Robert Dyer on LinkedIn
+      link: https://www.linkedin.com/in/robertdyer/
+  generator: false
+  version:
+    provider: mike
+    default:
+      - latest
+      - develop
+
+extra_css:
+  - css/extra.css
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - js/mathjax-config.js
+
+markdown_extensions:
+  - pymdownx.blocks.tab:
+      alternate_style: True
+      combine_header_slug: True
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.blocks.admonition:
+      types:
+      - note
+      - abstract
+      - info
+      - tip
+      - success
+      - question
+      - warning
+      - failure
+      - danger
+      - bug
+      - example
+      - quote
+  - pymdownx.highlight:
+      linenums: true
+      # anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+  - pymdownx.mark
+  # - material.extensions.preview:
+  #     targets:
+  #       include:
+  #         - test.md
+  #         - insiders/changelog/*
+
+plugins:
+  - search
+  - mike:
+      alias_type: symlink
+      redirect_template: null
+      deploy_prefix: ''
+      canonical_version: null
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
+
+copyright: |
+  Copyright &copy; 2024 <a href="https://go.unl.edu/rdyer" target="_blank" rel="noopener">Robert Dyer</a>
