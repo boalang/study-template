@@ -13,3 +13,5 @@ The steps to add a new analysis are as follows:
     1. Add an `input` key, that is an array of CSV filenames that the analysis depends on.
 
 Once this is done, you should be able to run `make foo` (the target is the name of the script, without the file extension) to run the analysis task, or run `make analysis` to run all analysis tasks.
+
+Analyses can be disabled by setting the `disabled` key to true.  This will prevent the analysis from being run by `make analysis`, but will still allow `make foo`.
