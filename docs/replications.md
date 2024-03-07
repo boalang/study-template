@@ -3,12 +3,13 @@ Template](https://github.com/boalang/study-template).  If you want to work with
 this package beyond simply re-generating the paper's figures and tables, we
 **strongly** encourage you to utilize [Visual Studio
 Code](https://code.visualstudio.com/) with the [Boa Language and Infrastructure
-Extension](vscode.md) installed.  For more information, see [Using the Template](research/index.md).
+Extension](vscode.md) installed.  For more information, see [Using the
+Template](research/index.md).
 
 If you have that extension, you can avoid running terminal commands (like
-`make`) and instead simply open the study-config.json file
-to control what files you download, which analyses you run, etc.  For more
-details on working with Boa's study template, see the [online
+`make`) and instead simply open the study-config.json file to control what
+files you download, which analyses you run, etc.  For more details on working
+with Boa's study template, see the [online
 documentation](https://github.com/boalang/study-template).
 
 ------------------------------------------------------
@@ -83,10 +84,12 @@ run all analyses on only the cached data:
 make reproduce
 ```
 
-If you want to run individual analyses, you can also do so:
+If you want to run individual analyses, you can also do so.  The specific
+target names will vary based on the specific replication package, but often
+they are named based on research question:
 
 ```sh linenums="0"
-make rq1**TODO: update for your analysis script names**
+make rq1
 ```
 
 ```sh linenums="0"
@@ -97,7 +100,7 @@ You can also run a single analysis on the cached data by adding `-reproduce` to
 the target name:
 
 ```sh linenums="0"
-make rq1-reproduce**TODO: update for your analysis script names**
+make rq1-reproduce
 ```
 
 ```sh linenums="0"
