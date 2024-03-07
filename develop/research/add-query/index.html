@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/boa.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
@@ -955,12 +955,12 @@ defined earlier.</p>
 <p>If for some reason you don't want the Boa job to be marked public, you can set
 the <code>public</code> key to <code>false</code>.  By default, all submitted jobs will be marked
 public after submission.</p>
-<p>A query can also indicate if it should be converted to CSV format.  Most
-queries probably want to convert to CSV, so you can easily load the data into
-Pandas for analysis.  This is indicated by adding a <code>csv</code> key.  The value is
-either a string listing the output path for the CSV file (stored in
-<code>data/csv/</code>, with the prefix omitted here) or an object listing the
-<code>output</code> path and some optional parameters:</p>
+<p>A query can also indicate if it should be converted to CSV format.  The output
+of most queries will probably need to be converted to CSV, so you can easily
+load the data into Pandas for analysis. This is indicated by adding a <code>csv</code> key.
+The value is either a string listing the output path for the CSV file (stored in
+<code>data/csv/</code>, with the prefix omitted here) or an object listing the <code>output</code>
+path and some optional parameters:</p>
 <ul>
 <li><code>test</code> (can be repeated)<ul>
 <li>Add a <code>"column,test"</code> pair, where the given column keeps consuming the row
