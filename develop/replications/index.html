@@ -839,11 +839,12 @@ Template</a>.  If you want to work with
 this package beyond simply re-generating the paper's figures and tables, we
 <strong>strongly</strong> encourage you to utilize <a href="https://code.visualstudio.com/">Visual Studio
 Code</a> with the <a href="../vscode/">Boa Language and Infrastructure
-Extension</a> installed.  For more information, see <a href="../research/">Using the Template</a>.</p>
+Extension</a> installed.  For more information, see <a href="../research/">Using the
+Template</a>.</p>
 <p>If you have that extension, you can avoid running terminal commands (like
-<code>make</code>) and instead simply open the study-config.json file
-to control what files you download, which analyses you run, etc.  For more
-details on working with Boa's study template, see the <a href="https://github.com/boalang/study-template">online
+<code>make</code>) and instead simply open the study-config.json file to control what
+files you download, which analyses you run, etc.  For more details on working
+with Boa's study template, see the <a href="https://github.com/boalang/study-template">online
 documentation</a>.</p>
 <hr />
 <h2 id="requirements">Requirements</h2>
@@ -888,14 +889,16 @@ also a helper target to run all analyses:</p>
 run all analyses on only the cached data:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>reproduce
 </code></pre></div>
-<p>If you want to run individual analyses, you can also do so:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq1**TODO:<span class="w"> </span>update<span class="w"> </span><span class="k">for</span><span class="w"> </span>your<span class="w"> </span>analysis<span class="w"> </span>script<span class="w"> </span>names**
+<p>If you want to run individual analyses, you can also do so.  The specific
+target names will vary based on the specific replication package, but often
+they are named based on research question:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq1
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq2
 </code></pre></div>
 <p>You can also run a single analysis on the cached data by adding <code>-reproduce</code> to
 the target name:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq1-reproduce**TODO:<span class="w"> </span>update<span class="w"> </span><span class="k">for</span><span class="w"> </span>your<span class="w"> </span>analysis<span class="w"> </span>script<span class="w"> </span>names**
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq1-reproduce
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>rq2-reproduce
 </code></pre></div>
