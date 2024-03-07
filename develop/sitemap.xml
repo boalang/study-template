@@ -46,6 +46,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://boalang.github.io/study-template/develop/research/common/</loc>
+         <lastmod>2024-03-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://boalang.github.io/study-template/develop/research/paths/</loc>
          <lastmod>2024-03-07</lastmod>
          <changefreq>daily</changefreq>

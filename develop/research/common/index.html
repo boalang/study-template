@@ -12,13 +12,13 @@
         <meta name="author" content="Robert Dyer">
       
       
-        <link rel="canonical" href="https://boalang.github.io/study-template/develop/research/add-analysis/">
+        <link rel="canonical" href="https://boalang.github.io/study-template/develop/research/common/">
       
       
-        <link rel="prev" href="../templates/">
+        <link rel="prev" href="../add-analysis/">
       
       
-        <link rel="next" href="../common/">
+        <link rel="next" href="../building/">
       
       
       <link rel="icon" href="../../images/boa.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Adding Analyses - Boa Study Template</title>
+        <title>Using the Common Library - Boa Study Template</title>
       
     
     
@@ -79,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#using-the-common-library" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -114,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding Analyses
+              Using the Common Library
             
           </span>
         </div>
@@ -591,17 +596,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../add-analysis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -610,7 +608,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -620,10 +617,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../common/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -632,6 +638,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -744,27 +751,9 @@
   
 
 
-  <h1>Adding Analyses</h1>
-
-<p>There is one sample analysis given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/analyses/rq1.py"><code>analyses/rq1.py</code></a>. This relies on the sample query given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/boa/queries/rq1.boa"><code>boa/queries/rq1.boa</code></a> and makes use of de-duplication, which relies (indirectly) on the query given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/boa/queries/hashes.boa"><code>boa/queries/hashes.boa</code></a>.  This analysis will generate a single result, the table in <code>tables/kotlin/rq1.tex</code>.</p>
-<p>The steps to add a new analysis are as follows:</p>
-<ol>
-<li>Create a new Boa query (e.g., <code>foo.boa</code>):<ol>
-<li>Store the file in <code>boa/queries/</code> - note you can create sub-folders here if you want.</li>
-<li>Add any missing common snippets into <code>boa/snippets/</code>.</li>
-<li>Add the query into the <code>study-config.json</code>.</li>
-<li>Repeat Step 1 as many times as necessary.</li>
-</ol>
-</li>
-<li>Create a new Python script to analyze the data (e.g., <code>foo.py</code>) in the <code>analyses/</code> directory.</li>
-<li>Add a new entry to the <code>study-config.json</code> in the <code>analyses</code> object.<ol>
-<li>The name of the entry is the script filename (e.g., <code>foo.py</code>, without the <code>analyses/</code> prefix).</li>
-<li>Add an <code>input</code> key, that is an array of CSV filenames that the analysis depends on.</li>
-</ol>
-</li>
-</ol>
-<p>Once this is done, you should be able to run <code>make foo</code> (the target is the name of the script, without the file extension) to run the analysis task, or run <code>make analysis</code> to run all analysis tasks.</p>
-<p>Analyses can be disabled by setting the <code>disabled</code> key to true.  This will prevent the analysis from being run by <code>make analysis</code>, but will still allow <code>make foo</code>.</p>
+<h1 id="using-the-common-library">Using the Common Library</h1>
+<p>The study template provides a common Python library to help researchers generate tables and figures from their analyses.</p>
+<p>TODO</p>
 
 
 
