@@ -860,17 +860,23 @@
 <p>The study template provides a common Python library to help researchers generate tables and figures from their analyses.</p>
 <h2 id="data-management">Data Management</h2>
 <p>The <code>common.df</code> library provides two functions for reading Boa output into a Pandas dataframe, these are <code>get_df</code> and <code>get_deduped_df</code>.  These functions take similar basic arguments.  These functions will read from a Parquet file if it has been generated, otherwise, they will read from CSV (and save to parquet for sped-up loading later on).  Basic call syntax is below, with description of arguments following.</p>
-<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Call Syntax</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">get_df</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Helpers for reading Boa output into Pandas dataframes</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># read all data</span>
+<span class="n">get_df</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+       <span class="n">drop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
        <span class="n">precache_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
 
+<span class="c1"># read de-duplicated data</span>
 <span class="n">get_deduped_df</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dupesdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="n">drop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="n">precache_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -883,30 +889,38 @@
 <li><code>drop</code>: A list of column names to drop after loading.</li>
 <li><code>precache_function</code>: A function that takes a data frame, and transforms it in some way (e.g., creating new columns which are intensive to compute, or converting data types).</li>
 <li><code>ts</code> (<code>get_deduped_df</code> only): Pass <code>True</code> if the hash file also has file timestamps.</li>
-<li><code>**kwargs</code>: When reading from CSV, these are passed to <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html"><code>pd.read_csv</code></a>, which see.</li>
+<li><code>**kwargs</code>: When reading from CSV, these are passed to <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html"><code>pd.read_csv</code></a>.</li>
 </ul>
 <p>An example of the usage of <code>get_deduped_df</code> is shown below.</p>
 <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">analyses/rq1.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">get_deduped_df</span><span class="p">(</span><span class="s1">&#39;rq1&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;astcount&#39;</span><span class="p">])</span>
 </code></pre></div></td></tr></table></div>
-<p>This will get a file-wise deduplicated dataframe from the results file <code>rq1.csv</code> in <code>data/csv/kotlin/</code>, using the <code>data/csv/kotlin/dupes.csv</code> file to provide duplication information, with the columns given the names <code>var</code>, <code>project</code>, <code>file</code>, and <code>astcount</code>.</p>
+<p>This will get a file-wise deduplicated dataframe from the results file <code>rq1.csv</code> in <code>data/csv/kotlin/</code>, using the <code>data/csv/kotlin/dupes.csv</code> file to provide duplication information.  It gives the columns the names <code>var</code>, <code>project</code>, <code>file</code>, and <code>astcount</code>.</p>
 <h3 id="deduplication">Deduplication</h3>
-<p>Since data duplication is a known problem in MSR studies (see <a href="https://dl.acm.org/doi/10.1145/3133908">Lopes et al., 2017</a>), we provide the ability do deduplicate data.  However, this deduplication is based on the AST Hash.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each value of the hash.  A query for this is provided, see also <a href="../add-query/#defining-queries">Defining Queries</a>.</p>
+<p>Since data duplication is a known problem in MSR studies (see <a href="https://dl.acm.org/doi/10.1145/3133908">Lopes et al., 2017</a>), we provide the ability to deduplicate data.  However, this deduplication is based on AST hashes.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each hash value.  A query for this is provided, see also <a href="../add-query/#defining-queries">Defining Queries</a>.</p>
 <h2 id="table-generation">Table Generation</h2>
-<p>Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by <code>common.tables</code>.  In particular, <code>common.tables</code> will generate tables that use the <a href="https://ctan.org/pkg/booktabs/"><code>booktabs</code></a> package for formatting (following the  ACM document class recommendations).</p>
-<p>To do this, there are four major functions.</p>
+<p>Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by <code>common.tables</code>.  In particular, <code>common.tables</code> generates tables that use the <a href="https://ctan.org/pkg/booktabs/"><code>booktabs</code></a> package for formatting (following the ACM document class recommendations).</p>
+<p>To do this, there are four major functions:</p>
 <ul>
-<li><code>get_styler</code> which will return the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/style.html"><code>Styler</code></a> object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of <code>decimals</code> (default 2), and a <code>thousands</code> separator (default <code>,</code>).</li>
+<li><code>get_styler</code> which returns a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/style.html"><code>Styler</code></a> object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of <code>decimals</code> (default 2), and a <code>thousands</code> separator (default <code>,</code>).</li>
 <li><code>highlight_cols</code> and <code>highlight_rows</code>: These highlight the column and row headers, respectively of a table in a <code>Styler</code> object, as shown below on line 11.</li>
-<li><code>save_table</code> will save <code>Styler</code> to a LaTeX table.  Its usage is somewhat more complex, and is described below.</li>
+<li><code>save_table</code> will save a <code>Styler</code> to a LaTeX table.  Its usage is somewhat more complex, and is described below.</li>
 </ul>
 <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">analyses/rq1.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
 <span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="n">style</span> <span class="o">=</span> <span class="n">highlight_rows</span><span class="p">(</span><span class="n">highlight_cols</span><span class="p">(</span><span class="n">get_styler</span><span class="p">(</span><span class="n">df</span><span class="p">)))</span>
     <span class="n">save_table</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s1">&#39;rq1.tex&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <h3 id="using-save_table">Using <code>save_table</code></h3>
-<p><code>save_table</code> takes two mandatory arguments, a <code>styler</code>, and a <code>filename</code> (which should include the <code>.tex</code> extension).  It takes an optional <code>subdir</code> (underneath <code>tables/</code> to save the file in as well.  Additionally, the keyword argument <code>colsep</code> is available to use a custom column separator width, if no argument (or <code>None</code>) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">The save_table() function</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_table</span><span class="p">(</span><span class="n">styler</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">Styler</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">mids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RuleSpecifier</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RuleSpecifier</span><span class="p">]]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">colsep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</code></pre></div></td></tr></table></div>
+<p><code>save_table</code> takes two mandatory arguments, a <code>styler</code>, and a <code>filename</code> (which should include the <code>.tex</code> extension).  It takes an optional <code>subdir</code> (underneath <code>tables/</code>) to save the file in as well.  Additionally, the keyword argument <code>colsep</code> is available to use a custom column separator width, if no argument (or <code>None</code>) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.</p>
 <p>Additionally, a <code>mids</code> keyword argument is available to allow manual placement of mid-table rules.  If <code>None</code>, no mid-table rules will be passed, otherwise, a rule specifier or a list of rule specifiers may be passed, as described below.</p>
-<p>Rule Specifiers take the following form:</p>
+<p><code>RuleSpecifier</code>s take the following form:</p>
 <ul>
 <li>A single integer <span class="arithmatex">\(n\)</span>, which will place a <code>\midrule</code> after the <span class="arithmatex">\(n\)</span>th line (one-based indexing).</li>
 <li>A pair <code>(n, width)</code> will place <code>\midrule[width]</code> after the <span class="arithmatex">\(n\)</span>th line.</li>
@@ -924,8 +938,6 @@
 <h2 id="utilities">Utilities</h2>
 <p>Finally, a few utilities are provided in <code>common.utils</code>.  These are mostly intended for helping to simplify analyses, and are as follows:</p>
 <ul>
-<li><code>_resolve_dir</code> will ensure that a relative directory will be relative to the study template root.</li>
-<li><code>_get_dir</code> will turn a directory or none into an appropriate string form (empty string if None, with a <code>/</code> if a regular string is passed).</li>
 <li><code>get_dataset</code> will take a filename base name and optional sub-directory name, and determine which Boa dataset the data came from.</li>
 </ul>
 <h2 id="loading-common-libraries">Loading Common Libraries</h2>
