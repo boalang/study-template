@@ -30,7 +30,7 @@ get_deduped_df(filename: str, subdir: Optional[str]=None, dupesdir: Optional[str
 An example of the usage of `get_deduped_df` is shown below.
 
 ```python title="analyses/rq1.py" linenums="8"
---8<-- "analyses/rq1.py:8:8"
+--8<-- "docs/research/rq1.py:8:8"
 ```
 
 This will get a file-wise deduplicated dataframe from the results file `rq1.csv` in `data/csv/kotlin/`, using the `data/csv/kotlin/dupes.csv` file to provide duplication information, with the columns given the names `var`, `project`, `file`, and `astcount`.
