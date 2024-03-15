@@ -37,7 +37,7 @@ This will get a file-wise deduplicated dataframe from the results file `rq1.csv`
 
 ### Deduplication
 
-TODO
+Since data duplication is a known problem in MSR studies (see [Lopes et al., 2017](https://dl.acm.org/doi/10.1145/3133908)), we provide the ability do deduplicate data.  However, this deduplication is based on the AST Hash.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each value of the hash.  A query for this is provided, see also [Defining Queries](add-query.md#defining-queries).
 
 ## Table Generation
 
