@@ -79,6 +79,12 @@ The `df.graphs` module provides a function, `setup_plots` to create a blank, pre
 
 ## Utilities
 
+Finally, a few utilities are provided in `common.utils`.  These are mostly intended for helping to simplify analyses, and are as follows:
+
+ - `_resolve_dir` will ensure that a relative directory will be relative to the study template root.
+ - `_get_dir` will turn a directory or none into an appropriate string form (empty string if None, with a `/` if a regular string is passed).
+ - `get_dataset` will take a filename base name and optional sub-directory name, and determine which Boa dataset the data came from.
+
 ## Loading Common Libraries
 
 The common libraries described above can be loaded as normal in most cases.  However, if analyses are arranged in various subdirectories, the following code can be used to allow import.
