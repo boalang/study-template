@@ -41,6 +41,22 @@ TODO
 
 ## Table Generation
 
+Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by `common.tables`.  In particular, `common.tables` will generate tables that use the [`booktabs`](https://ctan.org/pkg/booktabs/) package for formatting (following the  ACM document class recommendations).
+
+To do this, there are four major functions.
+
+ - `get_styler` which will return the [`Styler`](https://pandas.pydata.org/pandas-docs/stable/reference/style.html) object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of `decimals` (default 2), and a `thousands` separator (default `,`).
+ - `highlight_cols` and `highlight_rows`: These highlight the column and row headers, respectively of a table in a `Styler` object, as shown below on line 11.
+ - `save_table` will save `Styler` to a LaTeX table.  Its usage is somewhat more complex, and is described below.
+ 
+```python title="analyses/rq1.py" linenums="11"
+--8<-- "docs/research/rq1.py:11"
+```
+
+### Using `save_table`
+
+TODO
+
 ## Figure Generation
 
 ## Utilities
