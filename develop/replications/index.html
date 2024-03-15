@@ -834,25 +834,30 @@
 
   <h1>Using a Replication</h1>
 
-<p>This replication package utilizes the <a href="https://github.com/boalang/study-template">Boa Study
-Template</a>.  If you want to work with
-this package beyond simply re-generating the paper's figures and tables, we
-<strong>strongly</strong> encourage you to utilize <a href="https://code.visualstudio.com/">Visual Studio
+<div class="admonition warning">
+<p class="admonition-title">This section of the documentation is for people using a replication package built with the Boa Study Template.</p>
+</div>
+<p>If you downloaded a replication package that utilizes the <a href="https://github.com/boalang/study-template">Boa Study
+Template</a>, please continue reading
+for more details on how to use that package.</p>
+<p>We <strong>strongly</strong> encourage you to utilize <a href="https://code.visualstudio.com/">Visual Studio
 Code</a> with the <a href="../vscode/">Boa Language and Infrastructure
-Extension</a> installed.  For more information, see <a href="../research/">Using the
+Extension</a> installed.  If you have that extension, you can avoid
+running terminal commands (like <code>make</code>) and instead simply open the
+<code>study-config.json</code> file to control what files you download, which analyses you
+run, etc.</p>
+<p>If you plan to extend the replication package, beyond simply re-generating the
+paper's figures and tables, you will want to read up on <a href="../research/">Using the
 Template</a>.</p>
-<p>If you have that extension, you can avoid running terminal commands (like
-<code>make</code>) and instead simply open the study-config.json file to control what
-files you download, which analyses you run, etc.  For more details on working
-with Boa's study template, see the <a href="https://github.com/boalang/study-template">online
-documentation</a>.</p>
 <hr />
 <h2 id="requirements">Requirements</h2>
-<p>You need a GNU Make compatible build system.  Tested on GNU Make 3.81.</p>
-<p>You will also need Python to run the analyses.  See the <a href="../requirements/#python-requirements">Python
-requirements</a> for more information.</p>
-<p>Note that the Boa jobs themselves are marked public, so you do not need a Boa
-user to view the actual jobs/output via the website.  However, the Boa API
+<p>You need a GNU Make compatible build system.  Tested on GNU Make 3.81, but
+should work with newer versions.</p>
+<p>If you plan to re-run any of the analyses, you will also need Python.  See the
+<a href="../requirements/#python-requirements">Python requirements</a> for more
+information.</p>
+<p>Note that the Boa jobs themselves should be marked public, so you do not need a
+Boa user to view the actual jobs/output via the website.  However, the Boa API
 requires a user/password to use it, so programmatically downloading (even
 public jobs) currently requires authenticating.  You can, however, manually
 download each of the query outputs from the public URLs.</p>
@@ -863,6 +868,9 @@ image capable of running all the scripts.  This is the easiest way to get a
 working environment.  To build and run the image, run:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>run-docker
 </code></pre></div>
+<p>Once inside the container, you can run the <code>make reproduce</code> command to
+re-generate the figures and tables from the original paper.  This will use the
+cached data and should avoid having to download output from Boa.</p>
 <hr />
 <h2 id="file-organization">File Organization</h2>
 <p>The organization of a replication package is the same as in the original study.
