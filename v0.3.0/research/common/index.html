@@ -12,13 +12,13 @@
         <meta name="author" content="Robert Dyer">
       
       
-        <link rel="canonical" href="https://boalang.github.io/study-template/v0.3.0/research/add-analysis/">
+        <link rel="canonical" href="https://boalang.github.io/study-template/v0.3.0/research/common/">
       
       
-        <link rel="prev" href="../templates/">
+        <link rel="prev" href="../add-analysis/">
       
       
-        <link rel="next" href="../common/">
+        <link rel="next" href="../building/">
       
       
       <link rel="icon" href="../../images/boa.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Adding Analyses - Boa Study Template</title>
+        <title>Using the Common Library - Boa Study Template</title>
       
     
     
@@ -79,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#using-the-common-library" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -114,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding Analyses
+              Using the Common Library
             
           </span>
         </div>
@@ -591,17 +596,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../add-analysis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -610,7 +608,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -620,10 +617,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../common/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Using the Common Library
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -632,6 +649,101 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deduplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deduplication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table Generation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-save_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using save_table
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#figure-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Figure Generation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loading-common-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading Common Libraries
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -744,27 +856,86 @@
   
 
 
-  <h1>Adding Analyses</h1>
+<h1 id="using-the-common-library">Using the Common Library</h1>
+<p>The study template provides a common Python library to help researchers generate tables and figures from their analyses.</p>
+<h2 id="data-management">Data Management</h2>
+<p>The <code>common.df</code> library provides two functions for reading Boa output into a Pandas dataframe, these are <code>get_df</code> and <code>get_deduped_df</code>.  These functions take similar basic arguments.  These functions will read from a Parquet file if it has been generated, otherwise, they will read from CSV (and save to parquet for sped-up loading later on).  Basic call syntax is below, with description of arguments following.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Call Syntax</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">get_df</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+       <span class="n">precache_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+       <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
 
-<p>There is one sample analysis given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/analyses/rq1.py"><code>analyses/rq1.py</code></a>. This relies on the sample query given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/boa/queries/rq1.boa"><code>boa/queries/rq1.boa</code></a> and makes use of de-duplication, which relies (indirectly) on the query given in <a href="https://raw.githubusercontent.com/boalang/study-template/main/boa/queries/hashes.boa"><code>boa/queries/hashes.boa</code></a>.  This analysis will generate a single result, the table in <code>tables/kotlin/rq1.tex</code>.</p>
-<p>The steps to add a new analysis are as follows:</p>
-<ol>
-<li>Create a new Boa query (e.g., <code>foo.boa</code>):<ol>
-<li>Store the file in <code>boa/queries/</code> - note you can create sub-folders here if you want.</li>
-<li>Add any missing common snippets into <code>boa/snippets/</code>.</li>
-<li>Add the query into the <code>study-config.json</code>.</li>
-<li>Repeat Step 1 as many times as necessary.</li>
-</ol>
-</li>
-<li>Create a new Python script to analyze the data (e.g., <code>foo.py</code>) in the <code>analyses/</code> directory.</li>
-<li>Add a new entry to the <code>study-config.json</code> in the <code>analyses</code> object.<ol>
-<li>The name of the entry is the script filename (e.g., <code>foo.py</code>, without the <code>analyses/</code> prefix).</li>
-<li>Add an <code>input</code> key, that is an array of CSV filenames that the analysis depends on.</li>
-</ol>
-</li>
-</ol>
-<p>Once this is done, you should be able to run <code>make foo</code> (the target is the name of the script, without the file extension) to run the analysis task, or run <code>make analysis</code> to run all analysis tasks.</p>
-<p>Analyses can be disabled by setting the <code>disabled</code> key to true.  This will prevent the analysis from being run by <code>make analysis</code>, but will still allow <code>make foo</code>.</p>
+<span class="n">get_deduped_df</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dupesdir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">drop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">precache_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">ts</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li><code>filename</code>: the name of the CSV data file, without <code>.csv</code>.</li>
+<li><code>subdir</code>: optional, the name of the sub-directory underneath <code>data/csv/</code> that <code>filename</code> is in (default <code>None</code>).</li>
+<li><code>dupesdir</code>: (<code>get_deduped_df</code> only): optional, the name of the sub-directory underneath <code>data/csv</code> containing the dupes file (default <code>None</code>).</li>
+<li><code>drop</code>: A list of column names to drop after loading.</li>
+<li><code>precache_function</code>: A function that takes a data frame, and transforms it in some way (e.g., creating new columns which are intensive to compute, or converting data types).</li>
+<li><code>ts</code> (<code>get_deduped_df</code> only): Pass <code>True</code> if the hash file also has file timestamps.</li>
+<li><code>**kwargs</code>: When reading from CSV, these are passed to <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html"><code>pd.read_csv</code></a>, which see.</li>
+</ul>
+<p>An example of the usage of <code>get_deduped_df</code> is shown below.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">analyses/rq1.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">get_deduped_df</span><span class="p">(</span><span class="s1">&#39;rq1&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;astcount&#39;</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+<p>This will get a file-wise deduplicated dataframe from the results file <code>rq1.csv</code> in <code>data/csv/kotlin/</code>, using the <code>data/csv/kotlin/dupes.csv</code> file to provide duplication information, with the columns given the names <code>var</code>, <code>project</code>, <code>file</code>, and <code>astcount</code>.</p>
+<h3 id="deduplication">Deduplication</h3>
+<p>Since data duplication is a known problem in MSR studies (see <a href="https://dl.acm.org/doi/10.1145/3133908">Lopes et al., 2017</a>), we provide the ability do deduplicate data.  However, this deduplication is based on the AST Hash.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each value of the hash.  A query for this is provided, see also <a href="../add-query/#defining-queries">Defining Queries</a>.</p>
+<h2 id="table-generation">Table Generation</h2>
+<p>Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by <code>common.tables</code>.  In particular, <code>common.tables</code> will generate tables that use the <a href="https://ctan.org/pkg/booktabs/"><code>booktabs</code></a> package for formatting (following the  ACM document class recommendations).</p>
+<p>To do this, there are four major functions.</p>
+<ul>
+<li><code>get_styler</code> which will return the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/style.html"><code>Styler</code></a> object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of <code>decimals</code> (default 2), and a <code>thousands</code> separator (default <code>,</code>).</li>
+<li><code>highlight_cols</code> and <code>highlight_rows</code>: These highlight the column and row headers, respectively of a table in a <code>Styler</code> object, as shown below on line 11.</li>
+<li><code>save_table</code> will save <code>Styler</code> to a LaTeX table.  Its usage is somewhat more complex, and is described below.</li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">analyses/rq1.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="n">style</span> <span class="o">=</span> <span class="n">highlight_rows</span><span class="p">(</span><span class="n">highlight_cols</span><span class="p">(</span><span class="n">get_styler</span><span class="p">(</span><span class="n">df</span><span class="p">)))</span>
+    <span class="n">save_table</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="s1">&#39;rq1.tex&#39;</span><span class="p">,</span> <span class="s1">&#39;kotlin&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="using-save_table">Using <code>save_table</code></h3>
+<p><code>save_table</code> takes two mandatory arguments, a <code>styler</code>, and a <code>filename</code> (which should include the <code>.tex</code> extension).  It takes an optional <code>subdir</code> (underneath <code>tables/</code> to save the file in as well.  Additionally, the keyword argument <code>colsep</code> is available to use a custom column separator width, if no argument (or <code>None</code>) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.</p>
+<p>Additionally, a <code>mids</code> keyword argument is available to allow manual placement of mid-table rules.  If <code>None</code>, no mid-table rules will be passed, otherwise, a rule specifier or a list of rule specifiers may be passed, as described below.</p>
+<p>Rule Specifiers take the following form:</p>
+<ul>
+<li>A single integer <span class="arithmatex">\(n\)</span>, which will place a <code>\midrule</code> after the <span class="arithmatex">\(n\)</span>th line (one-based indexing).</li>
+<li>A pair <code>(n, width)</code> will place <code>\midrule[width]</code> after the <span class="arithmatex">\(n\)</span>th line.</li>
+<li>A pair <code>(n, cmidrulespec)</code> or <code>(n, [cmidrulespec+])</code>, which will place the specified <code>cmidrules</code> after the <span class="arithmatex">\(n\)</span>th line.  A <code>cmidrulespec</code> is a tuple, <code>(start, end, left_trim, right_trim)</code>, where <code>start</code> and <code>end</code> are column indices, and <code>left_trim</code> and <code>right_trim</code> are either Booleans or LaTeX lengths.  If they are False, no trim will be applied, if they are True, default trim will be applied, if they are a LaTeX length, a trim of that length will be applied.</li>
+</ul>
+<p>Finally, additional keyword arguments may be passed to <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.io.formats.style.Styler.to_latex.html"><code>styler.to_latex</code></a>, to further control generated appearance.  Options of note include <code>multirow_align</code> to control the vertical alignment of row-spanning cells, <code>multicol_align</code> to control the horizontal alignment of column-spanning cells, and <code>siunitx</code> to enable <a href="https://ctan.org/pkg/siunitx"><code>siunitx</code></a>-style numerical alignment.</p>
+<h2 id="figure-generation">Figure Generation</h2>
+<p>The <code>df.graphs</code> module provides a function, <code>setup_plots</code> to create a blank, pre-configured plot canvas for use.  It takes an optional argument, <code>rcParams</code>, which is used to set the <a href="https://matplotlib.org/stable/users/explain/customizing.html"><code>plt.rcParams</code></a> parameters.  In particular, the following are set by default:</p>
+<ul>
+<li>PDF and PS font types are set to 42, avoiding PostScript Type 3 fonts (for compliance with common submission requirements).</li>
+<li>Figure size is set to 6"x4", with 600 DPI.</li>
+<li>Font size is set to 24 pt.</li>
+<li>Plots are set in a constrained layout (see <a href="https://matplotlib.org/stable/users/explain/axes/constrainedlayout_guide.html">Matplotlib's constrained layout guide</a> for more information).</li>
+</ul>
+<h2 id="utilities">Utilities</h2>
+<p>Finally, a few utilities are provided in <code>common.utils</code>.  These are mostly intended for helping to simplify analyses, and are as follows:</p>
+<ul>
+<li><code>_resolve_dir</code> will ensure that a relative directory will be relative to the study template root.</li>
+<li><code>_get_dir</code> will turn a directory or none into an appropriate string form (empty string if None, with a <code>/</code> if a regular string is passed).</li>
+<li><code>get_dataset</code> will take a filename base name and optional sub-directory name, and determine which Boa dataset the data came from.</li>
+</ul>
+<h2 id="loading-common-libraries">Loading Common Libraries</h2>
+<p>The common libraries described above can be loaded as normal in most cases.  However, if analyses are arranged in various subdirectories, the following code can be used to allow import.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Code to import common from a subdirectory of 'analyses/'.</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span> <span class="c1"># (additional calls to parent may be necessary for deeply-nested analyses)</span>
+</code></pre></div></td></tr></table></div>
 
 
 
