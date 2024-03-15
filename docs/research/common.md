@@ -58,9 +58,13 @@ To do this, there are four major functions.
 
 `save_table` takes two mandatory arguments, a `styler`, and a `filename` (which should include the `.tex` extension).  It takes an optional `subdir` (underneath `tables/` to save the file in as well.  Additionally, the keyword argument `colsep` is available to use a custom column separator width, if no argument (or `None`) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.
 
-Additionally, a `mids` keyword argument is available to allow manual placement of mid-table rules.  If `None`, no mid-table rules will be passed, otherwise, a set of rule specifiers may be passed, as described below.
+Additionally, a `mids` keyword argument is available to allow manual placement of mid-table rules.  If `None`, no mid-table rules will be passed, otherwise, a rule specifier or a list of rule specifiers may be passed, as described below.
 
-TODO
+Rule Specifiers take the following form:
+
+ - A single integer $n$, which will place a `\midrule` after the $n$th line.
+ - A pair `(n, width)` will place `\midrule[width]` after the $n$th line.
+ - A pair `(n, cmidrulespec)` or `(n, [cmidrulespec+])`, which will place the specified `cmidrules` after the $n$th line.  A `cmidrulespec` is a tuple, `(start, end, left_trim, right_trim)`, where `start` and `end` are column indices, and `left_trim` and `right_trim` are either Booleans or LaTeX lengths.  If they are False, no trim will be applied, if they are True, default trim will be applied, if they are a LaTeX length, a trim of that length will be applied.
 
 Finally, additional keyword arguments may be passed to [`styler.to_latex`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.io.formats.style.Styler.to_latex.html), to further control generated appearance.  Options of note include `multirow_align` to control the vertical alignment of row-spanning cells, `multicol_align` to control the horizontal alignment of column-spanning cells, and `siunitx` to enable [`siunitx`](https://ctan.org/pkg/siunitx)-style numerical alignment.
 
