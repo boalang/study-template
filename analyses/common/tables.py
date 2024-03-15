@@ -92,7 +92,7 @@ def save_table(styler: pandas.io.formats.style.Styler, filename: str, subdir: Op
            - Tuple[RuleLineIndex, RuleWidth]: Place a \midrule[RuleWidth] after the specified row.
            - Tuple[RuleLineIndex, Union[CmidruleSpec, List[CmidruleSpec]]] where, CmidruleSpec is Tuple[lstart: int, rstart: int, ltrim: TrimSpec, rtrim: TrimSpec] and TrimSpec is Union[bool, RuleWidth]:
              Place a (series of) \cmidrule(ltrim rtrim){lstart-rstart} after the specified row. ltrim is 'l' if true, 'l{width}' if a RuleWidth, similarly for rtrim.
-        colsep (Optional[str]): If False, use default column separators.  If a string, it is the column separator units. Defaults to False.
+        colsep (Optional[str]): If None, use default column separators.  If a string, it is the column separator units. Defaults to None.
     '''
     if colsep:
         colsepprefix = re.sub('[0-9]', '',
