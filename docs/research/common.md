@@ -62,7 +62,7 @@ Additionally, a `mids` keyword argument is available to allow manual placement o
 
 Rule Specifiers take the following form:
 
- - A single integer $n$, which will place a `\midrule` after the $n$th line.
+ - A single integer $n$, which will place a `\midrule` after the $n$th line (one-based indexing).
  - A pair `(n, width)` will place `\midrule[width]` after the $n$th line.
  - A pair `(n, cmidrulespec)` or `(n, [cmidrulespec+])`, which will place the specified `cmidrules` after the $n$th line.  A `cmidrulespec` is a tuple, `(start, end, left_trim, right_trim)`, where `start` and `end` are column indices, and `left_trim` and `right_trim` are either Booleans or LaTeX lengths.  If they are False, no trim will be applied, if they are True, default trim will be applied, if they are a LaTeX length, a trim of that length will be applied.
 
