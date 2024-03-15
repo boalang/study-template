@@ -56,7 +56,13 @@ To do this, there are four major functions.
 
 ### Using `save_table`
 
+`save_table` takes two mandatory arguments, a `styler`, and a `filename` (which should include the `.tex` extension).  It takes an optional `subdir` (underneath `tables/` to save the file in as well.  Additionally, the keyword argument `colsep` is available to use a custom column separator width, if no argument (or `None`) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.
+
+Additionally, a `mids` keyword argument is available to allow manual placement of mid-table rules.  If `None`, no mid-table rules will be passed, otherwise, a set of rule specifiers may be passed, as described below.
+
 TODO
+
+Finally, additional keyword arguments may be passed to [`styler.to_latex`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.io.formats.style.Styler.to_latex.html), to further control generated appearance.  Options of note include `multirow_align` to control the vertical alignment of row-spanning cells, `multicol_align` to control the horizontal alignment of column-spanning cells, and `siunitx` to enable [`siunitx`](https://ctan.org/pkg/siunitx)-style numerical alignment.
 
 ## Figure Generation
 
