@@ -8,11 +8,14 @@ The study template provides a common Python library to help researchers generate
 The `common.df` library provides two functions for reading Boa output into a Pandas dataframe, these are `get_df` and `get_deduped_df`.  These functions take similar basic arguments.  These functions will read from a Parquet file if it has been generated, otherwise, they will read from CSV (and save to parquet for sped-up loading later on).  Basic call syntax is below, with description of arguments following.
 
 
-```python title="Call Syntax"
-get_df(filename: str, subdir: Optional[str]=None, drop: Optional[List[str]]=None,
+```python title="Helpers for reading Boa output into Pandas dataframes"
+# read all data
+get_df(filename: str, subdir: Optional[str]=None,
+       drop: Optional[List[str]]=None,
        precache_function: Optional[Callable[[pd.DataFrame], pd.DataFrame]]=None,
        **kwargs) -> pd.DataFrame
-       
+
+# read de-duplicated data
 get_deduped_df(filename: str, subdir: Optional[str]=None, dupesdir: Optional[str]=None,
                drop: Optional[List[str]]=None,
                precache_function: Optional[Callable[[pd.DataFrame], pd.DataFrame]]=None,
@@ -25,7 +28,7 @@ get_deduped_df(filename: str, subdir: Optional[str]=None, dupesdir: Optional[str
  - `drop`: A list of column names to drop after loading.
  - `precache_function`: A function that takes a data frame, and transforms it in some way (e.g., creating new columns which are intensive to compute, or converting data types).
  - `ts` (`get_deduped_df` only): Pass `True` if the hash file also has file timestamps.
- - `**kwargs`: When reading from CSV, these are passed to [`pd.read_csv`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html), which see.
+ - `**kwargs`: When reading from CSV, these are passed to [`pd.read_csv`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html).
  
 An example of the usage of `get_deduped_df` is shown below.
 
@@ -33,21 +36,21 @@ An example of the usage of `get_deduped_df` is shown below.
     df = get_deduped_df('rq1', 'kotlin', 'kotlin', names=['var', 'project', 'file', 'astcount'])
 ```
 
-This will get a file-wise deduplicated dataframe from the results file `rq1.csv` in `data/csv/kotlin/`, using the `data/csv/kotlin/dupes.csv` file to provide duplication information, with the columns given the names `var`, `project`, `file`, and `astcount`.
+This will get a file-wise deduplicated dataframe from the results file `rq1.csv` in `data/csv/kotlin/`, using the `data/csv/kotlin/dupes.csv` file to provide duplication information.  It gives the columns the names `var`, `project`, `file`, and `astcount`.
 
 ### Deduplication
 
-Since data duplication is a known problem in MSR studies (see [Lopes et al., 2017](https://dl.acm.org/doi/10.1145/3133908)), we provide the ability do deduplicate data.  However, this deduplication is based on the AST Hash.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each value of the hash.  A query for this is provided, see also [Defining Queries](add-query.md#defining-queries).
+Since data duplication is a known problem in MSR studies (see [Lopes et al., 2017](https://dl.acm.org/doi/10.1145/3133908)), we provide the ability to deduplicate data.  However, this deduplication is based on AST hashes.  This is done by calculating the hash of the AST of each file as it appears in the HEAD commit of each repository, and selecting one project/file pair for each hash value.  A query for this is provided, see also [Defining Queries](add-query.md#defining-queries).
 
 ## Table Generation
 
-Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by `common.tables`.  In particular, `common.tables` will generate tables that use the [`booktabs`](https://ctan.org/pkg/booktabs/) package for formatting (following the  ACM document class recommendations).
+Pandas can be used to generate LaTeX tables from query output and calculated data, however, much of this is routine and enabled by `common.tables`.  In particular, `common.tables` generates tables that use the [`booktabs`](https://ctan.org/pkg/booktabs/) package for formatting (following the ACM document class recommendations).
 
-To do this, there are four major functions.
+To do this, there are four major functions:
 
- - `get_styler` which will return the [`Styler`](https://pandas.pydata.org/pandas-docs/stable/reference/style.html) object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of `decimals` (default 2), and a `thousands` separator (default `,`).
+ - `get_styler` which returns a [`Styler`](https://pandas.pydata.org/pandas-docs/stable/reference/style.html) object for a dataframe or series.  Stylers are used to format data based on the values of each cell.  In addition to the dataframe or series, it takes two keyword arguments: a number of `decimals` (default 2), and a `thousands` separator (default `,`).
  - `highlight_cols` and `highlight_rows`: These highlight the column and row headers, respectively of a table in a `Styler` object, as shown below on line 11.
- - `save_table` will save `Styler` to a LaTeX table.  Its usage is somewhat more complex, and is described below.
+ - `save_table` will save a `Styler` to a LaTeX table.  Its usage is somewhat more complex, and is described below.
  
 ```python title="analyses/rq1.py" linenums="11"
     style = highlight_rows(highlight_cols(get_styler(df)))
@@ -56,11 +59,18 @@ To do this, there are four major functions.
 
 ### Using `save_table`
 
-`save_table` takes two mandatory arguments, a `styler`, and a `filename` (which should include the `.tex` extension).  It takes an optional `subdir` (underneath `tables/` to save the file in as well.  Additionally, the keyword argument `colsep` is available to use a custom column separator width, if no argument (or `None`) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.
+```python title="The save_table() function"
+def save_table(styler: pandas.io.formats.style.Styler, filename: str,
+               subdir: Optional[str]=None,
+               mids: Optional[Union[RuleSpecifier, List[RuleSpecifier]]]=None,
+               colsep: Optional[str]=None, **kwargs):
+```
+
+`save_table` takes two mandatory arguments, a `styler`, and a `filename` (which should include the `.tex` extension).  It takes an optional `subdir` (underneath `tables/`) to save the file in as well.  Additionally, the keyword argument `colsep` is available to use a custom column separator width, if no argument (or `None`) is passed, defaults will be used, otherwise, the value should be the size of the column separator in LaTeX compatible units.
 
 Additionally, a `mids` keyword argument is available to allow manual placement of mid-table rules.  If `None`, no mid-table rules will be passed, otherwise, a rule specifier or a list of rule specifiers may be passed, as described below.
 
-Rule Specifiers take the following form:
+`RuleSpecifier`s take the following form:
 
  - A single integer $n$, which will place a `\midrule` after the $n$th line (one-based indexing).
  - A pair `(n, width)` will place `\midrule[width]` after the $n$th line.
@@ -81,8 +91,6 @@ The `df.graphs` module provides a function, `setup_plots` to create a blank, pre
 
 Finally, a few utilities are provided in `common.utils`.  These are mostly intended for helping to simplify analyses, and are as follows:
 
- - `_resolve_dir` will ensure that a relative directory will be relative to the study template root.
- - `_get_dir` will turn a directory or none into an appropriate string form (empty string if None, with a `/` if a regular string is passed).
  - `get_dataset` will take a filename base name and optional sub-directory name, and determine which Boa dataset the data came from.
 
 ## Loading Common Libraries
