@@ -25,7 +25,7 @@ get_deduped_df(filename: str, subdir: Optional[str]=None, dupesdir: Optional[str
  - `drop`: A list of column names to drop after loading.
  - `precache_function`: A function that takes a data frame, and transforms it in some way (e.g., creating new columns which are intensive to compute, or converting data types).
  - `ts` (`get_deduped_df` only): Pass `True` if the hash file also has file timestamps.
- - `**kwargs`: When reading from CSV, these are passed to `pd.read_csv`, which see.
+ - `**kwargs`: When reading from CSV, these are passed to [`pd.read_csv`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html), which see.
  
 An example of the usage of `get_deduped_df` is shown below.
 
