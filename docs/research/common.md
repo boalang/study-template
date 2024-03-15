@@ -70,6 +70,13 @@ Finally, additional keyword arguments may be passed to [`styler.to_latex`](https
 
 ## Figure Generation
 
+The `df.graphs` module provides a function, `setup_plots` to create a blank, pre-configured plot canvas for use.  It takes an optional argument, `rcParams`, which is used to set the [`plt.rcParams`](https://matplotlib.org/stable/users/explain/customizing.html) parameters.  In particular, the following are set by default:
+
+ - PDF and PS font types are set to 42, avoiding PostScript Type 3 fonts (for compliance with common submission requirements).
+ - Figure size is set to 6"x4", with 600 DPI.
+ - Font size is set to 24 pt.
+ - Plots are set in a constrained layout (see [Matplotlib's constrained layout guide](https://matplotlib.org/stable/users/explain/axes/constrainedlayout_guide.html) for more information).
+
 ## Utilities
 
 ## Loading Common Libraries
