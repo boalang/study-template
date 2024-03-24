@@ -1,8 +1,7 @@
 NOTE: this is a sample of a README.md file you could include with your
-replication package.  You will want to replace the existing file, as that file
-is instructions on using the study template itself.  Feel free to use this as a
-starting point for your readme, as it has instructions on using the generated
-replication pacakge.
+replication package.  You will want to rename this file to `README.md`.  Feel
+free to use this as a starting point for your readme, as it has instructions
+on using the generated replication pacakge.
 ================================
 
 # Replication Package
@@ -32,19 +31,23 @@ all CSV files from the TXT files.
 ## Boa Study Template
 
 This replication package utilizes the [Boa Study
-Template](https://github.com/boalang/study-template).  If you want to work with
-this package beyond simply re-generating the paper's figures and tables, we
-**strongly** encourage you to utilize [Visual Studio
+Template](https://github.com/boalang/study-template).  For general details on
+how to use replication packages built with the study template, see the [Using a
+Replication
+documentation](https://boalang.github.io/study-template/v0.3.0/replications/).
+
+If you want to work with this package beyond simply re-generating the paper's
+figures and tables, we **strongly** encourage you to utilize [Visual Studio
 Code](https://code.visualstudio.com/) with the [Boa Language and Infrastructure
 Extension](https://marketplace.visualstudio.com/items?itemName=Boa.boalang)
-installed.  For more information, see the [Study Template
-README](README-study-template.md).
+installed.  For more information, see the [Using the Template
+documentation](https://boalang.github.io/study-template/v0.3.0/research/).
 
 If you have that extension, you can avoid running terminal commands (like
 `make`) and instead simply open the [study-config.json](study-config.json) file
 to control what files you download, which analyses you run, etc.  For more
-details on working with Boa's study template, see the [online
-documentation](https://github.com/boalang/study-template).
+details on working with Boa's study template, see the [Using the Template
+documentation](https://boalang.github.io/study-template/v0.3.0/research/).
 
 ------------------------------------------------------
 
