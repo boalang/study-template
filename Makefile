@@ -48,14 +48,14 @@ package-replication:
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
 	@$(CP) requirements-optional.txt requirements-optional.txt.save
 	@$(SED) 's/>=/==/g' requirements-optional.txt.save > requirements-optional.txt
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile Dockerfile README.md requirements.txt requirements-optional.txt study-config.json $(ZIPIGNORES)
+	-@echo "updating replication-pkg.zip..."; $(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json $(shell find analyses/ -type f -name '*.py') $(shell find bin/ -type f -name '*.py') boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile Dockerfile README.md requirements.txt requirements-optional.txt study-config.json $(ZIPIGNORES)
 	@$(CP) requirements.txt.save requirements.txt
 	@$(CP) requirements-optional.txt.save requirements-optional.txt
 	@$(RM) requirements.txt.save requirements-optional.txt.save
 package-data:
-	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
+	-@echo "updating data.zip..."; $(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 package-cache:
-	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
+	-@echo "updating data-cache.zip..."; $(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
 
 .PHONY: docker run-docker
 docker:
