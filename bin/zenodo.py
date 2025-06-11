@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from dotenv import load_dotenv
+from hashlib import md5
 import json
 import os
 from pathlib import Path
@@ -94,7 +95,7 @@ def get_deposition(deposition_id):
                      params=params, json={}, headers=headers)
     if r.status_code == 200:
         bucket_url = r.json()['links']['bucket']
-        files = {x['filename']: x['filesize'] for x in r.json()['files']}
+        files = {x['filename']: {'size': x['filesize'], 'checksum': x['checksum']} for x in r.json()['files']}
         return (bucket_url, files)
 
     print(json.dumps(r.json(), indent=2))
@@ -103,8 +104,14 @@ def get_deposition(deposition_id):
 
 def upload_file(bucket_url, files, filename):
     file_size = os.stat(filename).st_size
+    found = filename in files and file_size == files[filename]['size']
+    if found:
+        print('checking checksum for:', filename)
+        with open(filename, 'rb') as f:
+            checksum = md5(f.read()).hexdigest()
+        found = files[filename]['checksum'] == checksum
 
-    if filename not in files or file_size != files[filename]:
+    if not found:
         print('uploading:', filename)
         with open(filename, 'rb') as fp:
             try:
