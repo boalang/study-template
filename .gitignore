@@ -11,6 +11,7 @@ data/csv/
 data/parquet/
 data/txt/
 *.zip
+.docker_built
 
 # Emacs Stuff
 *~

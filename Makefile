@@ -1,5 +1,6 @@
 # be sure to change this name if you build a Docker image
 DOCKER-IMAGE:=study-template
+IMAGE-STAMP:=.docker_built
 
 # you might need to update some paths below, but probably not
 PYTHON:=python3
@@ -58,12 +59,15 @@ package-cache:
 	-@echo "updating data-cache.zip..."; $(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
 
 .PHONY: docker run-docker
-docker:
+docker: $(IMAGE-STAMP)
+	@if [ "$$(cat $(IMAGE-STAMP))" -eq 0 ]; then :; else echo "Docker image build failed" && rm -f $(IMAGE-STAMP) && exit 1; fi
+
+$(IMAGE-STAMP): Dockerfile requirements.txt
 	@$(CP) requirements.txt requirements.txt.save
 	@$(SED) 's/>=/==/g' requirements.txt.save > requirements.txt
 	@$(CP) requirements-optional.txt requirements-optional.txt.save
 	@$(SED) 's/>=/==/g' requirements-optional.txt.save > requirements-optional.txt
-	-docker build -t $(DOCKER-IMAGE):latest .
+	-docker build -t $(DOCKER-IMAGE):latest . ; echo $$? > $(IMAGE-STAMP)
 	@$(CP) requirements.txt.save requirements.txt
 	@$(CP) requirements-optional.txt.save requirements-optional.txt
 	@$(RM) requirements.txt.save requirements-optional.txt.save
