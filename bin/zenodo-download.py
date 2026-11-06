@@ -8,7 +8,7 @@ import subprocess
 import sys
 
 
-JSON_FILENAME = '.zenodo.json'
+JSON_FILENAME  = os.environ['ZENODO_CONFIG'] if 'ZENODO_CONFIG' in os.environ else '.zenodo.json'
 
 
 def get_deposition_id():

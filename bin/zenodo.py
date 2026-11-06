@@ -18,7 +18,7 @@ if not 'ZENODO_API_TOKEN' in os.environ:
 
 
 ZENODO_API_ENDPOINT = os.environ['ZENODO_API_ENDPOINT'] if 'ZENODO_API_ENDPOINT' in os.environ else 'https://zenodo.org'
-JSON_FILENAME = '.zenodo.json'
+JSON_FILENAME = os.environ['ZENODO_CONFIG'] if 'ZENODO_CONFIG' in os.environ else '.zenodo.json'
 
 params = {'access_token': os.environ['ZENODO_API_TOKEN']}
 headers = {'Content-Type': 'application/json'}
@@ -86,7 +86,7 @@ def create_default_json():
     "version": "1.0.0",
     "prereserve_doi": true
 }""")
-    print('A placeholder .zenodo.json file was created. Please edit it and re-run the script.')
+    print(f'A placeholder {JSON_FILENAME} file was created. Please edit it and re-run the script.')
     sys.exit(0)
 
 
