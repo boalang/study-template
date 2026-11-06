@@ -191,9 +191,14 @@ if __name__ == '__main__':
     # ensure all files uploaded
     print('uploading files to:', deposition_id)
     (bucket_url, files) = get_deposition(deposition_id)
-    for filepath in Path().glob('*.zip'):
-        upload_file(bucket_url, files, str(filepath))
-    upload_file(bucket_url, files, 'README.md')
+    if 'files' in json_data:
+        for filepath in json_data['files']:
+            if os.path.exists(filepath):
+                upload_file(bucket_url, files, str(filepath))
+    else:
+        upload_file(bucket_url, files, 'README.md')
+        for filepath in Path().glob('*.zip'):
+            upload_file(bucket_url, files, str(filepath))
 
     update_metadata(deposition_id)
 
