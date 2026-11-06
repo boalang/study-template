@@ -95,11 +95,27 @@ def get_deposition(deposition_id):
                      params=params, json={}, headers=headers)
     if r.status_code == 200:
         bucket_url = r.json()['links']['bucket']
-        files = {x['filename']: {'size': x['filesize'], 'checksum': x['checksum']} for x in r.json()['files']}
+        files = {x['filename']: {'size': x['filesize'], 'checksum': x['checksum'], 'id': x['id']} for x in r.json()['files']}
         return (bucket_url, files)
 
     print(json.dumps(r.json(), indent=2))
     sys.exit(-1)
+
+
+def set_readme_as_preview(deposition_id, files, config_files):
+    data = []
+    if 'README.md' in files:
+        data.append({'id': files['README.md']['id']})
+        for (k,v) in [(k,v) for (k,v) in files.items() if k != 'README.md']:
+            data.append({'id': v['id']})
+    else:
+        for f in config_files:
+            if f in files:
+                data.append({'id': f['id']})
+    r = requests.put(f'{ZENODO_API_ENDPOINT}/api/deposit/depositions/{deposition_id}/files',
+                     params=params, data=json.dumps(data), headers=headers)
+    if r.status_code == 200:
+        print('Set README.md as the preview file')
 
 
 def upload_file(bucket_url, files, filename):
@@ -199,6 +215,8 @@ if __name__ == '__main__':
         upload_file(bucket_url, files, 'README.md')
         for filepath in Path().glob('*.zip'):
             upload_file(bucket_url, files, str(filepath))
+
+    set_readme_as_preview(deposition_id, files, json_data.get('files', []))
 
     update_metadata(deposition_id)
 
