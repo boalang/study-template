@@ -119,17 +119,19 @@ def set_readme_as_preview(deposition_id, files, config_files):
 
 
 def upload_file(bucket_url, files, filename):
-    file_size = os.stat(filename).st_size
+    file_path = filename
+    filename = filename.split('/')[-1]
+    file_size = os.stat(file_path).st_size
     found = filename in files and file_size == files[filename]['size']
     if found:
-        print('checking checksum for:', filename)
-        with open(filename, 'rb') as f:
+        print('checking checksum for:', file_path)
+        with open(file_path, 'rb') as f:
             checksum = md5(f.read()).hexdigest()
         found = files[filename]['checksum'] == checksum
 
     if not found:
-        print('uploading:', filename)
-        with open(filename, 'rb') as fp:
+        print('uploading:', file_path)
+        with open(file_path, 'rb') as fp:
             try:
                 from tqdm import tqdm
                 from tqdm.utils import CallbackIOWrapper
@@ -153,7 +155,7 @@ def upload_file(bucket_url, files, filename):
             if r.status_code != 200:
                 print(json.dumps(r.json(), indent=2))
     else:
-        print('already uploaded:', filename)
+        print('already uploaded:', file_path)
 
 
 def update_metadata(deposition_id):
